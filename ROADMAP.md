@@ -43,7 +43,7 @@
 | 17 | [x] | `games/17_golf_galaxy.rb` | **GOLF GALAXY** — 惑星の万有引力で弾道が曲がる宇宙物理パターゴルフ | 256x256 | `:space`, 万有引力軌道予測線＋全9ホール実装 |
 | 18 | [x] | `games/18_fishing_twilight.rb` | **FISHING TWILIGHT** — 夕焼け湖畔で伝説魚を釣り上げる図鑑コンプ釣りゲーム | 256x256 | `:mountain` 夕焼けtint+水面反射, 8種魚図鑑＆リールゲージ実装 |
 | 19 | [x] | `games/19_sushi_conveyor.rb` | **SUSHI CONVEYOR** — 注文通りにネタを握って皿を飛ばす爆速回転寿司アクション | 256x256 | `:training` 暖色tint, 4種寿司ドット絵・飛行皿・コンボ実装 |
-| 20 | [ ] | `games/20_rhythm_smith.rb` | **RHYTHM SMITH** — 視覚リング目押しで赤熱の剣を叩き名剣を鍛える鍛冶クラフト | 256x256 | `:cave` 鍛冶炉赤tint, タイミング目押し流用 |
+| 20 | [x] | `games/20_rhythm_smith.rb` | **RHYTHM SMITH** — 視覚リング目押しで赤熱の剣を叩き名剣を鍛える鍛冶クラフト | 256x256 | `:cave` 鍛冶炉tint, 5種名剣鍛造・収束リング目押し・ランク判定実装 |
 
 ## カテゴリ E: シミュレーション・クリッカー & 育成 (21–25)
 
