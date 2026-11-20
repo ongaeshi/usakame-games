@@ -40,7 +40,7 @@
 | No. | Status | File | タイトル & コンセプト | 解像度 | 流用・設計メモ |
 | :---: | :---: | :--- | :--- | :---: | :--- |
 | 16 | [x] | `games/16_neon_air_hockey.rb` | **NEON AIR HOCKEY** — マウス操作×超高速パック＆チャージ弾のネオン・エアホッケー | 256x256 | `:cyber`, CPU4段階・4サブステップ物理・パワースマッシュ実装 |
-| 17 | [ ] | `games/17_golf_galaxy.rb` | **GOLF GALAXY** — 惑星の万有引力で弾道が曲がる宇宙物理パターゴルフ | 256x256 | `:space`, 引力軌道予測線＋全9ホール |
+| 17 | [x] | `games/17_golf_galaxy.rb` | **GOLF GALAXY** — 惑星の万有引力で弾道が曲がる宇宙物理パターゴルフ | 256x256 | `:space`, 万有引力軌道予測線＋全9ホール実装 |
 | 18 | [ ] | `games/18_fishing_twilight.rb` | **FISHING TWILIGHT** — 夕焼け湖畔で伝説魚を釣り上げる図鑑コンプ釣りゲーム | 256x256 | `:sky` / `:mountain` 夕焼けtint, 水面反射流用 |
 | 19 | [ ] | `games/19_sushi_conveyor.rb` | **SUSHI CONVEYOR** — 注文通りにネタを握って皿を飛ばす爆速回転寿司アクション | 256x256 | `:training` / 暖色店背景, 8x8/16x16 寿司ドット絵 |
 | 20 | [ ] | `games/20_rhythm_smith.rb` | **RHYTHM SMITH** — 視覚リング目押しで赤熱の剣を叩き名剣を鍛える鍛冶クラフト | 256x256 | `:cave` 鍛冶炉赤tint, タイミング目押し流用 |
