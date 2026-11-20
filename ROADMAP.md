@@ -9,7 +9,7 @@
 
 | No. | Status | File | タイトル & コンセプト | 解像度 | 流用・設計メモ |
 | :---: | :---: | :--- | :--- | :---: | :--- |
-| 01 | [ ] | `games/01_grapple_ascent.rb` | **GRAPPLE ASCENT** — 振り子フックショットで溶岩から逃げ切る縦登りアクション | 256x256 | `:cave` / `:mountain`, `EffectSystem` 流用 |
+| 01 | [x] | `games/01_grapple_ascent.rb` | **GRAPPLE ASCENT** — 振り子フックショットで溶岩から逃げ切る縦登りアクション | 256x256 | `:cave` 溶岩tint, 振り子物理・ブーストアンカー・`EffectSystem` 実装 |
 | 02 | [ ] | `games/02_parry_dojo.rb` | **PARRY DOJO** — 月夜の竹林で四方の刃・矢を見切り居合斬りする1ボタン道場 | 256x256 | `:forest` 紺tint, `boss_rush.rb` の剣士＆斬撃流用可 |
 | 03 | [ ] | `games/03_gravity_flip_run.rb` | **GRAVITY FLIP RUN** — 床⇔天井の重力反転でネオン回廊を疾走するスピードラン | 256x256 | `:cyber`, 残像 `@PALETTE 11` 流用 |
 | 04 | [ ] | `games/04_sky_juggler.rb` | **SKY JUGGLER** — 敵を落とさず空中お手玉コンボ＆フィーバーBG変貌アリーナ | 256x256 | `:sky`→`:cyber`, ポゴ＆コンボ演出流用 |
