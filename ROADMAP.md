@@ -20,7 +20,7 @@
 | No. | Status | File | タイトル & コンセプト | 解像度 | 流用・設計メモ |
 | :---: | :---: | :--- | :--- | :---: | :--- |
 | 06 | [x] | `games/06_star_diver.rb` | **STAR DIVER** — 都市→山→空→宇宙→電脳へBG連続変化する3択ビルド縦STG | 256x256 | 5ゾーンBG変化・ボス撃破後3択アップグレード・ノヴァボム実装 |
-| 07 | [ ] | `games/07_tank_ricochet.rb` | **TANK RICOCHET** — 壁跳弾×予測線で敵戦車を撃ち抜くタクティカル戦車アリーナ | 256x256 | `orb_breaker.rb` の反射予測線ロジック流用 |
+| 07 | [x] | `games/07_tank_ricochet.rb` | **TANK RICOCHET** — 壁跳弾×予測線で敵戦車を撃ち抜くタクティカル戦車アリーナ | 256x256 | `:training`, 跳弾予測線・2回壁反射・4種アリーナ循環実装 |
 | 08 | [ ] | `games/08_comet_lasso.rb` | **COMET LASSO** — 回転投げ縄で小惑星や敵を振り回し連鎖爆破する物理アクション | 256x256 | `:space`, 円運動＆連鎖爆発演出 |
 | 09 | [ ] | `games/09_pinball_cyber.rb` | **PINBALL CYBER** — マルチボール＆ネオンバンパー乱舞の1画面サイバーピンボール | 256x256 | `:cyber`, サブステップ円反射物理流用 |
 | 10 | [ ] | `games/10_submarine_sonar.rb` | **SUBMARINE SONAR** — 暗黒の深海でソナー波紋を放ち海獣を暴く魚雷バトル | 256x256 | `:cave` 深海青tint, 波紋リング＆視界演出 |
