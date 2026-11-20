@@ -53,7 +53,7 @@
 | 22 | [x] | `games/22_falling_sand_lab.rb` | **FALLING SAND LAB** — 砂・水・火・木・爆薬・酸が連鎖反応する落ち砂物理ラボ | 256x256 | 64x54セルオートマトン・8素材(砂/水/木/火/TNT/酸/石/消去)実装 |
 | 23 | [x] | `games/23_dungeon_shopkeeper.rb` | **DUNGEON SHOPKEEPER** — 勇者相手の値付け＆仕入れで商会を育てるアイテム屋経営 | 640x480 | 640x480日本語UI・3段階値付け交渉・卸売市場仕入れ実装 |
 | 24 | [x] | `games/24_colony_orbit.rb` | **COLONY ORBIT** — 小惑星採掘＆ドローン自動化の宇宙コロニー・クリッカー | 256x256 | `:space`, ドローン周回・自動レーザー衛星・精製倍率強化実装 |
-| 25 | [ ] | `games/25_monster_breeder.rb` | **MONSTER BREEDER** — 特訓・進化分岐(8種)でドット絵相棒を育て大会制覇を目指す育成ゲー | 256x256 | `:forest` / `:sky`, 進化ドット絵＆オートバトル大会 |
+| 25 | [x] | `games/25_monster_breeder.rb` | **MONSTER BREEDER** — 特訓・進化分岐(8種)でドット絵相棒を育て大会制覇を目指す育成ゲー | 256x256 | `:forest`/`:city`, 8種進化分岐・4大会制覇オートバトル実装 |
 
 ## カテゴリ F: SNS映え特化・アート & 実験的トイ (26–30)
 
