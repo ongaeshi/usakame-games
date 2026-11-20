@@ -30,7 +30,7 @@
 | No. | Status | File | タイトル & コンセプト | 解像度 | 流用・設計メモ |
 | :---: | :---: | :--- | :--- | :---: | :--- |
 | 11 | [x] | `games/11_auto_chess_mini.rb` | **AUTO CHESS MINI** — 4×4盤面で3体合体進化＆シナジーを組むミニ・オートバトラー | 256x256 | マウス＋キー両対応, 3体自動★進化・ショップリロール・オートバトル実装 |
-| 12 | [ ] | `games/12_tower_defense_orbit.rb` | **ORBIT TD** — 中央惑星を守る全方位リング軌道タワーディフェンス | 256x256 | `:space`, レーザー＆範囲冷凍＆強化UI |
+| 12 | [x] | `games/12_tower_defense_orbit.rb` | **ORBIT TD** — 中央惑星を守る全方位リング軌道タワーディフェンス | 256x256 | `:space`, 2重軌道12スロット・レーザー/冷凍/砲台3種＆強化実装 |
 | 13 | [ ] | `games/13_sliding_knight.rb` | **SLIDING KNIGHT** — 止まらない氷床で敵を一掃するローグライト詰めタクティクス | 256x256 | `:mountain` 氷tint, 騎士スプライト流用可 |
 | 14 | [ ] | `games/14_alchemy_merge.rb` | **ALCHEMY MERGE** — フラスコ内で魔法玉が転がり合体進化するスイカ風マージパズル | 256x256 | `:cave`, 重力＋円同士反発サブステップ物理 |
 | 15 | [ ] | `games/15_dice_dungeon.rb` | **DICE DUNGEON** — 出目を装備スロットにはめて戦うダイス構築ローグライト | 256x256 | `:cave` / `:city`, 行動予兆＆マウス/キー対応 |
