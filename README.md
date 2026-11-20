@@ -5,8 +5,8 @@
 ## 実行方法
 
 ```powershell
-# Usakame エンジン実行バイナリで任意のゲームを起動
-C:\Users\ongaeshi\Code\usakame\target\debug\uk.exe run games/01_grapple_ascent.rb
+# Usakame エンジンで任意のゲームを起動（PATH に通っている uk を使用）
+uk run games/01_grapple_ascent.rb
 ```
 
 ## 自動検証コマンド

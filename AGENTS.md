@@ -54,8 +54,8 @@
    ```
 4. スクリーンショットを撮影し（`screenshots/` ではなく一時フォルダまたは撮影後削除）、`read_file` で目視確認する：
    ```powershell
-   C:\Users\ongaeshi\Code\usakame\target\debug\uk.exe run games/<file>.rb -s tmp/preview.png -f 60
-   C:\Users\ongaeshi\Code\usakame\target\debug\uk.exe run games/<file>.rb -s tmp/preview_play.png -f 180 -g
+   uk run games/<file>.rb -s tmp/preview.png -f 60
+   uk run games/<file>.rb -s tmp/preview_play.png -f 180 -g
    ```
    UI被り・文字切れ・スプライト崩れがあれば修正して再検証する（確認後 `tmp/` は削除または `.gitignore` 対象のままコミットしない）。
 5. `ROADMAP.md` の該当行を `[x]` に更新し、簡潔な実装メモを追記する。

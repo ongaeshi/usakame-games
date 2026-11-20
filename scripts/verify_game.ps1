@@ -2,15 +2,15 @@ param(
   [Parameter(Mandatory=$true)]
   [string]$Path,
   [int]$GachaFrames = 480,
-  [string]$UkExe = "C:\Users\ongaeshi\Code\usakame\target\debug\uk.exe"
+  [string]$UkExe = "uk"
 )
 
 if (-not (Test-Path $Path)) {
   Write-Error "File not found: $Path"
   exit 1
 }
-if (-not (Test-Path $UkExe)) {
-  Write-Error "uk.exe not found: $UkExe"
+if (-not (Get-Command $UkExe -ErrorAction SilentlyContinue)) {
+  Write-Error "uk executable not found in PATH or path: $UkExe"
   exit 1
 }
 
