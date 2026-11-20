@@ -49,7 +49,7 @@
 
 | No. | Status | File | タイトル & コンセプト | 解像度 | 流用・設計メモ |
 | :---: | :---: | :--- | :--- | :---: | :--- |
-| 21 | [ ] | `games/21_pixel_aquarium.rb` | **PIXEL AQUARIUM** — 熱帯魚・クラゲが泳ぎ繁殖する癒やしのインタラクティブ水槽 | 256x256 | `:cave` 水中tint, 泡＆水草揺らぎ＆レア種繁殖 |
+| 21 | [x] | `games/21_pixel_aquarium.rb` | **PIXEL AQUARIUM** — 熱帯魚・クラゲが泳ぎ繁殖する癒やしのインタラクティブ水槽 | 256x256 | `:cave` 水中tint, 水草揺らぎ・エサやり繁殖・レア種購入実装 |
 | 22 | [ ] | `games/22_falling_sand_lab.rb` | **FALLING SAND LAB** — 砂・水・火・木・爆薬・酸が連鎖反応する落ち砂物理ラボ | 256x256 | マウス描画, 低解像グリッド(64x56等)で超高速60FPS |
 | 23 | [ ] | `games/23_dungeon_shopkeeper.rb` | **DUNGEON SHOPKEEPER** — 勇者相手の値付け＆仕入れで商会を育てるアイテム屋経営 | 640x480 | `chrono_duel.rb` / `resolution.rb` 日本語UI流用 |
 | 24 | [ ] | `games/24_colony_orbit.rb` | **COLONY ORBIT** — 小惑星採掘＆ドローン自動化の宇宙コロニー・クリッカー | 256x256 | `:space`, ドローン＆レーザー自動化インクリメンタル |
