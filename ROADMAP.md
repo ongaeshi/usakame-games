@@ -59,7 +59,7 @@
 
 | No. | Status | File | タイトル & コンセプト | 解像度 | 流用・設計メモ |
 | :---: | :---: | :--- | :--- | :---: | :--- |
-| 26 | [ ] | `games/26_fireworks_director.rb` | **FIREWORKS DIRECTOR** — 柳・菊・冠菊・ハート型花火を連発できる夜空の花火師トイ | 256x256 | `:city` / `:mountain` 夜景＋水面反射流用 |
+| 26 | [x] | `games/26_fireworks_director.rb` | **FIREWORKS DIRECTOR** — 柳・菊・冠菊・ハート型花火を連発できる夜空の花火師トイ | 256x256 | `:city` 夜景+水面反射, 5種花火(菊/柳/ハート/冠菊/連発)・オート大会実装 |
 | 27 | [ ] | `games/27_kaleidoscope_bloom.rb` | **KALEIDOSCOPE BLOOM** — 8〜16軸対称で光の花が咲くジェネラティブ万華鏡アート | 256x256 | `:space`, マウス/自動軌跡＋カラーパレット切替 |
 | 28 | [ ] | `games/28_world_glider.rb` | **WORLD GLIDER** — 内蔵全BG世界を風に乗って輪くぐり滑空するチル＆スコアデモ | 256x256 | 全8種BGクロスフェード＋放置オートパイロット |
 | 29 | [ ] | `games/29_retro_synth_visualizer.rb` | **RETRO SYNTH VISUALIZER** — 3Dワープトンネル＆プラズマ波を操るデモシーンVJトイ | 256x256 | `diorama.rb` 3Dワイヤーフレーム発展＋モード切替 |
