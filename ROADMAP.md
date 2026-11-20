@@ -63,4 +63,4 @@
 | 27 | [x] | `games/27_kaleidoscope_bloom.rb` | **KALEIDOSCOPE BLOOM** — 8〜16軸対称で光の花が咲くジェネラティブ万華鏡アート | 256x256 | `:space`, 8/12/16軸対称・4パレット・マウス/自動ブルーム実装 |
 | 28 | [x] | `games/28_world_glider.rb` | **WORLD GLIDER** — 内蔵全BG世界を風に乗って輪くぐり滑空するチル＆スコアデモ | 256x256 | 全8種BG連続変化・輪くぐりコンボ・放置オートパイロット実装 |
 | 29 | [x] | `games/29_retro_synth_visualizer.rb` | **RETRO SYNTH VISUALIZER** — 3Dワープトンネル＆プラズマ波を操るデモシーンVJトイ | 256x256 | 3Dトンネル/3Dワイヤー立方体/シンセ波/星渦の4モードVJ実装 |
-| 30 | [ ] | `games/30_usakame_museum.rb` | **USAKAME MUSEUM** — 30本完結記念・過去作スプライトが並ぶ歩けるインタラクティブ展示室 | 256x256 | 過去作の人気ドット絵キャラ大集合＆展示パネル |
+| 30 | [x] | `games/30_usakame_museum.rb` | **USAKAME MUSEUM** — 30本完結記念・過去作スプライトが並ぶ歩けるインタラクティブ展示室 | 256x256 | 6カテゴリ代表スプライト展示・祝砲クラッカー・全訪問演出実装 |
