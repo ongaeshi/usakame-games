@@ -13,7 +13,7 @@
 | 02 | [x] | `games/02_parry_dojo.rb` | **PARRY DOJO** — 月夜の竹林で四方の刃・矢を見切り居合斬りする1ボタン道場 | 256x256 | `:forest` 紺tint+満月, ジャスト見切り・弾き返し・奥義月光居合実装 |
 | 03 | [x] | `games/03_gravity_flip_run.rb` | **GRAVITY FLIP RUN** — 床⇔天井の重力反転でネオン回廊を疾走するスピードラン | 256x256 | `:cyber`, 残像 `@PALETTE 11`・フェーズダッシュ・ドローン破壊実装 |
 | 04 | [x] | `games/04_sky_juggler.rb` | **SKY JUGGLER** — 敵を落とさず空中お手玉コンボ＆フィーバーBG変貌アリーナ | 256x256 | `:sky`→`:cyber`, アッパー打ち上げ・ポゴ踏み・フィーバー変貌実装 |
-| 05 | [ ] | `games/05_drift_circuit.rb` | **DRIFT CIRCUIT** — タイヤ痕・火花・ゴースト再生付き見下ろしドリフトレース | 256x256 | `:city` / `:training`, 回転 `spr_ext` 活用 |
+| 05 | [x] | `games/05_drift_circuit.rb` | **DRIFT CIRCUIT** — タイヤ痕・火花・ゴースト再生付き見下ろしドリフトレース | 256x256 | `:training` 芝生tint, 回転 `spr_ext`・ドリフトブースト・ゴースト再生実装 |
 
 ## カテゴリ B: シューティング & 物理アクション (06–10)
 
