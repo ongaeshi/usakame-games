@@ -79,7 +79,7 @@
 | 33 | [x] | `games/33_shadow_thief.rb` | **SHADOW THIEF** — 警備員の視界コーンとサーチライトを影に潜んで抜けるステルス潜入 | 320x240 | `blend(:mul)` 夜の暗闇、`polygonfill` レイキャスト壁遮蔽視界コーン、`@SPRITE` 怪盗・警備員・宝石、全5面実装 |
 | 34 | [x] | `games/34_drift_circuit_dx.rb` | **DRIFT CIRCUIT DX** — 【05進化版】太線路面・半透明ゴースト・ナイトレース対応の本格ドリフト | 320x240 | `polyline` 滑らか太線路面、`spr_ext(..., alpha: 0.45)` 半透明ゴースト、`blend(:mul)`+`trifill` ナイトヘッドライト、3コース＆ライバル車実装 |
 | 35 | [x] | `games/35_neon_slash.rb` | **NEON SLASH** — 光の斬撃軌跡で敵と弾を真っ二つに両断するハイスピード剣戟アクション | 256x256 | `polyline` + `blend(:add)` 残光スラッシュ、`trifill` 両断ポリゴン破片、`spr(..., alpha:)` 居合残像、奥義閃光乱舞実装 |
-| 36 | [ ] | `games/36_submarine_sonar_2.rb` | **ABYSS SONAR II** — 【10進化版】乗算の漆黒深海をライトとソナー波紋で照らす深海探索＆ボス戦 | 320x240 | `blend(:mul)` 深海暗闇、`trifill` + `blend(:add)` サーチライト、`alpha` フェードソナー波紋＆巨大クラーケン戦 |
+| 36 | [x] | `games/36_submarine_sonar_2.rb` | **ABYSS SONAR II** — 【10進化版】乗算の漆黒深海をライトとソナー波紋で照らす深海探索＆ボス戦 | 320x240 | `blend(:mul)` 漆黒深海、`trifill`+`blend(:add)` サーチライト、`alpha` フェードソナー＆32x32クラーケン戦実装 |
 | 37 | [ ] | `games/37_slingshot_fortress.rb` | **SLINGSHOT FORTRESS** — 3種砲弾で物理城砦を崩落させるワイド画面カタパルト破壊パズル（全8面） | 480x270 | 高解像度 `bg(:mountain)` 自動フィット、`quadfill` 回転ブロック物理、`polyline` 弾道ガイド、`blend(:add)` 爆風 |
 | 38 | [ ] | `games/38_arcana_deck.rb` | **ARCANA DECK** — 日本語UI×カード発光演出で戦うデッキ構築ローグライトRPG | 640x480 | `640x480` 高解像度 `bg(:cave)` 自動フィット、東雲16px日本語UI、`blend(:add)` カード発光、`alpha` 演出オーバーレイ |
 | 39 | [ ] | `games/39_vitrail_craft.rb` | **VITRAIL CRAFT** — 多角形の色ガラスを重ねて光の模様を創るステンドグラス幾何学パズル（全10図柄＋フリー） | 256x256 | `polygonfill`/`trifill` + `alpha` 色ガラス混色、完成時の `quadfill` + `blend(:add)` 光条シャワー |
