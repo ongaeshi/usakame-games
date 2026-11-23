@@ -82,5 +82,5 @@
 | 36 | [x] | `games/36_submarine_sonar_2.rb` | **ABYSS SONAR II** — 【10進化版】乗算の漆黒深海をライトとソナー波紋で照らす深海探索＆ボス戦 | 320x240 | `blend(:mul)` 漆黒深海、`trifill`+`blend(:add)` サーチライト、`alpha` フェードソナー＆32x32クラーケン戦実装 |
 | 37 | [x] | `games/37_slingshot_fortress.rb` | **SLINGSHOT FORTRESS** — 3種砲弾で物理城砦を崩落させるワイド画面カタパルト破壊パズル（全8面） | 480x270 | 480x270 `bg(:mountain)` 自動フィット、`quadfill` 回転ブロック物理＆半透明ガラス、`polyline` 弾道、`blend(:add)` 爆風、全8面実装 |
 | 38 | [x] | `games/38_arcana_deck.rb` | **ARCANA DECK** — 日本語UI×カード発光演出で戦うデッキ構築ローグライトRPG | 640x480 | `640x480` `bg(:cave)` 自動フィット、東雲16px日本語UI、`blend(:add)` カード発光＆魔法演出、全8階層実装 |
-| 39 | [ ] | `games/39_vitrail_craft.rb` | **VITRAIL CRAFT** — 多角形の色ガラスを重ねて光の模様を創るステンドグラス幾何学パズル（全10図柄＋フリー） | 256x256 | `polygonfill`/`trifill` + `alpha` 色ガラス混色、完成時の `quadfill` + `blend(:add)` 光条シャワー |
+| 39 | [x] | `games/39_vitrail_craft.rb` | **VITRAIL CRAFT** — 多角形の色ガラスを重ねて光の模様を創るステンドグラス幾何学パズル（全10図柄＋フリー） | 256x256 | `polygonfill`+`alpha` 色ガラス混色＆鉛枠、`quadfill`+`blend(:add)` 大聖堂光条シャワー、全10図柄＋フリーアート実装 |
 | 40 | [ ] | `games/40_fireworks_symphony.rb` | **FIREWORKS SYMPHONY DX** — 【26進化版】加算発光・滑らか減衰・大会演出を備えたワイド夜空の花火師 | 480x270 | `blend(:add)` 光の重なり発光、`alpha` フェードアウト、`polyline` 柳トレイル、ワイド夜景＆水面反射、大会プログラムモード |
