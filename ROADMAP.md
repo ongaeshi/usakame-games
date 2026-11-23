@@ -75,7 +75,7 @@
 | No. | Status | File | タイトル & コンセプト | 解像度 | 活用する新機能・設計メモ |
 | :---: | :---: | :--- | :--- | :---: | :--- |
 | 31 | [x] | `games/31_prism_laser.rb` | **PRISM LASER** — 鏡とプリズムでRGBレーザーを混色・誘導する光学パズル（全12面） | 256x256 | `@PALETTE 1` + `blend(:add)` + 太線 `line` でRGB加算混色、`trifill`/`polygonfill` 半透明プリズム、全12面実装 |
-| 32 | [ ] | `games/32_star_trench.rb` | **STAR TRENCH 3D** — 面塗り3Dポリゴンの渓谷と戦艦を撃ち抜くレールシューター | 320x240 | `quadfill`/`trifill` のZソート3Dポリゴン描画、`blend(:add)` レーザー・爆発、`polyline` 誘導ロックオン |
+| 32 | [x] | `games/32_star_trench.rb` | **STAR TRENCH 3D** — 面塗り3Dポリゴンの渓谷と戦艦を撃ち抜くレールシューター | 320x240 | `quadfill`/`trifill` Zソート3Dポリゴン渓谷・敵・ドレッドノート戦艦、`blend(:add)` レーザー＆ホーミングミサイル実装 |
 | 33 | [ ] | `games/33_shadow_thief.rb` | **SHADOW THIEF** — 警備員の視界コーンとサーチライトを影に潜んで抜けるステルス潜入 | 320x240 | `blend(:mul)` による暗闇・影表現、`polygonfill` + `alpha` のレイキャスト視界コーン |
 | 34 | [ ] | `games/34_drift_circuit_dx.rb` | **DRIFT CIRCUIT DX** — 【05進化版】太線路面・半透明ゴースト・ナイトレース対応の本格ドリフト | 320x240 | `polyline(..., width:)` 滑らか路面、`spr_ext(..., alpha:)` 本物の半透明ゴースト、`blend(:add)` ヘッドライト＆火花、3コース |
 | 35 | [ ] | `games/35_neon_slash.rb` | **NEON SLASH** — 光の斬撃軌跡で敵と弾を真っ二つに両断するハイスピード剣戟アクション | 256x256 | `polyline(..., width:)` + `blend(:add)` の残光スラッシュ、`trifill`/`quadfill` 切断面飛散、`alpha` 居合残像 |
