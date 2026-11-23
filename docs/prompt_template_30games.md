@@ -56,3 +56,56 @@
 ## 3. 連続制作を高速化するパイプラインのコツ
 - **並列オーバーラップ**: 「ゲームNの `verify_game.ps1` ＋スクショ撮影（バックグラウンド実行）」を走らせている間に、「ゲームN+1の設計と `write_file`」を進めることで、待ち時間ゼロで30本を駆け抜けられます。
 - **タイトル＆プレイ中チェックの徹底**: タイトル画面（`-f 60`）と実プレイ画面（`-f 180 -g`）の2枚を見ることで、「タイトルでの文字はみ出し」と「プレイ中のHUD被り・背景サイズ不整合」を確実に潰せます。
+
+---
+
+## 4. Phase 2 (31–40) 実行用 `/goal` プロンプトテンプレート
+
+Phase 2（および今後の Phase N）を新規セッションで実行する際は、以下をコピーして投入してください（Phase 3 以降は Phase 番号・連番範囲・フィードバックファイル名のみ書き換えて流用できます）。
+
+```markdown
+/goal このリポジトリの `ROADMAP.md` にある `Phase2 (31-40) 2026-11-24` の未着手ゲーム（`[ ]`）を順番に、全10本（No.31〜40）すべて完成するまで連続で制作・検証・コミットし、最後にショーケース追記と Phase 2 フィードバック整理まで完了させてください。
+
+## 事前確認
+作業開始前に `AGENTS.md`、`ROADMAP.md`、`docs/api.md`、`docs/mrubyedge_api.md`、`docs/engine_feedback.md`、`.agents/skills/usakame-sprite/SKILL.md` を確認してください。
+また、続編DXタイトル（34, 36, 40）を制作する際は対応する前作（05, 10, 26）を参照し、新APIによって見た目と遊び心地が劇的に進化したことがユーザーから一目で分かる仕上がりにしてください。
+
+## Phase 2 の重視ポイント（新APIの積極活用）
+`docs/engine_feedback.md` の対応で追加・改善された以下の機能を、各ゲームの核となる演出・ゲーム性に積極的に組み込んでください：
+- **`alpha` 半透明描画**: 図形・テキスト・スプライト（`spr` / `spr_ext` / `spr_clip` / `blt`）の残像、ゴースト、フェード、ガラス混色、視界表現
+- **`blend(:normal / :add / :mul)`**: `:add` によるレーザー・花火・ネオン・魔法の加算発光、`:mul` による深海・暗闇・影の表現（描画後は必ず `blend(:normal)` に戻す）
+- **太線・連続線・塗りつぶし多角形**: `line(..., width:)`、`polyline`、`trifill`、`quadfill`、`polygonfill` による3Dポリゴン描画、滑らかな路面、視界コーン、軌跡スラッシュ、ステンドグラス表現
+- **高解像度 `bg()` 自動スケーリング**: `320x240` / `480x270` / `640x480` 解像度での `bg()` 自動フィット（`fit: :auto` / `:screen` 等）とワイド・高精細UIの活用
+
+## 各ゲームの制作ルール
+1. **品質目標（どちらか必須、理想は両方）**:
+   - 目標1: ユーザーが実際に少なくとも5分は夢中で遊べ、繰り返しても楽しいゲーム性（手触り・成長/スコア・リプレイ性）
+   - 目標2: SNS などでシェアして喜ばれそうな見た目（新APIの光/半透明/多角形演出・カスタムパレット高品質ドット絵・無音でも気持ちいいヒットストップ/シェイク/フラッシュ）
+2. **絶対制約**:
+   - **1ファイル完結**（`games/XX_<name>.rb`、外部画像不使用）
+   - **基本API + `bg()` + スプライト + キーボード/マウス入力のみ**を使用
+   - **タイルマップ（`map`, `mget`, `mset`, `mdel`, `mclear`, `@MAP`）とサウンド（`sfx`, `music`, `play`, `tone`, `@SFX`, `@MUSIC`）は一切使用しない**
+   - **mrubyedge 鉄則**:
+     - 未実装メソッド（`sample`, `shuffle`, `reverse`, `delete`, `key?`, `include?` on Hash, `fetch`, `dig`, `gsub`, `sub`, `even?`, `odd?`, `upto`, `downto`, `index`, `fill`）を使わない（`Array#map` と `Float - Integer` は対応済みだが、引き続き安全側に書く）
+     - `.each` ループ中に同じ配列へ `<<` しない（一時配列に溜めてループ後に追加する）
+     - `attr_accessor` / `attr_reader` は1行6シンボル以下、Ruby側メソッドへのハッシュ引数は明示的 `({ ... })`、クラス継承/`super` 不使用
+     - `camera()`・`clip()`・`blend(:normal)` は HUD 描画前に必ずリセットする
+3. **1本完成ごとの必須検証＆自動コミット（許可待ちせず自動進行）**:
+   - `pwsh -NoProfile -File scripts/verify_game.ps1 games/<file>.rb` を実行し、終了コード 0 を確認する
+   - `uk run games/<file>.rb -s tmp/preview.png -f 60`（タイトル確認用）と `uk run games/<file>.rb -s images/<file>.png -f 180 -g`（ギャラリー保存用）でスクリーンショットを撮影し、`read_file` で目視確認する（UI被り・文字切れ・スプライト崩れ・ブレンド戻し忘れがあれば修正して再検証）
+   - `ROADMAP.md` の該当行を `[x]` に更新し、簡潔な実装メモを追記する
+   - `git add` と `git commit` は連結せず**別々の単独コマンド**で実行し、1本ごとに即コミット（`feat(games): add <file> - <Title>`）して休まず次の未着手ゲームへ進む
+
+## 全10本完了後の仕上げタスク
+1. **`docs/games_showcase.md` の更新**:
+   - 末尾に `## Phase2 (31-40) 2026-11-24` 見出しを追加し、No.31〜40 の全10本について画像リンク（`../images/<file>.png`）、おすすめポイント、新API活用の工夫点を追記する。
+2. **`docs/engine_feedback_phase2.md` の新規作成**:
+   - Phase 2（31〜40）の制作を通して判明した、新API（`alpha` / `blend` / `polygonfill` / 太線 / 高解像度 `bg()` 等）の使用感・良かった点・新たに踏んだ制約や改善要望を `docs/engine_feedback.md` と同等の構成でまとめる。
+3. **仕上げのコミット**:
+   - `docs/games_showcase.md` と `docs/engine_feedback_phase2.md` をコミットする（`git add` と `git commit` は単独コマンドで実行）。
+
+## 完了条件
+- `ROADMAP.md` の `Phase2 (31-40)`（No.31〜40）がすべて `[x]` になり、全10本と `images/31_*.png`〜`images/40_*.png` が検証済みかつ1本ごとにコミットされていること
+- `docs/games_showcase.md` に `Phase2 (31-40)` が追記され、`docs/engine_feedback_phase2.md` が作成・コミットされていること
+- `git status` がクリーンであること
+```

@@ -64,3 +64,23 @@
 | 28 | [x] | `games/28_world_glider.rb` | **WORLD GLIDER** — 内蔵全BG世界を風に乗って輪くぐり滑空するチル＆スコアデモ | 256x256 | 全8種BG連続変化・輪くぐりコンボ・放置オートパイロット実装 |
 | 29 | [x] | `games/29_retro_synth_visualizer.rb` | **RETRO SYNTH VISUALIZER** — 3Dワープトンネル＆プラズマ波を操るデモシーンVJトイ | 256x256 | 3Dトンネル/3Dワイヤー立方体/シンセ波/星渦の4モードVJ実装 |
 | 30 | [x] | `games/30_usakame_museum.rb` | **USAKAME MUSEUM** — 30本完結記念・過去作スプライトが並ぶ歩けるインタラクティブ展示室 | 256x256 | 6カテゴリ代表スプライト展示・祝砲クラッカー・全訪問演出実装 |
+
+---
+
+## Phase2 (31-40) 2026-11-24
+
+`docs/engine_feedback.md` のエンジン改善（`alpha` 半透明、`blend(:add / :mul)`、太線 `line(..., width:)` / `polyline`、塗りつぶし多角形 `trifill` / `quadfill` / `polygonfill`、高解像度 `bg()` 自動スケーリング、`Float - Integer` 修正）を最大限に活かす10本（完全新作7本＋新機能による劇的進化DX続編3本）。
+全10本完了後、`docs/games_showcase.md` への追記および `docs/engine_feedback_phase2.md` への振り返り整理を行う。
+
+| No. | Status | File | タイトル & コンセプト | 解像度 | 活用する新機能・設計メモ |
+| :---: | :---: | :--- | :--- | :---: | :--- |
+| 31 | [ ] | `games/31_prism_laser.rb` | **PRISM LASER** — 鏡とプリズムでRGBレーザーを混色・誘導する光学パズル（全12面） | 256x256 | `line(..., width:)` + `blend(:add)` によるRGB加算混色レーザー、`trifill`/`polygonfill` 半透明プリズム |
+| 32 | [ ] | `games/32_star_trench.rb` | **STAR TRENCH 3D** — 面塗り3Dポリゴンの渓谷と戦艦を撃ち抜くレールシューター | 320x240 | `quadfill`/`trifill` のZソート3Dポリゴン描画、`blend(:add)` レーザー・爆発、`polyline` 誘導ロックオン |
+| 33 | [ ] | `games/33_shadow_thief.rb` | **SHADOW THIEF** — 警備員の視界コーンとサーチライトを影に潜んで抜けるステルス潜入 | 320x240 | `blend(:mul)` による暗闇・影表現、`polygonfill` + `alpha` のレイキャスト視界コーン |
+| 34 | [ ] | `games/34_drift_circuit_dx.rb` | **DRIFT CIRCUIT DX** — 【05進化版】太線路面・半透明ゴースト・ナイトレース対応の本格ドリフト | 320x240 | `polyline(..., width:)` 滑らか路面、`spr_ext(..., alpha:)` 本物の半透明ゴースト、`blend(:add)` ヘッドライト＆火花、3コース |
+| 35 | [ ] | `games/35_neon_slash.rb` | **NEON SLASH** — 光の斬撃軌跡で敵と弾を真っ二つに両断するハイスピード剣戟アクション | 256x256 | `polyline(..., width:)` + `blend(:add)` の残光スラッシュ、`trifill`/`quadfill` 切断面飛散、`alpha` 居合残像 |
+| 36 | [ ] | `games/36_submarine_sonar_2.rb` | **ABYSS SONAR II** — 【10進化版】乗算の漆黒深海をライトとソナー波紋で照らす深海探索＆ボス戦 | 320x240 | `blend(:mul)` 深海暗闇、`trifill` + `blend(:add)` サーチライト、`alpha` フェードソナー波紋＆巨大クラーケン戦 |
+| 37 | [ ] | `games/37_slingshot_fortress.rb` | **SLINGSHOT FORTRESS** — 3種砲弾で物理城砦を崩落させるワイド画面カタパルト破壊パズル（全8面） | 480x270 | 高解像度 `bg(:mountain)` 自動フィット、`quadfill` 回転ブロック物理、`polyline` 弾道ガイド、`blend(:add)` 爆風 |
+| 38 | [ ] | `games/38_arcana_deck.rb` | **ARCANA DECK** — 日本語UI×カード発光演出で戦うデッキ構築ローグライトRPG | 640x480 | `640x480` 高解像度 `bg(:cave)` 自動フィット、東雲16px日本語UI、`blend(:add)` カード発光、`alpha` 演出オーバーレイ |
+| 39 | [ ] | `games/39_vitrail_craft.rb` | **VITRAIL CRAFT** — 多角形の色ガラスを重ねて光の模様を創るステンドグラス幾何学パズル（全10図柄＋フリー） | 256x256 | `polygonfill`/`trifill` + `alpha` 色ガラス混色、完成時の `quadfill` + `blend(:add)` 光条シャワー |
+| 40 | [ ] | `games/40_fireworks_symphony.rb` | **FIREWORKS SYMPHONY DX** — 【26進化版】加算発光・滑らか減衰・大会演出を備えたワイド夜空の花火師 | 480x270 | `blend(:add)` 光の重なり発光、`alpha` フェードアウト、`polyline` 柳トレイル、ワイド夜景＆水面反射、大会プログラムモード |
