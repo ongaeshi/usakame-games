@@ -175,3 +175,57 @@
 ![30_usakame_museum](../images/30_usakame_museum.png)
 - **おすすめポイント**: 30本完結記念の歩ける展示室。各カテゴリの代表ドット絵がレッドカーペットの台座に並び、近づくと解説パネルと祝砲コンフェッティが舞う。
 - **工夫点**: 全6つの展示ブースを巡り終えると博物館全体で祝福メッセージが表示されるコレクション達成演出。
+
+---
+
+## Phase2 (31-40) 2026-11-24
+
+### 31. PRISM LASER (`games/31_prism_laser.rb`)
+![31_prism_laser](../images/31_prism_laser.png)
+- **おすすめポイント**: 鏡とハーフプリズムを回転させてR・G・Bのレーザーを合流・混色（黄/シアン/マゼンタ/白）させる全12面の光学パズル。
+- **工夫点（新API活用）**: `@PALETTE 1` ＋ `blend(:add)` ＋ 太線 `line` による光の加算混色レーザーと、`trifill` / `polygonfill` による半透明ガラスプリズム表現。
+
+### 32. STAR TRENCH 3D (`games/32_star_trench.rb`)
+![32_star_trench](../images/32_star_trench.png)
+- **おすすめポイント**: Zソートされた面塗り3Dポリゴンの渓谷を疾走し、敵機・砲台・巨大戦艦ドレッドノートを撃ち抜く320x240レールシューター。
+- **工夫点（新API活用）**: `quadfill` / `trifill` による透視投影3Dポリゴン描画と、`blend(:add)` ツインレーザー・`polyline` 軌道付きホーミングミサイル。
+
+### 33. SHADOW THIEF (`games/33_shadow_thief.rb`)
+![33_shadow_thief](../images/33_shadow_thief.png)
+- **おすすめポイント**: 警備員の視界コーンを避け、デコイ小石やシャドウダッシュを駆使して宝石を盗み出す全5面のステルス潜入アクション。
+- **工夫点（新API活用）**: `blend(:mul)` による夜の暗闇表現と、壁で正確に遮蔽されるレイキャスト `polygonfill` ＋ `alpha` 半透明視界コーン。
+
+### 34. DRIFT CIRCUIT DX (`games/34_drift_circuit_dx.rb`)
+![34_drift_circuit_dx](../images/34_drift_circuit_dx.png)
+- **おすすめポイント**: 05作目の正統DX進化版。3コース選択・ライバル車2台・ナイトレース対応の320x240見下ろしドリフトレース。
+- **工夫点（新API活用）**: `polyline` 太線による滑らかなコース路面、`spr_ext(..., alpha)` による本物の半透明ゴースト、ナイトモードでの `blend(:mul)` 暗闇＆`trifill` ヘッドライト。
+
+### 35. NEON SLASH (`games/35_neon_slash.rb`)
+![35_neon_slash](../images/35_neon_slash.png)
+- **おすすめポイント**: 居合ダッシュ斬りで敵も弾も真っ二つに両断し、ゲージを溜めて奥義・閃光乱舞を放つハイスピード剣戟アクション。
+- **工夫点（新API活用）**: `polyline` ＋ `blend(:add)` の残光斬撃トレイル、`trifill` による切断面ポリゴン飛散、`spr(..., alpha)` による居合残像。
+
+### 36. ABYSS SONAR II (`games/36_submarine_sonar_2.rb`)
+![36_submarine_sonar_2](../images/36_submarine_sonar_2.png)
+- **おすすめポイント**: 10作目の正統DX進化版。漆黒の深海をサーチライトとソナー波紋で照らし、巨大クラーケンに挑む320x240深海バトル。
+- **工夫点（新API活用）**: `blend(:mul)` 漆黒深海、`trifill` ＋ `blend(:add)` 2層サーチライトコーン、`alpha` フェードする多重ソナー波紋＆32x32クラーケン戦。
+
+### 37. SLINGSHOT FORTRESS (`games/37_slingshot_fortress.rb`)
+![37_slingshot_fortress](../images/37_slingshot_fortress.png)
+- **おすすめポイント**: 鉄球・3分裂弾・爆弾の3種砲弾を使い分け、木・石・ガラス・TNTで構成された物理城砦を崩落させる480x270ワイド破壊パズル（全8面）。
+- **工夫点（新API活用）**: 480x270 `bg(:mountain)` 自動フィット、`quadfill` 回転ブロック＆半透明ガラス、`polyline` 弾道ガイド、`blend(:add)` 爆風ショックウェーブ。
+
+### 38. ARCANA DECK (`games/38_arcana_deck.rb`)
+![38_arcana_deck](../images/38_arcana_deck.png)
+- **おすすめポイント**: 16px東雲日本語UIで遊べる全8階層のデッキ構築ローグライトRPG。勝利後のカード選択でデッキを強化し深淵の龍を討伐。
+- **工夫点（新API活用）**: `640x480` `bg(:cave)` 自動フィット、選択カードへの `blend(:add)` 発光オーラ＆魔法ビーム、`alpha` 半透明UIパネル。
+
+### 39. VITRAIL CRAFT (`games/39_vitrail_craft.rb`)
+![39_vitrail_craft](../images/39_vitrail_craft.png)
+- **おすすめポイント**: 多角形の色ガラスをはめて美しいステンドグラスを完成させる幾何学パズル（全10図柄＋フリーアートモード）。
+- **工夫点（新API活用）**: `polygonfill` ＋ `alpha` による半透明色ガラス＆鉛枠、完成時に差し込む `quadfill` ＋ `blend(:add)` 大聖堂の光条シャワー。
+
+### 40. FIREWORKS SYMPHONY DX (`games/40_fireworks_symphony.rb`)
+![40_fireworks_symphony](../images/40_fireworks_symphony.png)
+- **おすすめポイント**: 26作目の正統DX進化版。480x270ワイド夜空に菊・柳・ハート・土星・星・5連発シンフォニーを打ち上げる花火師トイ。
+- **工夫点（新API活用）**: `480x270` `bg(:city)` 自動フィット、`blend(:add)` による光の重なり白熱発光と港水面リアルタイム反射、`polyline` による柳のしだれ軌跡。
