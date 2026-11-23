@@ -22,4 +22,4 @@ pwsh -NoProfile -File scripts/verify_game.ps1 games/01_grapple_ascent.rb
 * `ROADMAP.md`: 30本の企画リスト・進捗・流用メモ・コミット記録
 * `refs/`: 参考実装（`boss_rush.rb`, `diorama.rb`, `orb_breaker.rb`, `chrono_duel.rb` 等）
 * `docs/`: Usakame API 仕様書・mrubyedge リファレンス
-* `scripts/verify_game.ps1`: 自動検証スクリプト
+* `scripts/verify_game.py`: 自動検証スクリプト本体（`scripts/verify_game.ps1` は互換ラッパー）
