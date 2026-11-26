@@ -95,7 +95,7 @@ Phase 3 共通設計方針として、**ゲームバランスやエンティテ�
 
 | No. | Status | File | タイトル & コンセプト | 解像度 | 活用する新機能・設計メモ |
 | :---: | :---: | :--- | :--- | :---: | :--- |
-| 41 | [ ] | `games/41_crater_artillery.rb` | **CRATER ARTILLERY** — ピクセル地形を爆破・掘削して戦うWorms風砲撃バトル（1P全8面＋2P対戦） | 480x270 | `:pixel` サーフェス＋`blend(:erase)` 地形破壊、`surface_solid?`/`surface_raycast`、`mouse_wheel` 兵器切替、`btn(..., 1)` 2P対戦、`save_set` 進捗保存、`$cfg`/`$weapons` ハッシュ管理 |
+| 41 | [x] | `games/41_crater_artillery.rb` | **CRATER ARTILLERY** — ピクセル地形を爆破・掘削して戦うWorms風砲撃バトル（1P全8面＋2P対戦） | 480x270 | `:pixel` サーフェス＋`blend(:erase)` 地形破壊、`surface_solid?`/`surface_raycast`、4種兵器（`mouse_wheel`切替）、1P全8面＋2P対戦、`save_set` 進捗保存、`$cfg`/`$weapons`/`$stages` ハッシュ管理 |
 | 42 | [ ] | `games/42_lantern_survivors.rb` | **LANTERN SURVIVORS** — くり抜き2Dライトマップと消えない戦場痕で戦う暗黒サバイバーズ | 320x240 | `:gpu` サーフェス＋`blend(:erase)` 複数光源ライトマップ、別 `:gpu` サーフェスへの永続スライム痕・焦げ跡蓄積、`save_set` 恒久強化＆武器解放、`$cfg`/`$enemies` ハッシュ管理 |
 | 43 | [ ] | `games/43_ink_turf_arena.rb` | **INK TURF ARENA** — 床を塗って潜伏加速しリアルタイム面積％を競うスプラッシュ陣取り（1P/2P） | 320x240 | `:pixel` 床サーフェス塗り、`surface_pget` 足元インク判定、`surface_count` リアルタイム塗り率集計、`btn(..., 1)` 2P対戦/タッグ、`save_set` ブキ解放、`$cfg`/`$weapons` ハッシュ管理 |
 | 44 | [ ] | `games/44_micro_factory.rb` | **MICRO FACTORY** — コンベア配線と精錬・組立で自動生産ラインを築く工場建設シム | 480x270 | `save_set` による工場レイアウト・在庫・研究の丸ごとJSON自動保存、`mouse_wheel` 設備回転、`show_cursor(false)` 設計図カーソル、日本語 `outline` UI、`$cfg`/`$machines` ハッシュ管理 |
