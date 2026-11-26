@@ -229,3 +229,57 @@
 ![40_fireworks_symphony](../images/40_fireworks_symphony.png)
 - **おすすめポイント**: 26作目の正統DX進化版。480x270ワイド夜空に菊・柳・ハート・土星・星・5連発シンフォニーを打ち上げる花火師トイ。
 - **工夫点（新API活用）**: `480x270` `bg(:city)` 自動フィット、`blend(:add)` による光の重なり白熱発光と港水面リアルタイム反射、`polyline` による柳のしだれ軌跡。
+
+---
+
+## Phase3 (41-50) 2026-11-26
+
+### 41. CRATER ARTILLERY (`games/41_crater_artillery.rb`)
+![41_crater_artillery](../images/41_crater_artillery.png)
+- **おすすめポイント**: 爆風でピクセル地形をリアルタイムに抉り、地形の崩落や角度変化を読みながら戦うWorms風砲撃バトル（1P全8面キャンペーン＋2P対戦）。
+- **工夫点（新API＆ハッシュ設計）**: `:pixel` サーフェス＋`blend(:erase)` によるクレーター破壊、`surface_raycast` / `surface_solid?` による着弾・斜面移動判定、`mouse_wheel` 4種兵器切替、`btn(..., 1)` 2P対戦、`save_set` 進捗保存、`$cfg`/`$weapons`/`$stages` ハッシュ集約。
+
+### 42. LANTERN SURVIVORS (`games/42_lantern_survivors.rb`)
+![42_lantern_survivors](../images/42_lantern_survivors.png)
+- **おすすめポイント**: ランタンの揺らめく光だけを頼りに闇森の魔物をなぎ倒し、ソウルを集めて恒久強化する暗黒サバイバーズ。
+- **工夫点（新API＆ハッシュ設計）**: `:gpu` サーフェス＋`blend(:erase)` による白飛びしない複数光源2Dライトマップ（ランタン・松明・魔法弾）、別 `:gpu` サーフェスへの永続スライム痕・足跡デカール、`save_set` 恒久強化、`$cfg`/`$enemies`/`$meta_upgrades` ハッシュ管理。
+
+### 43. INK TURF ARENA (`games/43_ink_turf_arena.rb`)
+![43_ink_turf_arena](../images/43_ink_turf_arena.png)
+- **おすすめポイント**: 3種のインク兵器で床を塗り合い、自チームインクに潜伏して高速移動＆回復しながら塗り率％を競うスプラッシュ陣取り（1P 2v2 / 2P対戦）。
+- **工夫点（新API＆ハッシュ設計）**: `:pixel` 床サーフェス塗り、`surface_pget` による足元インク潜伏・敵インク減速判定、`surface_count` によるリアルタイム面積％集計、`save_set` ブキ解放、`$cfg`/`$weapons` ハッシュ管理。
+
+### 44. MICRO FACTORY (`games/44_micro_factory.rb`)
+![44_micro_factory](../images/44_micro_factory.png)
+- **おすすめポイント**: 採掘機・ベルトコンベア・精錬炉・出荷口を配線して自動生産ラインを築き、設備を高速化する工場建設シミュレーション。
+- **工夫点（新API＆ハッシュ設計）**: `save_set` による工場グリッド配列・GOLD・出荷数・速度Lvの自動JSON永続化、`mouse_wheel` 設備回転、`show_cursor(false)` 設計図カーソル、日本語 `outline` UI、`$cfg`/`$machines`/`$items` ハッシュ管理。
+
+### 45. CYBER DISC DUEL (`games/45_cyber_disc_duel.rb`)
+![45_cyber_disc_duel](../images/45_cyber_disc_duel.png)
+- **おすすめポイント**: カーブ投法・壁反射・ダッシュキャッチからの必殺「HYPER SMASH」でゴールを狙う高速フライングディスク対戦（1P全4ライバル杯 / 2P対戦）。
+- **工夫点（新API＆ハッシュ設計）**: `btn(..., 0/1)`＋`gamepad_count` 対応、`:gpu` サーフェスへのダッシュ痕・壁跳ね・ゴール爆風デカール、`print_text(..., :center, 0)` 演出、`save_set` 記録、`$cfg`/`$rivals` ハッシュ管理。
+
+### 46. FALLING SAND LAB DX (`games/46_falling_sand_dx.rb`)
+![46_falling_sand_dx](../images/46_falling_sand_dx.png)
+- **おすすめポイント**: 22作目の正統DX進化版。10種の元素（砂・水・木・火・油・酸・溶岩・蒸気・TNT・石）が反応する全10面パズル＋3枠作品セーブ対応ラボ。
+- **工夫点（新API＆ハッシュ設計）**: `:pixel` サーフェス＋`surface_swap`/`surface_pget`/`surface_count`（ビーカー充填判定）、`mouse_wheel` ブラシサイズ調整、`save_set` によるクリア記録＆RLE作品保存、`$cfg`/`$elements`/`$puzzles` ハッシュ管理。
+
+### 47. PICROSS ATELIER (`games/47_picross_atelier.rb`)
+![47_picross_atelier](../images/47_picross_atelier.png)
+- **おすすめポイント**: ロジックを解くとドット絵が完成し、アトリエの壁に飾られて動き出すお絵かきパズル（5x5〜10x10の全16作）。
+- **工夫点（新API＆ハッシュ設計）**: `text_width`＋`:right`/`:center` によるヒント数字の精密整列、`save_set` 途中経過オートセーブ＆全16作の永続ギャラリー展示、`mouse_wheel` ツール切替、`$cfg`/`$puzzles` ハッシュ管理。
+
+### 48. FISHING ODYSSEY DX (`games/48_fishing_odyssey_dx.rb`)
+![48_fishing_odyssey_dx](../images/48_fishing_odyssey_dx.png)
+- **おすすめポイント**: 18作目の正統DX進化版。夕暮れの湖・サンゴ礁・夜港・深海トレンチの4海域を巡り、全20種の永続魚図鑑（最大寸・王冠）を埋める釣りRPG。
+- **工夫点（新API＆ハッシュ設計）**: `save_set` による20種図鑑・竿Lv・海域解放の永続保存、夜港・深海での `:gpu` `blend(:erase)` 集魚灯ライトマップ、`mouse_wheel` リール巻き対応、`$cfg`/`$seas`/`$fish_db` ハッシュ管理。
+
+### 49. ABYSSAL DRILLER (`games/49_abyssal_driller.rb`)
+![49_abyssal_driller](../images/49_abyssal_driller.png)
+- **おすすめポイント**: 縦1160pxのピクセル地層を掘り進み、鉱石を換金してドリル・タンク・ライト・ジェットを強化しながら1000mの最深部コアを目指す地底採掘アクション。
+- **工夫点（新API＆ハッシュ設計）**: 大型 `:pixel` サーフェス掘削＆落石判定（`surface_circle_solid?`）、深度に応じた `:gpu` ヘッドライト＆発煙筒ライトマップ、`save_set` 恒久強化、`$cfg`/`$ores`/`$upgrades` ハッシュ管理。
+
+### 50. TITAN COLOSSEUM (`games/50_titan_colosseum.rb`)
+![50_titan_colosseum](../images/50_titan_colosseum.png)
+- **おすすめポイント**: 50本記念・戦場の傷跡が最後まで残る全5体の32x32巨大タイタン討伐ボスラッシュ（1Pソロ / 2P協力レイド）。
+- **工夫点（新API＆ハッシュ設計）**: `:gpu` アリーナ永続傷跡サーフェス＋暗転フェーズ `:gpu` ライトマップ、`show_cursor(false)` カスタム照準、`btn(..., 1)` 2P協力、`save_set` Sランク＆最速タイム保存、`$cfg`/`$titans` ハッシュ管理。

@@ -1,0 +1,60 @@
+# Usakame Engine & mrubyedge 開発フィードバック・改善要望メモ（Phase 3: 41〜50）
+
+Phase 2（`docs/engine_feedback_phase2.md`）で対応された新API（永続セーブ `save_set`/`save_get`、オフスクリーン `:gpu` サーフェス＆`blend(:erase)`、`:pixel` サーフェス＆破壊可能地形クエリ `surface_*`、テキスト計測・整列・フチ取り `text_width`/`print_text`、2P/ゲームパッド入力・`mouse_wheel`・`show_cursor`、`Array#index`）を全面活用し、完全新作8本＋DX進化版2本の計10本（No.41〜50）を連続制作した振り返りです。
+
+---
+
+## 1. Phase 3 新API・設計方針で劇的に良くなった点
+
+### ① 永続セーブデータ API（`save_set` / `save_get` / `save_has?`）
+- **`42_lantern_survivors.rb` / `49_abyssal_driller.rb`**: ランで稼いだソウルや換金額を保存し、タイトル画面で恒久強化を購入できる「何度も遊びたくなるサイクル」が外部ファイル管理なしで数行で実装できた。
+- **`44_micro_factory.rb` / `46_falling_sand_dx.rb` / `47_picross_atelier.rb`**: `Array` や `Hash` をそのまま JSON 永続化できるため、工場レイアウト・RLE 落ち砂作品・ピクロス途中経過＆16作品のギャラリー状態を丸ごと保存・復元できた。
+- **`48_fishing_odyssey_dx.rb` / `50_titan_colosseum.rb`**: 全20種魚図鑑（最大寸・王冠）や全5体タイタンのSランク・最速タイムが残り、やり込み目標が明確になった。
+
+### ② `:gpu` サーフェス ＋ `blend(:erase)` による 2D ライトマップ＆永続デカール
+- **`42_lantern_survivors.rb` / `48_fishing_odyssey_dx.rb` / `49_abyssal_driller.rb` / `50_titan_colosseum.rb`**: `cls(0, alpha)` で闇を描き、`blend(:erase)` の `circfill` で複数光源をくり抜くことで、光源が重なっても白飛びしない自然な 2D ライティングが数行で実現できた。
+- **`42` / `45` / `50`**: 別 `:gpu` サーフェスにスライム痕・コート焦げ跡・ボスのクレーター傷跡をスタンプすることで、毎フレームの再描画配列を肥大させずに「戦場の歴史が残る」演出が可能になった。
+
+### ③ `:pixel` サーフェス ＆ 破壊可能地形クエリ API（`surface_*`）
+- **`41_crater_artillery.rb` / `49_abyssal_driller.rb`**: `blend(:erase)` でピクセル地形にクレーターやトンネルを直接掘り、`surface_raycast` / `surface_solid?` / `surface_circle_solid?` で着弾・斜面移動・落石判定を CPU 側で正確に処理できた。
+- **`43_ink_turf_arena.rb` / `46_falling_sand_dx.rb`**: `surface_pget` による足元インク判定や落ち砂判定、`surface_count` によるリアルタイム面積％集計やパズルビーカー充填判定が非常に高速かつ直感的に書けた。
+
+### ④ `text_width` / `print_text` 位置引数整列・フチ取り（`:center`, `:right`, `outline`）
+- **`47_picross_atelier.rb`** のヒント数字の右揃え・中央揃えや、全10作品の HUD・タイトルバナーで、従来の手計算センタリングや5回ずらし描きが不要になり、背景に負けない視認性が即座に得られた。
+
+### ⑤ 入力拡充（`btn(..., 1)` / `gamepad_count` / `mouse_wheel` / `show_cursor(false)`）
+- **`41` / `43` / `45` / `50`**: 1P＋CPU モードを基本としつつ、`btn(..., 1)` により 2P ローカル対戦・協力（`IJKL+U/O`・ゲームパッド2）へ自然に対応できた。
+- **`41` / `44` / `46` / `47` / `48`**: `mouse_wheel` による兵器切替・設備回転・ブラシ調整・ツール切替・リール巻き操作が直感的で手触りを大きく向上させた。
+
+### ⑥ 浅いハッシュテーブル（`$cfg` / `$weapons` 等）によるパラメータ集約
+- 全10本で調整値とエンティティ仕様をスクリプト冒頭の浅いハッシュテーブルに集約したことで、バランス調整箇所が一目瞭然となり、`uk run` のホットリロード調整とも相性が良かった。
+
+---
+
+## 2. Phase 3 で新たに踏んだ制約・ハマりやすい仕様
+
+### ① `draw_surface` の `scale:` オプションが期待通りに拡大されないケース
+- **遭遇ゲーム**: `46_falling_sand_dx.rb`
+- **現象**: `80x48` の `:pixel` サーフェスを `draw_surface(@surf, 0, @sy, scale: 4.0)`（および `1.0, nil, scale: 4.0`）で 4 倍拡大描画しようとしたところ、画面上では等倍（1x）サイズで描画された。
+- **回避策**: `64x38` の `:pixel` サーフェスで物理・`surface_pget`・`surface_swap`・`surface_count` を処理し、描画ループで `rectfill(px * 5, sy + py * 5, 5, 5, c)` と 5x 拡大描画することで回避した。
+- **改善要望**: `draw_surface(surf, x, y, scale: s)` および `scale_x:` / `scale_y:` のキーワード引数が `:pixel` / `:gpu` 両サーフェスで確実に拡大描画へ反映されるか確認・修正があると、低解像度ピクセルシミュレーションの拡大表示がさらに高速になる。
+
+### ② 高解像度 `:pixel` サーフェスの純 Ruby 全セル走査負荷
+- **遭遇ゲーム**: `46_falling_sand_dx.rb`
+- **現象**: `160x96`（15,360ピクセル）を毎フレーム 2 パスで `surface_pget` / `surface_swap` する純 Ruby ループを書いたところ、480フレームのヘッドレス検証（`uk check -f 480`）が数分以上かかるほど重くなった。
+- **回避策**: セル数を `64x38`（2,432セル）に抑え、2フレームに1回の更新＋最内側ループ直前でのローカル変数キャッシュを行うことで、十分な滑らかさと高速な検証時間を両立した。
+- **改善要望**: セルオートマトンや大量粒子向けに、エンジン側で「矩形領域の簡易ステップ」や「`:pixel` サーフェスの整数倍率ニアレスト拡大転送」があると、より高精細な落ち砂ゲームが容易になる。
+
+### ③ `verify_game.py` の `include?` 禁止チェックと `Array#index`
+- **遭遇ゲーム**: `43_ink_turf_arena.rb`
+- **現象**: `@unlocked.include?(w_str)` が `verify_game.py` の `strictForbidden` で検出された（`Hash#include?` 対策として `.include?` 全般が禁止されているため）。
+- **回避策**: Phase 2 で追加された `Array#index` を使い、`!@unlocked.index(w_str).nil?` と書くことで安全かつ明快に判定できた。
+
+---
+
+## 3. 今後のさらなる進化に向けた提案（Phase 4 以降に向けて）
+
+1. **サウンド / チップチューン再生（`sfx` / `music` / `tone`）**:
+   - 全50本を達成した今、次の一歩として効果音・BGM の実装が加わるだけで、既存50本の快感（砲撃・斬撃・釣り上げ・ボス撃破）が劇的に跳ね上がる。
+2. **`draw_surface` の `scale:` / `rot:` 動作確認とニアレスト補間指定**:
+   - `:pixel` サーフェスを低解像度のまま `scale: 4.0` でくっきり拡大描画できるようになると、落ち砂・流体・ミニマップ表現の幅がさらに広がる。
