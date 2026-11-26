@@ -84,3 +84,24 @@
 | 38 | [x] | `games/38_arcana_deck.rb` | **ARCANA DECK** — 日本語UI×カード発光演出で戦うデッキ構築ローグライトRPG | 640x480 | `640x480` `bg(:cave)` 自動フィット、東雲16px日本語UI、`blend(:add)` カード発光＆魔法演出、全8階層実装 |
 | 39 | [x] | `games/39_vitrail_craft.rb` | **VITRAIL CRAFT** — 多角形の色ガラスを重ねて光の模様を創るステンドグラス幾何学パズル（全10図柄＋フリー） | 256x256 | `polygonfill`+`alpha` 色ガラス混色＆鉛枠、`quadfill`+`blend(:add)` 大聖堂光条シャワー、全10図柄＋フリーアート実装 |
 | 40 | [x] | `games/40_fireworks_symphony.rb` | **FIREWORKS SYMPHONY DX** — 【26進化版】加算発光・滑らか減衰・大会演出を備えたワイド夜空の花火師 | 480x270 | `480x270` `bg(:city)` 自動フィット、`blend(:add)` 光の重なり発光＆水面反射、`polyline` 柳トレイル、6種花火＆大会モード実装 |
+
+---
+
+## Phase3 (41-50) 2026-11-26
+
+`docs/engine_feedback_phase2.md` のエンジン対応（永続セーブ `save_set`/`save_get`、オフスクリーン `:gpu` サーフェス＆`blend(:erase)` ライトマップ/永続デカール、`:pixel` サーフェス＆破壊可能地形クエリ `surface_*`、テキスト計測・整列・フチ取り `text_width`/`print_text`、2P/ゲームパッド入力・`mouse_wheel`・`show_cursor`、`Array#index`）を最大限に活かす10本（完全新作8本＋劇的進化DX続編2本）。
+Phase 3 共通設計方針として、**ゲームバランスやエンティティ仕様のパラメータは定数・マジックナンバーにせず、スクリプト冒頭の浅いハッシュテーブル（`$cfg = { ... }` 等）に集約**し、ライブ・ホットリロードでの即時調整に対応する（最内側ホットループ直前のみローカル変数へキャッシュ）。
+全10本完了後、`docs/games_showcase.md` への追記および `docs/engine_feedback_phase3.md` への振り返り整理を行う。
+
+| No. | Status | File | タイトル & コンセプト | 解像度 | 活用する新機能・設計メモ |
+| :---: | :---: | :--- | :--- | :---: | :--- |
+| 41 | [ ] | `games/41_crater_artillery.rb` | **CRATER ARTILLERY** — ピクセル地形を爆破・掘削して戦うWorms風砲撃バトル（1P全8面＋2P対戦） | 480x270 | `:pixel` サーフェス＋`blend(:erase)` 地形破壊、`surface_solid?`/`surface_raycast`、`mouse_wheel` 兵器切替、`btn(..., 1)` 2P対戦、`save_set` 進捗保存、`$cfg`/`$weapons` ハッシュ管理 |
+| 42 | [ ] | `games/42_lantern_survivors.rb` | **LANTERN SURVIVORS** — くり抜き2Dライトマップと消えない戦場痕で戦う暗黒サバイバーズ | 320x240 | `:gpu` サーフェス＋`blend(:erase)` 複数光源ライトマップ、別 `:gpu` サーフェスへの永続スライム痕・焦げ跡蓄積、`save_set` 恒久強化＆武器解放、`$cfg`/`$enemies` ハッシュ管理 |
+| 43 | [ ] | `games/43_ink_turf_arena.rb` | **INK TURF ARENA** — 床を塗って潜伏加速しリアルタイム面積％を競うスプラッシュ陣取り（1P/2P） | 320x240 | `:pixel` 床サーフェス塗り、`surface_pget` 足元インク判定、`surface_count` リアルタイム塗り率集計、`btn(..., 1)` 2P対戦/タッグ、`save_set` ブキ解放、`$cfg`/`$weapons` ハッシュ管理 |
+| 44 | [ ] | `games/44_micro_factory.rb` | **MICRO FACTORY** — コンベア配線と精錬・組立で自動生産ラインを築く工場建設シム | 480x270 | `save_set` による工場レイアウト・在庫・研究の丸ごとJSON自動保存、`mouse_wheel` 設備回転、`show_cursor(false)` 設計図カーソル、日本語 `outline` UI、`$cfg`/`$machines` ハッシュ管理 |
+| 45 | [ ] | `games/45_cyber_disc_duel.rb` | **CYBER DISC DUEL** — カーブ＆壁反射と必殺シュートで競う高速フライングディスク（1P杯/2P対戦） | 320x240 | `btn(..., 0/1)`＋`gamepad_count` 1Pカップ戦＆2Pローカル対戦、`:gpu` サーフェスのコート焦げ跡デカール、`print_text(..., :center, outline)` 演出、`save_set` 記録、`$cfg`/`$rivals` ハッシュ管理 |
+| 46 | [ ] | `games/46_falling_sand_dx.rb` | **FALLING SAND LAB DX** — 【22進化版】10元素ピクセル反応パズル（全10面）＆作品セーブ対応ラボ | 320x240 | `:pixel` サーフェス＋`surface_swap`/`surface_pget`/`surface_count`（ビーカー充填判定）、`mouse_wheel` ブラシ調整、`save_set` クリア記録＆3枠RLE作品保存、`$cfg`/`$elements` ハッシュ管理 |
+| 47 | [ ] | `games/47_picross_atelier.rb` | **PICROSS ATELIER** — ロジックを解くと動くドット絵が完成するお絵かきパズル＆永続画廊（全16作） | 480x270 | `text_width`＋`:right`/`:center` ヒント数字整列、`save_set` 途中経過オートセーブ＆全16作品の永続ギャラリー展示、`mouse_wheel` ツール切替、`$cfg`/`$puzzles` ハッシュ管理 |
+| 48 | [ ] | `games/48_fishing_odyssey_dx.rb` | **FISHING ODYSSEY DX** — 【18進化版】4海域×水中ライト演出で全20種の永続魚図鑑を埋める釣りRPG | 480x270 | `save_set` による全20種魚図鑑（最大寸・王冠）・竿強化の永続保存、夜港・深海の `:gpu` `blend(:erase)` 集魚灯ライトマップ、`mouse_wheel` リール巻き対応、`$cfg`/`$fish_db` ハッシュ管理 |
+| 49 | [ ] | `games/49_abyssal_driller.rb` | **ABYSSAL DRILLER** — 縦1600pxのピクセル地層を掘り進め1000mの最深部コアを目指す地底採掘アクション | 320x240 | 大型 `:pixel` サーフェス掘削＆落石判定（`surface_circle_solid?`）、深度に応じた `:gpu` ヘッドライト＆発煙筒ライトマップ、`save_set` ドリル・燃料恒久強化、`$cfg`/`$ores` ハッシュ管理 |
+| 50 | [ ] | `games/50_titan_colosseum.rb` | **TITAN COLOSSEUM** — 50本記念・戦場に傷跡が刻まれる全5体の巨大タイタン討伐レイド（1P/2P協力） | 480x270 | `:gpu` アリーナ永続傷跡サーフェス＋暗転フェーズ `:gpu` ライトマップ、`show_cursor(false)` 照準、`btn(..., 1)` 2P協力レイド、`save_set` Sランク＆討伐タイム保存、`$cfg`/`$titans` ハッシュ管理 |

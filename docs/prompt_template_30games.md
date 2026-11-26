@@ -109,3 +109,61 @@ Phase 2（および今後の Phase N）を新規セッションで実行する�
 - `docs/games_showcase.md` に `Phase2 (31-40)` が追記され、`docs/engine_feedback_phase2.md` が作成・コミットされていること
 - `git status` がクリーンであること
 ```
+
+---
+
+## 5. Phase 3 (41–50) 実行用 `/goal` プロンプトテンプレート
+
+新規セッションを開き、以下のブロックをそのままコピー＆ペーストして送信してください。
+
+```markdown
+/goal このリポジトリの `ROADMAP.md` にある `Phase3 (41-50) 2026-11-26` の未着手ゲーム（`[ ]`）を順番に、全10本（No.41〜50）すべて完成するまで連続で制作・検証・コミットし、最後にショーケース追記と Phase 3 フィードバック作成まで完了させてください。
+
+## 事前確認
+作業開始前に `AGENTS.md`、`ROADMAP.md`、`docs/api.md`、`docs/mrubyedge_api.md`、`docs/engine_feedback_phase2.md`、`.agents/skills/usakame-sprite/SKILL.md` を確認してください。
+また、続編DXタイトル（46, 48）を制作する際は対応する前作（`games/22_falling_sand_lab.rb`, `games/18_fishing_twilight.rb`）を参照し、新APIによって見た目・遊び心地・やり込み性が劇的に進化したことがユーザーから一目で分かる仕上がりにしてください。
+
+## Phase 3 の重視ポイント（新APIの積極活用）
+`docs/engine_feedback_phase2.md` の対応で追加・改善された以下の機能を、`ROADMAP.md` の設計メモに沿って各ゲームの核となる遊び・演出に組み込んでください：
+- **永続セーブデータ API**: `config(save_id: "...", save_salt: "...")` を必ず設定（`uk save-init` 相当の固有ID＋ソルト）し、`save_set` / `save_get` / `save_has?` / `save_clear` でハイスコア・クリア状況・図鑑・恒久強化・工場/作品データ（`Array` / `Hash`）を永続保存する
+- **オフスクリーン `:gpu` サーフェス ＆ `blend(:erase)`**: `create_surface(w, h, :gpu)`、`render_to`、`cls(nil)` / `cls(col, alpha)`、`blend(:erase)`、`draw_surface` による白飛びしない複数光源2Dライトマップや、配列肥大なしで戦場・コートに残る永続デカール表現
+- **`:pixel` サーフェス ＆ 破壊可能地形クエリ API**: `create_surface(w, h, :pixel)` と `pget` / `surface_pget` / `surface_pset` / `surface_swap` / `surface_solid?` / `surface_circle_solid?` / `surface_raycast` / `surface_count` によるクレーター破壊地形、高速落ち砂反応、インク塗り面積のリアルタイム集計
+- **テキスト計測・整列・装飾**: `text_width` / `text_height` および位置引数 `print_text(text, x, y, col, size, alpha, align, outline, shadow)`（`:center` / `:right` 整列、4近傍 `outline` フチ取り、`shadow` 影文字、解像度非依存デフォルト `8`px）による視認性の高いUI
+- **入力の拡充**: `btn(id, player)` / `btnp(id, player)`（1P＋CPUモードを基本としつつ `player = 1` の2Pキーボード `IJKL+U/O`・ゲームパッド対戦/協力にも対応）、`gamepad_count`、`mouse_wheel`、`show_cursor(false)`
+
+## 各ゲームの制作ルール
+1. **品質目標（どちらか必須、理想は両方）**:
+   - 目標1: ユーザーが実際に少なくとも5分は夢中で遊べ、セーブ機能も含めて繰り返し遊んで楽しいゲーム性
+   - 目標2: SNS などでシェアして喜ばれそうな見た目（ライトマップ・破壊地形・永続デカール・カスタムパレット高品質ドット絵・気持ちいいヒットストップ/シェイク/フラッシュ）
+2. **パラメータのハッシュテーブル管理（Phase 3 必須設計ルール）**:
+   - ゲームバランス調整値（速度・重力・クールタイム・制限時間・UI寸法等）やエンティティ仕様（武器・敵・設備・元素・魚・ボス等）は、定数（`FOO = 1`）や `initialize` 内のマジックナンバーに散らさず、**スクリプト冒頭の浅いハッシュテーブル（`$cfg = { ... }`、`$weapons = { ... }` 等、1〜2階層）に集約**すること（`uk run` のライブ・ホットリロードで保存即反映できるようにするため）。
+   - mrubyedge では `Hash#dig` / `fetch` / `key?` が未実装のため使わないこと（`has_key?` と浅い階層を使う）。
+   - 毎フレーム数千回回る最内側 `while` ループ（落ち砂や大量パーティクル等）では、ループ直前で `grav = $cfg[:gravity]` のようにローカル変数へ1回キャッシュして検索コストを避けること。
+3. **絶対制約**:
+   - **1ファイル完結**（`games/XX_<name>.rb`、外部画像不使用）
+   - **基本API（描画・Surface・Save・Text・入力）+ `bg()` + スプライトのみ**を使用
+   - **タイルマップ（`map`, `mget`, `mset`, `mdel`, `mclear`, `@MAP`）とサウンド（`sfx`, `music`, `play`, `tone`, `@SFX`, `@MUSIC`）は一切使用しない**
+   - **mrubyedge ＆ 描画API鉄則**:
+     - 描画API（`line`, `rect`, `print_text` 等）はキーワード引数非対応のため、すべて**位置引数**で渡す（`bg()`・`run()`・`config()`・`draw_surface()` のみキーワード引数可）
+     - 未実装メソッド（`sample`, `shuffle`, `reverse`, `delete`, `key?`, `include?`, `fetch`, `dig`, `gsub`, `sub`, `even?`, `odd?`, `upto`, `downto`, `fill`）およびブロック引数の配列展開（`each do |a, b|`）を使わない（`Array#index` は使用可）
+     - `.each` ループ中に同じ配列へ `<<` しない、`attr_accessor` / `attr_reader` は1行6シンボル以下、Ruby側メソッドへのハッシュ引数は明示的 `({ ... })`、クラス継承/`super` 不使用
+     - `set_target(nil)`（または `render_to` ブロック）・`camera()`・`clip()`・`blend(:normal)` は HUD 描画前に必ずリセットする
+4. **1本完成ごとの必須検証＆自動コミット（許可待ちせず自動進行）**:
+   - `pwsh -NoProfile -File scripts/verify_game.ps1 games/<file>.rb` を実行し、終了コード 0 を確認する
+   - `uk run games/<file>.rb -s tmp/preview.png -f 60`（タイトル確認用）と `uk run games/<file>.rb -s images/<file>.png -f 180 -g`（ギャラリー保存用）でスクリーンショットを撮影し、`read_file` で目視確認する（UI被り・文字切れ・スプライト崩れ・ブレンド/ターゲット戻し忘れがあれば修正して再検証）
+   - `ROADMAP.md` の該当行を `[x]` に更新し、簡潔な実装メモを追記する
+   - `git add` と `git commit` は連結せず**別々の単独コマンド**で実行し、1本ごとに即コミット（`feat(games): add <file> - <Title>`）して休まず次の未着手ゲームへ進む
+
+## 全10本完了後の仕上げタスク
+1. **`docs/games_showcase.md` の更新**:
+   - 末尾に `## Phase3 (41-50) 2026-11-26` 見出しを追加し、No.41〜50 の全10本について画像リンク（`../images/<file>.png`）、おすすめポイント、新API＆ハッシュ設計の工夫点を追記する。
+2. **`docs/engine_feedback_phase3.md` の新規作成**:
+   - Phase 3（41〜50）の制作を通して判明した、新API（`save_set`、`:gpu`/`:pixel` サーフェス、`blend(:erase)`、`text_width`/`outline`、2P/ホイール/`show_cursor`、ハッシュテーブルによるホットリロード調整等）の使用感・良かった点・新たに踏んだ制約や今後の改善要望を `docs/engine_feedback_phase2.md` と同等の構成でまとめる。
+3. **仕上げのコミット**:
+   - `docs/games_showcase.md` と `docs/engine_feedback_phase3.md` をコミットする（`git add` と `git commit` は単独コマンドで実行）。
+
+## 完了条件
+- `ROADMAP.md` の `Phase3 (41-50) 2026-11-26`（No.41〜50）がすべて `[x]` になり、全10本と `images/41_*.png`〜`images/50_*.png` が検証済みかつ1本ごとにコミットされていること
+- `docs/games_showcase.md` に `Phase3 (41-50) 2026-11-26` が追記され、`docs/engine_feedback_phase3.md` が作成・コミットされていること
+- `git status` がクリーンであること
+```

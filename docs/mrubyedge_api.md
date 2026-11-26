@@ -31,6 +31,7 @@ mrubyedge は WASM や組み込み向けの軽量 Ruby 実行環境です。CRub
 | `sleep(sec)` | 未実装 | ゲームループ内のフレームカウンタやタイマー変数で管理 |
 | `Time.now` | 未実装 | フレーム数（毎フレーム `update` 呼び出しでカウント）で経過時間を計測 |
 | `eval`, `require`, `load` | 未実装 | 単一ファイル構成、または Usakame の `read_file` ＋自前パース |
+| `[[a, b]].each do \|x, y\|` | ブロック引数の配列展開非対応 | `each do \|pair\| x = pair[0]; y = pair[1]` のように1引数で受けて添字アクセス |
 
 ---
 
@@ -96,6 +97,7 @@ mrubyedge は WASM や組み込み向けの軽量 Ruby 実行環境です。CRub
   * `arr.empty?` : 空配列か判定
   * `arr.size`, `arr.length` : 配列の要素数
   * `arr.include?(item)` : 要素が含まれるか判定
+  * `arr.index(item)`, `arr.find_index(item)` : 最初に一致する要素のインデックスを返す（見つからない場合は `nil`。値指定のみ対応）
 * **集合演算・変換**
   * `arr & other` : 積集合
   * `arr | other` : 和集合
@@ -116,6 +118,7 @@ mrubyedge は WASM や組み込み向けの軽量 Ruby 実行環境です。CRub
 
 > [!WARNING]
 > `Array#sample`, `Array#shuffle`, `Array#reverse`, `Array#delete(val)` は**存在しません**。上記の「最重要：よくある未定義メソッド」を参照してください。
+> また、`[[a, b]].each do |x, y|` のような**ブロック引数の配列展開（Destructuring）には非対応**です（`x` に配列がそのまま入り `y` が `nil` になります）。`each do |pair| x = pair[0]; y = pair[1]` のように1引数で受けてください。
 
 ---
 
