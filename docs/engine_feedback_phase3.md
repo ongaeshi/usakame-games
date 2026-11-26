@@ -105,3 +105,8 @@ Phase 2（`docs/engine_feedback_phase2.md`）で対応された新API（永続�
 - **提案**:
   - **人間向け即試聴**: `uk sfx game.rb :explode` や `uk sfx "wave:square freq:440->110 dur:0.2"` でゲーム起動なしに即再生（保存即再生のウォッチ対応があるとさらに快適）。
   - **エージェント向け検証**: 再生時間・Peak/RMS・クリッピング有無のテキストサマリ出力、および SFX 用の波形（エンベロープ）PNG 出力（`-s tmp/sfx_wave.png`）・BGM 用のチャンネル別サマリ／ピアノロール出力により、無音バグ・音割れ・ループ長ズレを自動検知できる。
+
+### ③ 将来のエディタ統合を見据えた CLI サブコマンド体系（`uk edit` / `uk preview`）
+- 将来的に GUI エディタをワンウィンドウ統合する見通しを踏まえ、CLI は「編集系」と「非対話プレビュー・ダンプ系」を動詞で分けてサブコマンド化しておくと綺麗に拡張できる：
+  - **`uk edit <kind>`（インタラクティブ編集・将来ワンウィンドウ統合）**: `uk edit spr game.rb` / `uk edit map game.rb` / `uk edit sfx game.rb` を提供し、将来ワンウィンドウ統合後も `uk edit game.rb`（全体）および `uk edit spr game.rb`（スプライトタブを初期選択）として後方互換を維持できる。
+  - **`uk preview <kind>`（または `uk view`：非対話プレビュー・画像/数値ダンプ）**: `uk preview spr game.rb [-s out.png]`、`uk preview sfx game.rb [:boom]`、`uk preview map game.rb [-s map.png]` のように、ゲームループを回さず人間・AI・CI が高速にアセットを確認・検証できる軽量コマンドとして独立させる。
