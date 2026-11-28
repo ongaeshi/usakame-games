@@ -116,7 +116,7 @@ Phase 3 に引き続き、**ゲームバランスやエンティティ仕様の�
 
 | No. | Status | File | タイトル & コンセプト | 解像度 | 活用する新機能・設計メモ |
 | :---: | :---: | :--- | :--- | :---: | :--- |
-| 51 | [ ] | `games/51_crypt_of_the_beat.rb` | **CRYPT OF THE BEAT** — BGMのビートに合わせて動き戦うリズム・ローグライトダンジョン | 320x240 | `@MUSIC` BPM同期移動＆攻撃判定、連続ビート成功で `sfx(..., pitch)` 音階上昇、キック連動 `:gpu` `blend(:erase)` 松明ライトマップ、`save_set` 武器解放、`$cfg`/`$enemies` ハッシュ管理 |
+| 51 | [x] | `games/51_crypt_of_the_beat.rb` | **CRYPT OF THE BEAT** — BGMのビートに合わせて動き戦うリズム・ローグライトダンジョン | 320x240 | `@MUSIC` 3曲（通常120BPM/ボス150BPM）同期移動＆攻撃、連続ビート `sfx(..., pitch)` 音階上昇、`:gpu` `blend(:erase)` 松明ライトマップ＆床デカール、全5階層＋4種武器永続解放（`save_set`）、`$cfg`/`$weapons`/`$enemies` ハッシュ管理 |
 | 52 | [ ] | `games/52_echo_cavern.rb` | **ECHO CAVERN** — 3種の遺物能力を獲得して深淵遺跡を拓く探索型ミニ・メトロイドヴァニア | 320x240 | 横スクロール連結マップ探索（2段ジャンプ・音波砲・フェーズダッシュ）、エリア別 `@MUSIC` 切替、`draw_surface(..., scale: 3.0)` ライブミニマップ、`:gpu` 遺跡ライトマップ、`save_set` 進行保存 |
 | 53 | [ ] | `games/53_chrono_clone_lab.rb` | **CHRONO CLONE LAB** — 過去の自分の行動と音を録音・同時再生して解く時間クローン協力パズル（全10面） | 480x270 | 6秒行動録画＆多重半透明ゴースト再生、`tone` テープ巻き戻しスイープ音、クローン別ピッチ `@SFX`、レーザー＆圧力スイッチ機構、`save_set` 最少クローン★記録、`$cfg`/`$stages` ハッシュ管理 |
 | 54 | [ ] | `games/54_aether_tide_command.rb` | **AETHER TIDE COMMAND** — 押し寄せる侵食流体を砲台と浄化塔で押し返す流体セルオートマトンRTS（全8面） | 480x270 | `96x54` `:pixel` 流体シミュレーションを `draw_surface(..., scale: 4.0)` で高速拡大描画、中継塔エネルギー網、`@SFX` 浄化パルス＆`@MUSIC` 戦術BGM、`mouse_wheel` 設備切替、`save_set` 戦績保存 |
