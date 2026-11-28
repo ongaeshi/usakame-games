@@ -283,3 +283,57 @@
 ![50_titan_colosseum](../images/50_titan_colosseum.png)
 - **おすすめポイント**: 50本記念・戦場の傷跡が最後まで残る全5体の32x32巨大タイタン討伐ボスラッシュ（1Pソロ / 2P協力レイド）。
 - **工夫点（新API＆ハッシュ設計）**: `:gpu` アリーナ永続傷跡サーフェス＋暗転フェーズ `:gpu` ライトマップ、`show_cursor(false)` カスタム照準、`btn(..., 1)` 2P協力、`save_set` Sランク＆最速タイム保存、`$cfg`/`$titans` ハッシュ管理。
+
+---
+
+## Phase4 (51-60) 2026-11-29
+
+### 51. CRYPT OF THE BEAT (`games/51_crypt_of_the_beat.rb`)
+![51_crypt_of_the_beat](../images/51_crypt_of_the_beat.png)
+- **おすすめポイント**: BGMのビートに合わせて移動・攻撃し、グルーヴ倍率と音階上昇を繋いでB5Fの魔王コンダクターを討つリズム・ローグライトダンジョン。
+- **工夫点（新API＆ハッシュ設計）**: `@MUSIC` 3曲（通常120BPM/ボス150BPM）とビート判定の完全同期、連続ビート成功時の `sfx(:beat_ok, -1, vol, pitch)` 音階上昇、`:gpu` `blend(:erase)` 松明ライトマップ＆床デカール、`save_set` 4種武器解放、`$cfg`/`$weapons`/`$enemies` ハッシュ管理。
+
+### 52. ECHO CAVERN (`games/52_echo_cavern.rb`)
+![52_echo_cavern](../images/52_echo_cavern.png)
+- **おすすめポイント**: 3種の遺物（2段ジャンプ・音波砲・フェーズダッシュ）を獲得しながら4x3連結12部屋の深淵遺跡を拓く探索型ミニ・メトロイドヴァニア。
+- **工夫点（新API＆ハッシュ設計）**: エリア移動に連動した4曲 `@MUSIC` 動的切替、`draw_surface(@minimap, ..., scale: 3.0)` による20x12ライブミニマップのくっきり拡大表示、`:gpu` 遺跡ライトマップ、`save_set` クリア＆シャード記録、`$cfg`/`$areas`/`$relics`/`$enemies` ハッシュ管理。
+
+### 53. CHRONO CLONE LAB (`games/53_chrono_clone_lab.rb`)
+![53_chrono_clone_lab](../images/53_chrono_clone_lab.png)
+- **おすすめポイント**: 最大4体の過去の自分の動きと音を6秒間録音・同時再生し、スイッチ踏みやレーザー遮断を連携して解く時間クローンパズル（全10面）。
+- **工夫点（新API＆ハッシュ設計）**: 多重半透明ゴースト再生とクローン番号別ピッチ `sfx(:jump, ..., pitch)` のセッション演出、`tone` によるテープ巻き戻しスイープ音、`save_set` 最少クローン★評価、`$cfg`/`$stages` ハッシュ管理。
+
+### 54. AETHER TIDE COMMAND (`games/54_aether_tide_command.rb`)
+![54_aether_tide_command](../images/54_aether_tide_command.png)
+- **おすすめポイント**: 迫り来る侵食流体（Aether Tide）を中継塔・砲台・浄化塔のエネルギー網で押し返し、侵食源を封印する流体セルオートマトンRTS（全8面）。
+- **工夫点（新API＆ハッシュ設計）**: `96x54` `:pixel` 流体シミュレーションを `draw_surface(..., scale: 4.0)` で384x216pxに高速拡大描画、`@SFX` 浄化パルス＆`@MUSIC` 戦術BGM、`mouse_wheel` 4種設備切替、`save_set` 戦績保存、`$cfg`/`$towers`/`$stages` ハッシュ管理。
+
+### 55. CYBER PUNCH CHAMPS (`games/55_cyber_punch_champs.rb`)
+![55_cyber_punch_champs](../images/55_cyber_punch_champs.png)
+- **おすすめポイント**: 敵の予備動作と固有の予兆シンセ音を聴き分けて左右スウェーでかわし、スターカウンターKOを狙う3D視点風ネオンボクシング（全5戦）。
+- **工夫点（新API＆ハッシュ設計）**: `48x48` 6フレーム大型 `@SPRITE` ボクサー（`uk spr` 検証）とパレットスワップ、技別予兆 `@SFX`・ゴング `:bell`・歓声ノイズ、`@MUSIC` 入場＆試合曲、`save_set` チャンピオンベルト＆最速KO記録、`$cfg`/`$champs` ハッシュ管理。
+
+### 56. SYNTH GROOVEBOX DX (`games/56_synth_groovebox_dx.rb`)
+![56_synth_groovebox_dx](../images/56_synth_groovebox_dx.png)
+- **おすすめポイント**: 29作目の正統DX進化版。4ch×16ステップのチップチューン作曲とスケール固定XYパッド生演奏が楽しめる実用DAWトイ。
+- **工夫点（新API＆ハッシュ設計）**: `tone` 8波形シーケンサー＆3種スケールXYパッド、`@SFX` 3種ドラムキット、`master_vol`/`sfx_vol` ミキサー、音反応 `:gpu` オシロスコープ＆3DワープトンネルVJ、`save_set` 4スロット作曲永続保存。
+
+### 57. CHROMA CHAIN DUEL (`games/57_chroma_chain_duel.rb`)
+![57_chroma_chain_duel](../images/57_chroma_chain_duel.png)
+- **おすすめポイント**: 4連結消去と重力多段連鎖で相手にお邪魔ジェムを送り込む、ハイスピード落ち物連鎖パズルバトル（1P VS CPU / 2Pローカル対戦）。
+- **工夫点（新API＆ハッシュ設計）**: 連鎖数に応じた `sfx(:bell, -1, 0.88, pitch)` の音階上昇、ピンチ時の高速 `:pinch_bgm` 動的切替、`btn(..., 1)` 2P対戦対応、`blend(:add)` 連鎖雷エフェクト、`save_set` 段位・最大連鎖記録、`$cfg`/`$rivals` ハッシュ管理。
+
+### 58. HYPER RAIL EXPRESS (`games/58_hyper_rail_express.rb`)
+![58_hyper_rail_express](../images/58_hyper_rail_express.png)
+- **おすすめポイント**: 分岐器を瞬時に切り替えて赤・青・緑・黄の列車を衝突させず同じ色の駅へ導くリアルタイム鉄道運行パズル（全10ダイヤ＋無限）。
+- **工夫点（新API＆ハッシュ設計）**: `tone`/`@SFX` による汽笛・ポイント切替音・発車メロディ・走行リズム音、夜間ダイヤでの `:gpu` 扇形前照灯ライトマップ、`mouse_wheel` 速度制御(1x-3x)、`save_set` ダイヤ★評価＆無限ベスト、`$cfg`/`$timetables` ハッシュ管理。
+
+### 59. CYBER PINBALL SYMPHONY DX (`games/59_cyber_pinball_dx.rb`)
+![59_cyber_pinball_dx](../images/59_cyber_pinball_dx.png)
+- **おすすめポイント**: 09作目の正統DX進化版。ワイド筐体にDMD電光掲示板・回転ルーレット・マルチボールBGM切替を備えたサイバーピンボール。
+- **工夫点（新API＆ハッシュ設計）**: バンパー連続ヒット `sfx(:bumper, ..., pitch)` 音階上昇、マルチボール突入時の `:multiball_bgm` 動的切替、`draw_surface(..., rot:, scale:)` 中央回転ルーレット、ボール軌跡 `polyline` + `blend(:add)`、`save_set` ハイスコア保存、`$cfg`/`$bumpers` ハッシュ管理。
+
+### 60. CELESTIAL ODYSSEY (`games/60_celestial_odyssey.rb`)
+![60_celestial_odyssey](../images/60_celestial_odyssey.png)
+- **おすすめポイント**: 60本記念・地上界と森・闇・炎の3つの神殿を巡り、剣・弓・爆弾を駆使して魔王を討つ見下ろし型アクションRPG。
+- **工夫点（新API＆ハッシュ設計）**: 爆弾による `:pixel` ヒビ壁破壊、暗闇神殿＆魔王城の `:gpu` ライトマップ、`draw_surface(@minimap, ..., scale: 3.0)` ライブミニマップ、エリア/ボス別4曲 `@MUSIC`、日本語 `outline` UI、`save_set` 冒険セーブ＆剣強化、`$cfg`/`$zones`/`$enemies` ハッシュ管理。
