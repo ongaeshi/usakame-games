@@ -1,6 +1,8 @@
-# Usakame Engine & mrubyedge 開発フィードバック・改善要望メモ
+# Usakame Engine & mrubyedge 開発フィードバック・改善要望メモ（Phase 1: No.01–30）
 
-全30本のゲームを1ファイル完結（基本API + `bg()` + `@SPRITE` + キーボード/マウス）で連続制作する中で判明した、**実際に困った点・ハマりやすい仕様・改善してほしいポイント**をまとめました。
+Phase 1 で全30本のゲームを1ファイル完結（基本API + `bg()` + `@SPRITE` + キーボード/マウス）で連続制作する中で判明した、**実際に困った点・ハマりやすい仕様・改善してほしいポイント**をまとめました。
+
+> **他フェーズのフィードバック**: [Phase 2 (No.31–40)](engine_feedback_phase2.md) / [Phase 3 (No.41–50)](engine_feedback_phase3.md) / [Phase 4 (No.51–60)](engine_feedback_phase4.md)
 
 ---
 

@@ -1,6 +1,6 @@
-# Usakame 30 Games — 工夫点・おすすめポイントまとめ
+# Usakame Games Showcase — 工夫点・おすすめポイントまとめ
 
-`ROADMAP.md` に沿って制作した全30タイトルの遊びどころ、技術的な工夫点、スクリーンショット映えポイントをカテゴリ別にまとめています。
+`ROADMAP.md` に沿って制作した Phase 1〜4 の全60タイトル（＋Ver.2 リメイク2本）の遊びどころ、技術的な工夫点、スクリーンショット映えポイントをまとめています。
 
 ---
 
@@ -10,6 +10,11 @@
 ![01_grapple_ascent](../images/01_grapple_ascent.png)
 - **おすすめポイント**: 1ボタン（`Z` / クリック）で最も有利な上方アンカーを自動ターゲットし、振り子物理の遠心力を活かして溶岩から逃げ切る爽快な縦登りアクション。
 - **工夫点**: 黄色い「ブーストアンカー」に触れた瞬間の自動大ジャンプ＋ヒットストップ、速度に応じた残像トレイル、溶岩から立ち昇る火花パーティクル、シェイク時の `:cave` 背景スケーリング（`scale: 1.04`）による黒隙間防止。
+
+### 01 (Ver.2). GRAPPLE ASCENT VER.2 (`games/01_grapple_ascent_ver2.rb`)
+![01_grapple_ascent_ver2](../images/01_grapple_ascent_ver2.png)
+- **おすすめポイント**: 01作目を最新APIで全面刷新した完全版。ロープの巻き取り・伸ばし（`↑`/`↓`）や離した瞬間のリリースブーストを加え、高度に応じて変化する4ゾーン（`MAGMA DEPTHS`〜`SOLAR SPIRE`）を駆け上がる。
+- **工夫点（Ver.2強化）**: `@PALETTE 1〜3` の4層シェーディングスプライト（クライマー・アンカー・壁松明・溶岩）、`:gpu` サーフェス＋`blend(:add)` による多段ソフトライトマップ、3曲の `@MUSIC`（溶岩接近時の `:pinch_bgm` 動的切替）＆12種 `@SFX`、`save_set` による最高高度・スコア・コンボ記録保存。
 
 ### 02. PARRY DOJO (`games/02_parry_dojo.rb`)
 ![02_parry_dojo](../images/02_parry_dojo.png)
@@ -297,6 +302,11 @@
 ![52_echo_cavern](../images/52_echo_cavern.png)
 - **おすすめポイント**: 3種の遺物（2段ジャンプ・音波砲・フェーズダッシュ）を獲得しながら4x3連結12部屋の深淵遺跡を拓く探索型ミニ・メトロイドヴァニア。
 - **工夫点（新API＆ハッシュ設計）**: エリア移動に連動した4曲 `@MUSIC` 動的切替、`draw_surface(@minimap, ..., scale: 3.0)` による20x12ライブミニマップのくっきり拡大表示、`:gpu` 遺跡ライトマップ、`save_set` クリア＆シャード記録、`$cfg`/`$areas`/`$relics`/`$enemies` ハッシュ管理。
+
+### 52 (Ver.2). ECHO CAVERN VER.2 (`games/52_echo_cavern_ver2.rb`)
+![52_echo_cavern_ver2](../images/52_echo_cavern_ver2.png)
+- **おすすめポイント**: 52作目を6パレット専用スプライト＆地形タイルアートで大幅リッチ化した完全版。4エリア（`MOSSY ENTRY`〜`CORE SANCTUM`）の質感と探索・ボス戦の臨場感が向上。
+- **工夫点（Ver.2強化）**: `@PALETTE 1〜6` の役割別カラーパレットと地形タイル6種（`:tile_stone` / `:tile_moss` / `:tile_crystal` / `:tile_phase` 等）・`:shard`・`:heart_vessel` スプライト追加、`:pinch_bgm` を含む5曲 `@MUSIC` 動的切替＆17種 `@SFX`、`:gpu` 4段階フェザーライトマップ演出。
 
 ### 53. CHRONO CLONE LAB (`games/53_chrono_clone_lab.rb`)
 ![53_chrono_clone_lab](../images/53_chrono_clone_lab.png)
