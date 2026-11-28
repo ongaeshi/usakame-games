@@ -34,7 +34,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -144,18 +144,18 @@ class GameScene
     @t += 1
     if @dead
       @dead_timer += 1
-      if @dead_timer > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @dead_timer > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         run GameScene.new
       end
       return
     end
 
     # キー操作
-    @cur_slot = (@cur_slot - 1) % @slots.size if btnp(0)
-    @cur_slot = (@cur_slot + 1) % @slots.size if btnp(1)
-    @cur_slot = (@cur_slot + 6) % @slots.size if btnp(2) || btnp(3)
-    @sel_type = (@sel_type + 1) % TOWER_TYPES.size if btnp(5)
-    build_or_upgrade(@cur_slot) if btnp(4)
+    @cur_slot = (@cur_slot - 1) % @slots.size if btnp(:left)
+    @cur_slot = (@cur_slot + 1) % @slots.size if btnp(:right)
+    @cur_slot = (@cur_slot + 6) % @slots.size if btnp(:up) || btnp(:down)
+    @sel_type = (@sel_type + 1) % TOWER_TYPES.size if btnp(2)
+    build_or_upgrade(@cur_slot) if btnp(1)
 
     # マウス操作
     if btnp(:mouse_l)

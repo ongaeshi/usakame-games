@@ -8,8 +8,8 @@
 #   ↑ / W           : アクセル
 #   ↓ / S           : ブレーキ / バック
 #   ← / → (A / D)   : ステアリング（タイトルでコース選択）
-#   Z / Space       : ドリフト（離すとターボ加速！）
-#   X / Enter       : タイトルへ戻る / ナイトモード切替
+#   Z       : ドリフト（離すとターボ加速！）
+#   X       : タイトルへ戻る / ナイトモード切替
 # ==============================================================================
 
 config(
@@ -160,15 +160,15 @@ class DriftCircuitDX
     @frame += 1
 
     if @state == :title
-      if btnp(0)
+      if btnp(:left)
         @course_idx = (@course_idx - 1) % COURSES.size
         @night_override = nil
-      elsif btnp(1)
+      elsif btnp(:right)
         @course_idx = (@course_idx + 1) % COURSES.size
         @night_override = nil
-      elsif btnp(5)
+      elsif btnp(2)
         @night_override = !is_night?
-      elsif @frame > 5 && (btnp(4) || btnp(:mouse_l))
+      elsif @frame > 5 && (btnp(1) || btnp(:mouse_l))
         reset_race
         @state = :race
       end
@@ -177,15 +177,15 @@ class DriftCircuitDX
 
     if @finished
       @finish_t += 1
-      if @finish_t > 20 && (btnp(4) || btnp(:mouse_l))
+      if @finish_t > 20 && (btnp(1) || btnp(:mouse_l))
         reset_race
-      elsif btnp(5)
+      elsif btnp(2)
         @state = :title
       end
       return
     end
 
-    if btnp(5)
+    if btnp(2)
       @state = :title
       return
     end
@@ -197,12 +197,12 @@ class DriftCircuitDX
 
     # ハンドル・アクセル・ドリフト
     steer = 0.0
-    steer -= 1.0 if btn(0)
-    steer += 1.0 if btn(1)
+    steer -= 1.0 if btn(:left)
+    steer += 1.0 if btn(:right)
     accel = 0.0
-    accel += 1.0 if btn(2)
-    accel -= 0.6 if btn(3)
-    drifting = btn(4) && @speed > 1.2
+    accel += 1.0 if btn(:up)
+    accel -= 0.6 if btn(:down)
+    drifting = btn(1) && @speed > 1.2
 
     turn_rate = drifting ? 0.072 : 0.052
     @ang += steer * turn_rate * (@speed >= 0.0 ? 1.0 : -1.0)

@@ -8,7 +8,7 @@
 #   ↑ / W           : アクセル
 #   ↓ / S           : ブレーキ / バック
 #   ← / → (A / D)   : ステアリング
-#   Z / Space       : ドリフト (離すとスパーク量に応じてターボ加速!)
+#   Z       : ドリフト (離すとスパーク量に応じてターボ加速!)
 # ==============================================================================
 
 config(
@@ -141,7 +141,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -166,7 +166,7 @@ class TitleScene
     rect(24, 106, 208, 64, 5)
     print_text("UP/W: GAS   DOWN/S: BRAKE", 36, 115, 7)
     print_text("LEFT/RIGHT: STEER", 36, 128, 7)
-    print_text("HOLD Z/SPACE: DRIFT -> BOOST!", 36, 141, 12)
+    print_text("HOLD Z: DRIFT -> BOOST!", 36, 141, 12)
     if $drift_best_time
       print_text("BEST 3-LAP: #{fmt_time($drift_best_time)}", 56, 155, 10)
     end
@@ -215,7 +215,7 @@ class GameScene
 
     if @finished
       @finish_timer += 1
-      if @finish_timer > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @finish_timer > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         run GameScene.new
       end
       return
@@ -226,19 +226,19 @@ class GameScene
     # ステアリング & ドリフト
     turn_rate = 0.055
     was_drift = @drifting
-    @drifting = btn(4)
+    @drifting = btn(1)
 
     if @drifting
       turn_rate = 0.085
     end
 
-    @ang -= turn_rate if btn(0)
-    @ang += turn_rate if btn(1)
+    @ang -= turn_rate if btn(:left)
+    @ang += turn_rate if btn(:right)
 
     spd = sqrt(@vx * @vx + @vy * @vy)
 
     # ドリフトチャージ & 火花
-    if @drifting && spd > 1.2 && (btn(0) || btn(1))
+    if @drifting && spd > 1.2 && (btn(:left) || btn(:right))
       @drift_charge += 1
       if @t % 2 == 0
         @skids << { x: @px.to_i, y: @py.to_i, life: 90 }
@@ -262,8 +262,8 @@ class GameScene
 
     # アクセル
     accel = 0.0
-    accel += 0.13 if btn(2)
-    accel -= 0.08 if btn(3)
+    accel += 0.13 if btn(:up)
+    accel -= 0.08 if btn(:down)
     if @boost_timer > 0
       @boost_timer -= 1
       accel += 0.16

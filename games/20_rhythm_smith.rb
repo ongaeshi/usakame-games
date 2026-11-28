@@ -5,7 +5,7 @@
 # 256x256 / 1ファイル完結 / 基本API + BG + スプライト専用
 #
 # 【操作方法】
-#   Z / Space / 左クリック : リングが重なる瞬間にハンマー打撃!
+#   Z / 左クリック : リングが重なる瞬間にハンマー打撃!
 # ==============================================================================
 
 config(
@@ -36,7 +36,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -57,7 +57,7 @@ class TitleScene
 
     rectfill(24, 78, 208, 56, 0)
     rect(24, 78, 208, 56, 5)
-    print_text("Z / SPACE / CLICK : STRIKE ANVIL", 32, 88, 10)
+    print_text("Z / CLICK : STRIKE ANVIL", 32, 88, 10)
     print_text("FORGE 5 LEGENDARY BLADES!", 32, 102, 7)
     if $smith_best > 0
       print_text("HIGH SCORE: #{$smith_best}", 74, 117, 11)
@@ -132,7 +132,7 @@ class GameScene
 
     if @finished
       @fin_timer += 1
-      if @fin_timer > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @fin_timer > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         run GameScene.new
       end
       return
@@ -157,7 +157,7 @@ class GameScene
     b = BLADES[@blade_idx]
     @ring_r -= b[:spd]
 
-    if btnp(4) || btnp(5) || btnp(:mouse_l)
+    if btnp(1) || btnp(2) || btnp(:mouse_l)
       @hammer_t = 10
       diff = (@ring_r - TARGET_R).abs
       if diff <= 5.5

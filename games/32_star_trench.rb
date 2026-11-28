@@ -5,9 +5,9 @@
 # 320x240 / 1ファイル完結 / 基本API + bg() + キーボード入力
 #
 # 【操作方法】
-#   矢印キー / WASD : 自機操縦（上下左右）
-#   Z / Space       : ツインレーザー連射
-#   X / Enter       : バレルロール＆ロックオンミサイル発射
+#   矢印キー : 自機操縦（上下左右）
+#   Z       : ツインレーザー連射
+#   X       : バレルロール＆ロックオンミサイル発射
 # ==============================================================================
 
 config(
@@ -115,7 +115,7 @@ class StarTrenchGame
 
     if @state == :title
       @dist += 1.4
-      if @frame > 5 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @frame > 5 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         reset_game
         @state = :play
       end
@@ -124,7 +124,7 @@ class StarTrenchGame
 
     if @state == :gameover
       @dist += 0.6
-      if btnp(4) || btnp(5) || btnp(:mouse_l)
+      if btnp(1) || btnp(2) || btnp(:mouse_l)
         reset_game
         @state = :play
       end
@@ -144,10 +144,10 @@ class StarTrenchGame
     # 移動入力
     ax = 0.0
     ay = 0.0
-    ax -= 1.0 if btn(0)
-    ax += 1.0 if btn(1)
-    ay -= 1.0 if btn(2)
-    ay += 1.0 if btn(3)
+    ax -= 1.0 if btn(:left)
+    ax += 1.0 if btn(:right)
+    ay -= 1.0 if btn(:up)
+    ay += 1.0 if btn(:down)
 
     @vx = @vx * 0.78 + ax * 1.45
     @vy = @vy * 0.78 + ay * 1.15
@@ -159,16 +159,16 @@ class StarTrenchGame
       @roll_t -= 1
     end
 
-    # 通常レーザー (Z / Space)
+    # 通常レーザー (Z)
     @fire_cd -= 1 if @fire_cd > 0
-    if btn(4) && @fire_cd <= 0
+    if btn(1) && @fire_cd <= 0
       @fire_cd = 6
       @lasers << { x: @px - 10.0, y: @py + 2.0, z: 18.0, vz: 10.5 }
       @lasers << { x: @px + 10.0, y: @py + 2.0, z: 18.0, vz: 10.5 }
     end
 
-    # バレルロール + ホーミングミサイル (X / Enter)
-    if btnp(5) && @energy >= 30.0
+    # バレルロール + ホーミングミサイル (X)
+    if btnp(2) && @energy >= 30.0
       @energy -= 30.0
       @roll_t = 22
       @invuln = 24
@@ -670,7 +670,7 @@ class StarTrenchGame
 
     rectfill(56, 158, 208, 54, 0, 0.78)
     rect(56, 158, 208, 54, 6, 1)
-    print_text("ARROWS/WASD : STEER", 103, 167, 7, 8)
+    print_text("ARROWS : STEER", 103, 167, 7, 8)
     print_text("Z:LASER   X:HOMING ROLL", 91, 180, 12, 8)
     print_text("PRESS Z OR CLICK TO LAUNCH", 82, 195, 10, 8)
   end

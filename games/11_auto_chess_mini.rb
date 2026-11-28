@@ -42,7 +42,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -321,7 +321,7 @@ class GameScene
     @t += 1
     if @dead
       @dead_timer += 1
-      if @dead_timer > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @dead_timer > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         run GameScene.new
       end
       return
@@ -341,16 +341,16 @@ class GameScene
 
     if @phase == :prep
       # キーボード操作
-      @cur_gx = (@cur_gx - 1) % 4 if btnp(0)
-      @cur_gx = (@cur_gx + 1) % 4 if btnp(1)
-      @cur_gy = (@cur_gy == 2 ? 3 : 2) if btnp(2) || btnp(3)
+      @cur_gx = (@cur_gx - 1) % 4 if btnp(:left)
+      @cur_gx = (@cur_gx + 1) % 4 if btnp(:right)
+      @cur_gy = (@cur_gy == 2 ? 3 : 2) if btnp(:up) || btnp(:down)
 
-      if btnp(5)
+      if btnp(2)
         start_battle
         return
       end
 
-      if btnp(4)
+      if btnp(1)
         # カーソル位置にユニットがいれば選択/移動、なければショップ購入
         idx = find_unit_at(@cur_gx, @cur_gy)
         if @selected_idx

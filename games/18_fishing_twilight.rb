@@ -5,7 +5,7 @@
 # 256x256 / 1ファイル完結 / 基本API + BG + スプライト専用
 #
 # 【操作方法】
-#   Z / Space / 左クリック : キャスト / ヒット時フッキング / 長押しリール巻取り
+#   Z / 左クリック : キャスト / ヒット時フッキング / 長押しリール巻取り
 #   B / X                  : 魚図鑑 (BOOK) 表示切替
 # ==============================================================================
 
@@ -71,7 +71,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -171,14 +171,14 @@ class GameScene
     end
     @popups.reject! { |pp| pp[:life] <= 0 }
 
-    if btnp(5)
+    if btnp(2)
       @show_book = !@show_book
       return
     end
     return if @show_book
 
-    action_press = btnp(4) || btnp(:mouse_l)
-    action_hold = btn(4) || btn(:mouse_l)
+    action_press = btnp(1) || btnp(:mouse_l)
+    action_hold = btn(1) || btn(:mouse_l)
 
     if @state == :idle
       if action_press

@@ -5,8 +5,8 @@
 # 256x256 / 1ファイル完結 / 基本API + BG + スプライト専用
 #
 # 【操作方法】
-#   ← / → / ↑ / ↓ (WASD) : 展示室内を歩く
-#   Z / Space / クリック   : 展示パネルの詳細を見る / 祝砲クラッカー
+#   ← / → / ↑ / ↓  : 展示室内を歩く
+#   Z / クリック   : 展示パネルの詳細を見る / 祝砲クラッカー
 # ==============================================================================
 
 config(
@@ -38,7 +38,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -93,19 +93,19 @@ class GameScene
   def update
     @t += 1
     spd = 2.0
-    if btn(0)
+    if btn(:left)
       @px -= spd; @facing_left = true
     end
-    if btn(1)
+    if btn(:right)
       @px += spd; @facing_left = false
     end
-    @py -= spd if btn(2)
-    @py += spd if btn(3)
+    @py -= spd if btn(:up)
+    @py += spd if btn(:down)
 
     @px = clamp_v(@px, 16.0, 240.0)
     @py = clamp_v(@py, 36.0, 216.0)
 
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       spawn_confetti(@px, @py - 8.0)
     end
 

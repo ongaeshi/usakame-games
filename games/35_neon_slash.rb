@@ -5,9 +5,9 @@
 # 256x256 / 1ファイル完結 / 基本API + bg() + スプライト + キーボード/マウス
 #
 # 【操作方法】
-#   矢印キー / WASD     : 移動・斬撃方向
-#   Z / Space / クリック: 居合ダッシュ斬り（敵と弾を両断！）
-#   X / Enter           : 奥義・閃光乱舞（ゲージ50%以上で発動）
+#   矢印キー     : 移動・斬撃方向
+#   Z / クリック: 居合ダッシュ斬り（敵と弾を両断！）
+#   X           : 奥義・閃光乱舞（ゲージ50%以上で発動）
 # ==============================================================================
 
 config(
@@ -186,7 +186,7 @@ class NeonSlashGame
         }
       end
       update_fx
-      if @frame > 5 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @frame > 5 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         reset_game
         @state = :play
       end
@@ -195,7 +195,7 @@ class NeonSlashGame
 
     if @state == :gameover
       update_fx
-      if btnp(4) || btnp(5) || btnp(:mouse_l)
+      if btnp(1) || btnp(2) || btnp(:mouse_l)
         reset_game
         @state = :play
       end
@@ -218,10 +218,10 @@ class NeonSlashGame
     # 移動
     mx = 0.0
     my = 0.0
-    mx -= 1.0 if btn(0)
-    mx += 1.0 if btn(1)
-    my -= 1.0 if btn(2)
-    my += 1.0 if btn(3)
+    mx -= 1.0 if btn(:left)
+    mx += 1.0 if btn(:right)
+    my -= 1.0 if btn(:up)
+    my += 1.0 if btn(:down)
 
     if mx != 0.0 || my != 0.0
       len = sqrt(mx * mx + my * my)
@@ -234,7 +234,7 @@ class NeonSlashGame
     @py = (@py + my * 2.3).clamp(24.0, SH - 12.0)
 
     # 居合ダッシュ斬り (Z / クリック)
-    slash_trigger = btnp(4) || btnp(:mouse_l)
+    slash_trigger = btnp(1) || btnp(:mouse_l)
     if slash_trigger && @dash_cd <= 0
       @dash_cd = 10
       @invuln = 10
@@ -250,7 +250,7 @@ class NeonSlashGame
     end
 
     # 奥義・閃光乱舞 (X)
-    if btnp(5) && @overdrive >= 50.0
+    if btnp(2) && @overdrive >= 50.0
       @overdrive -= 50.0
       @invuln = 26
       @flash = 7
@@ -440,7 +440,7 @@ class NeonSlashGame
       rect(24, 56, 208, 132, 12, 2)
       print_text("NEON SLASH", 98, 68, 7)
       print_text("CYBER IAIJUTSU ACTION", 62, 84, 12)
-      print_text("ARROWS/WASD : AIM & MOVE", 56, 106, 7)
+      print_text("ARROWS : AIM & MOVE", 56, 106, 7)
       print_text("Z / CLICK   : DASH SLASH", 56, 120, 11)
       print_text("X           : OMNI SLASH", 56, 134, 14)
       print_text("PRESS Z OR CLICK TO START", 53, 160, 10)

@@ -5,9 +5,9 @@
 # 320x240 / 1ファイル完結 / 基本API + bg() + スプライト + キーボード入力
 #
 # 【操作方法】
-#   矢印キー / WASD : 移動（壁・影に隠れる）
-#   Z / Space       : デコイ小石を投げる（警備員を誘導）
-#   X / Enter       : シャドウダッシュ（高速移動＋瞬間隠密）
+#   矢印キー : 移動（壁・影に隠れる）
+#   Z       : デコイ小石を投げる（警備員を誘導）
+#   X       : シャドウダッシュ（高速移動＋瞬間隠密）
 # ==============================================================================
 
 config(
@@ -214,7 +214,7 @@ class ShadowThiefGame
         g[:ang] = sin(@frame * 0.02) * 0.6
         compute_cone(g)
       end
-      if @frame > 5 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @frame > 5 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         @state = :play
         load_stage(0)
       end
@@ -222,7 +222,7 @@ class ShadowThiefGame
     end
 
     if @state == :busted || @state == :all_clear
-      if btnp(4) || btnp(5) || btnp(:mouse_l)
+      if btnp(1) || btnp(2) || btnp(:mouse_l)
         if @state == :all_clear
           load_stage(0)
         else
@@ -236,10 +236,10 @@ class ShadowThiefGame
     # 移動
     mx = 0.0
     my = 0.0
-    mx -= 1.0 if btn(0)
-    mx += 1.0 if btn(1)
-    my -= 1.0 if btn(2)
-    my += 1.0 if btn(3)
+    mx -= 1.0 if btn(:left)
+    mx += 1.0 if btn(:right)
+    my -= 1.0 if btn(:up)
+    my += 1.0 if btn(:down)
 
     if mx != 0.0 || my != 0.0
       len = sqrt(mx * mx + my * my)
@@ -249,7 +249,7 @@ class ShadowThiefGame
     end
 
     # シャドウダッシュ (X)
-    if btnp(5) && @stamina >= 40.0
+    if btnp(2) && @stamina >= 40.0
       @stamina -= 40.0
       @dash_t = 16
       8.times do
@@ -266,7 +266,7 @@ class ShadowThiefGame
     @py = ny unless point_in_wall?(@px, ny, 5.0)
 
     # デコイ小石 (Z)
-    if btnp(4) && @decoys.size < 2
+    if btnp(1) && @decoys.size < 2
       dx = @px + cos(@dir) * 44.0
       dy = @py + sin(@dir) * 44.0
       if !point_in_wall?(dx, dy, 4.0)

@@ -5,9 +5,9 @@
 # 256x256 / 1ファイル完結 / 基本API + BG + スプライト専用
 #
 # 【操作方法】
-#   ← / → / ↑ / ↓ (WASD) : スラスター移動 (捕獲中は振り回し!)
-#   Z / Space / 左クリック : 投げ縄発射 (ホールドで振り回し・離して投擲!)
-#   X / Enter / 右クリック : ブーストダッシュ
+#   ← / → / ↑ / ↓  : スラスター移動 (捕獲中は振り回し!)
+#   Z / 左クリック : 投げ縄発射 (ホールドで振り回し・離して投擲!)
+#   X / 右クリック : ブーストダッシュ
 # ==============================================================================
 
 config(
@@ -120,7 +120,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -142,7 +142,7 @@ class TitleScene
 
     rectfill(24, 78, 208, 56, 0)
     rect(24, 78, 208, 56, 5)
-    print_text("ARROWS/WASD : THRUST & SWING", 40, 88, 7)
+    print_text("ARROWS : THRUST & SWING", 40, 88, 7)
     print_text("HOLD Z/CLK  : LASSO -> RELEASE!", 40, 101, 10)
     if $lasso_best > 0
       print_text("HIGH SCORE: #{$lasso_best}", 74, 116, 11)
@@ -244,7 +244,7 @@ class GameScene
     if @dead
       @dead_timer += 1
       @fx.update
-      if @dead_timer > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @dead_timer > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         run GameScene.new
       end
       return
@@ -262,12 +262,12 @@ class GameScene
     # 移動
     ax = 0.0
     ay = 0.0
-    ax -= 1.0 if btn(0)
-    ax += 1.0 if btn(1)
-    ay -= 1.0 if btn(2)
-    ay += 1.0 if btn(3)
+    ax -= 1.0 if btn(:left)
+    ax += 1.0 if btn(:right)
+    ay -= 1.0 if btn(:up)
+    ay += 1.0 if btn(:down)
 
-    if @dash_cd <= 0 && (btnp(5) || btnp(:mouse_r)) && (ax != 0.0 || ay != 0.0)
+    if @dash_cd <= 0 && (btnp(2) || btnp(:mouse_r)) && (ax != 0.0 || ay != 0.0)
       len = sqrt(ax * ax + ay * ay)
       @vx = ax / len * 5.2
       @vy = ay / len * 5.2
@@ -284,8 +284,8 @@ class GameScene
     @py = clamp_v(@py + @vy, 28.0, 244.0)
 
     # 投げ縄
-    holding = btn(4) || btn(:mouse_l)
-    if (btnp(4) || btnp(:mouse_l)) && @grabbed.nil?
+    holding = btn(1) || btn(:mouse_l)
+    if (btnp(1) || btnp(:mouse_l)) && @grabbed.nil?
       target = find_grabbable
       if target
         @grabbed = target

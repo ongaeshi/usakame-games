@@ -5,8 +5,8 @@
 # 256x256 / 1ファイル完結 / 基本API + BG + スプライト専用
 #
 # 【操作方法】
-#   Z / Space / ↑ / ↓ / 左クリック : 重力反転 (床⇔天井)
-#   X / Enter / 右クリック         : フェーズダッシュ (無敵突進)
+#   Z / ↑ / ↓ / 左クリック : 重力反転 (床⇔天井)
+#   X / 右クリック         : フェーズダッシュ (無敵突進)
 # ==============================================================================
 
 config(
@@ -162,7 +162,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -181,8 +181,8 @@ class TitleScene
 
     rectfill(24, 114, 208, 62, 0)
     rect(24, 114, 208, 62, 5)
-    print_text("Z / SPACE / CLICK : FLIP GRAVITY", 32, 124, 7)
-    print_text("X / ENTER / R-CLK : PHASE DASH", 32, 138, 11)
+    print_text("Z / CLICK : FLIP GRAVITY", 32, 124, 7)
+    print_text("X / R-CLK : PHASE DASH", 32, 138, 11)
     if $flip_best_dist > 0
       print_text("BEST: #{$flip_best_dist}m  HI: #{$flip_best_score}", 54, 156, 10)
     end
@@ -268,7 +268,7 @@ class GameScene
     if @dead
       @dead_timer += 1
       @fx.update(0.0)
-      if @dead_timer > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @dead_timer > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         run GameScene.new
       end
       return
@@ -290,7 +290,7 @@ class GameScene
     $flip_best_dist = @dist if @dist > $flip_best_dist
 
     # 入力バッファ
-    if btnp(4) || btnp(2) || btnp(3) || btnp(:mouse_l)
+    if btnp(1) || btnp(:up) || btnp(:down) || btnp(:mouse_l)
       @flip_buf = 6
     elsif @flip_buf > 0
       @flip_buf -= 1
@@ -299,7 +299,7 @@ class GameScene
     @dash_cd -= 1 if @dash_cd > 0
     if @dash_timer > 0
       @dash_timer -= 1
-    elsif @dash_cd <= 0 && (btnp(5) || btnp(:mouse_r))
+    elsif @dash_cd <= 0 && (btnp(2) || btnp(:mouse_r))
       @dash_timer = 14
       @dash_cd = 75
       @vy = 0.0

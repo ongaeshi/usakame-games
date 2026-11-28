@@ -42,7 +42,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -173,9 +173,9 @@ class GameScene
     @sparks.reject! { |s| s[:life] <= 0 }
 
     if @mode == :train
-      @sel = (@sel - 1) % 5 if btnp(0)
-      @sel = (@sel + 1) % 5 if btnp(1)
-      do_action(@sel) if btnp(4) || btnp(5)
+      @sel = (@sel - 1) % 5 if btnp(:left)
+      @sel = (@sel + 1) % 5 if btnp(:right)
+      do_action(@sel) if btnp(1) || btnp(2)
 
       if btnp(:mouse_l)
         mx = mouse_x; my = mouse_y

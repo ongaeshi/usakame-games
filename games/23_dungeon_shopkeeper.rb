@@ -49,7 +49,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -163,15 +163,15 @@ class GameScene
     @t += 1
     if @finished
       @fin_t += 1
-      if @fin_t > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @fin_t > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         run GameScene.new
       end
       return
     end
 
-    @sel_btn = (@sel_btn - 1) % 3 if btnp(2)
-    @sel_btn = (@sel_btn + 1) % 3 if btnp(3)
-    if btnp(4)
+    @sel_btn = (@sel_btn - 1) % 3 if btnp(:up)
+    @sel_btn = (@sel_btn + 1) % 3 if btnp(:down)
+    if btnp(1)
       if @sel_btn == 0
         try_sell(0.85, 6, 100)
       elsif @sel_btn == 1

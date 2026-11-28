@@ -43,9 +43,9 @@ class TitleScene
 
   def update
     @tick += 1
-    @sel = (@sel - 1 + $titans.size) % $titans.size if btnp(0) || btnp(2)
-    @sel = (@sel + 1) % $titans.size if btnp(1) || btnp(3)
-    @coop = !@coop if btnp(5)
+    @sel = (@sel - 1 + $titans.size) % $titans.size if btnp(:left) || btnp(:up)
+    @sel = (@sel + 1) % $titans.size if btnp(:right) || btnp(:down)
+    @coop = !@coop if btnp(2)
 
     if btnp(:mouse_l)
       mx = mouse_x
@@ -66,7 +66,7 @@ class TitleScene
       end
     end
 
-    if btnp(4)
+    if btnp(1)
       run RaidScene.new({ idx: @sel, coop: @coop })
     end
   end
@@ -165,7 +165,7 @@ class RaidScene
     update_particles
 
     if @state != :play
-      if btnp(4) || btnp(5) || btnp(:mouse_l)
+      if btnp(1) || btnp(2) || btnp(:mouse_l)
         if @state == :win && @idx + 1 < $titans.size
           run RaidScene.new({ idx: @idx + 1, coop: @coop })
         else
@@ -176,7 +176,7 @@ class RaidScene
     end
 
     # Drop-in P2 anytime
-    if !@coop && (btnp(4, 1) || btnp(0, 1) || btnp(1, 1))
+    if !@coop && (btnp(1, 1) || btnp(:left, 1) || btnp(:right, 1))
       @coop = true
       @players << make_player(1, 240.0, 210.0)
     end
@@ -203,10 +203,10 @@ class RaidScene
     p = pl[:idx]
     dx = 0.0
     dy = 0.0
-    dx -= 1.0 if btn(0, p)
-    dx += 1.0 if btn(1, p)
-    dy -= 1.0 if btn(2, p)
-    dy += 1.0 if btn(3, p)
+    dx -= 1.0 if btn(:left, p)
+    dx += 1.0 if btn(:right, p)
+    dy -= 1.0 if btn(:up, p)
+    dy += 1.0 if btn(:down, p)
     if dx != 0.0 && dy != 0.0
       dx *= 0.7071
       dy *= 0.7071
@@ -241,7 +241,7 @@ class RaidScene
         end
       end
     else
-      if (btnp(5, p) || (p == 0 && btnp(:mouse_r))) && pl[:dash_cd] <= 0
+      if (btnp(2, p) || (p == 0 && btnp(:mouse_r))) && pl[:dash_cd] <= 0
         pl[:dash_t] = $cfg[:dash_frames]
         pl[:dash_cd] = $cfg[:dash_cd]
         pl[:inv_t] = $cfg[:dash_frames] + 2
@@ -259,7 +259,7 @@ class RaidScene
     pl[:x] = pl[:x].clamp(ax + 8.0, ax + $cfg[:arena_w] - 8.0)
     pl[:y] = pl[:y].clamp(ay + 8.0, ay + $cfg[:arena_h] - 8.0)
 
-    shoot = btn(4, p) || (p == 0 && btn(:mouse_l))
+    shoot = btn(1, p) || (p == 0 && btn(:mouse_l))
     if shoot && pl[:shot_cd] <= 0
       pl[:shot_cd] = $cfg[:shot_cd]
       @p_shots << {

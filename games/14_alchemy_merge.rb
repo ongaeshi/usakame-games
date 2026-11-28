@@ -6,7 +6,7 @@
 #
 # 【操作方法】
 #   ← / → / マウス移動     : 投下位置の移動
-#   Z / Space / 左クリック : 魔法玉を投下 (同種が触れると上位へ合体!)
+#   Z / 左クリック : 魔法玉を投下 (同種が触れると上位へ合体!)
 # ==============================================================================
 
 config(
@@ -50,7 +50,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -140,7 +140,7 @@ class GameScene
 
     if @dead
       @dead_timer += 1
-      if @dead_timer > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @dead_timer > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         run GameScene.new
       end
       return
@@ -149,8 +149,8 @@ class GameScene
     @drop_cd -= 1 if @drop_cd > 0
     cur_r = ORB_TIERS[@cur_tier][:r]
 
-    @drop_x -= 2.4 if btn(0)
-    @drop_x += 2.4 if btn(1)
+    @drop_x -= 2.4 if btn(:left)
+    @drop_x += 2.4 if btn(:right)
     mx = mouse_x
     if mx != @prev_mx
       @drop_x = mx.to_f
@@ -158,7 +158,7 @@ class GameScene
     end
     @drop_x = clamp_v(@drop_x, FLASK_L + cur_r + 2.0, FLASK_R - cur_r - 2.0)
 
-    if (btnp(4) || btnp(3) || btnp(:mouse_l)) && @drop_cd <= 0
+    if (btnp(1) || btnp(:down) || btnp(:mouse_l)) && @drop_cd <= 0
       @drop_cd = 18
       @orbs << {
         x: @drop_x, y: DROP_Y + cur_r,

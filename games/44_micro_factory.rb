@@ -64,7 +64,7 @@ class TitleScene
 
   def update
     @tick += 1
-    if btnp(4) || btnp(5) || btnp(:mouse_l)
+    if btnp(1) || btnp(2) || btnp(:mouse_l)
       run FactoryScene.new
     end
   end
@@ -199,14 +199,14 @@ class FactoryScene
     end
 
     # Keyboard cursor
-    @cur_c = (@cur_c - 1).clamp(0, @cols - 1) if btnp(0)
-    @cur_c = (@cur_c + 1).clamp(0, @cols - 1) if btnp(1)
-    @cur_r = (@cur_r - 1).clamp(0, @rows - 1) if btnp(2)
-    @cur_r = (@cur_r + 1).clamp(0, @rows - 1) if btnp(3)
+    @cur_c = (@cur_c - 1).clamp(0, @cols - 1) if btnp(:left)
+    @cur_c = (@cur_c + 1).clamp(0, @cols - 1) if btnp(:right)
+    @cur_r = (@cur_r - 1).clamp(0, @rows - 1) if btnp(:up)
+    @cur_r = (@cur_r + 1).clamp(0, @rows - 1) if btnp(:down)
 
     # Rotate with wheel or X
     wh = mouse_wheel
-    if wh > 0.0 || btnp(5)
+    if wh > 0.0 || btnp(2)
       @dir = (@dir + 1) % 4
     elsif wh < 0.0
       @dir = (@dir + 3) % 4
@@ -238,7 +238,7 @@ class FactoryScene
       remove_machine(@cur_c, @cur_r)
     end
 
-    if btnp(4)
+    if btnp(1)
       place_machine(@cur_c, @cur_r)
     end
 

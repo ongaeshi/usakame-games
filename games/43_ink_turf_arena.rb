@@ -49,12 +49,12 @@ class TitleScene
 
   def update
     @tick += 1
-    if btnp(2) || btnp(3)
+    if btnp(:up) || btnp(:down)
       @mode = 1 - @mode
     end
-    if btnp(0)
+    if btnp(:left)
       @wep_idx = (@wep_idx - 1 + $wep_order.size) % $wep_order.size
-    elsif btnp(1)
+    elsif btnp(:right)
       @wep_idx = (@wep_idx + 1) % $wep_order.size
     end
     wh = mouse_wheel
@@ -64,7 +64,7 @@ class TitleScene
       @wep_idx = (@wep_idx - 1 + $wep_order.size) % $wep_order.size
     end
 
-    if btnp(4) || btnp(5) || btnp(:mouse_l)
+    if btnp(1) || btnp(2) || btnp(:mouse_l)
       w_sym = $wep_order[@wep_idx]
       w_str = w_sym.to_s
       if !@unlocked.index(w_str).nil?
@@ -178,7 +178,7 @@ class ArenaScene
   def update
     @tick += 1
     if @done
-      if btnp(4) || btnp(5) || btnp(:mouse_l)
+      if btnp(1) || btnp(2) || btnp(:mouse_l)
         run TitleScene.new
       end
       return
@@ -229,12 +229,12 @@ class ArenaScene
 
     if !f[:is_cpu]
       p = f[:p_idx]
-      dx -= 1.0 if btn(0, p)
-      dx += 1.0 if btn(1, p)
-      dy -= 1.0 if btn(2, p)
-      dy += 1.0 if btn(3, p)
-      swim_btn = btn(5, p)
-      shoot = btn(4, p)
+      dx -= 1.0 if btn(:left, p)
+      dx += 1.0 if btn(:right, p)
+      dy -= 1.0 if btn(:up, p)
+      dy += 1.0 if btn(:down, p)
+      swim_btn = btn(2, p)
+      shoot = btn(1, p)
       if p == 0 && btn(:mouse_l)
         mx = mouse_x - f[:x]
         my = mouse_y - f[:y]

@@ -6,7 +6,7 @@
 #
 # 【操作方法】
 #   ↑ / ↓ / マウス上下 : 滑空高度操作
-#   Z / Space / クリック : 風ブースト加速
+#   Z / クリック : 風ブースト加速
 #   X                    : オートパイロット切替
 # ==============================================================================
 
@@ -43,7 +43,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -103,25 +103,25 @@ class GameScene
     @t += 1
     @boost_t -= 1 if @boost_t > 0
 
-    if btnp(5)
+    if btnp(2)
       @auto = !@auto
     end
 
     manual = false
-    if btn(2)
+    if btn(:up)
       @vy -= 0.25; manual = true
-    elsif btn(3)
+    elsif btn(:down)
       @vy += 0.25; manual = true
     end
 
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       @boost_t = 20
       manual = true
     end
 
     if manual
       @idle_t = 0
-      @auto = false if btn(2) || btn(3)
+      @auto = false if btn(:up) || btn(:down)
     else
       @idle_t += 1
       @auto = true if @idle_t > 180

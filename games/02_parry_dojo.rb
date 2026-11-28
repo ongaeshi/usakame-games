@@ -5,9 +5,9 @@
 # 256x256 / 1ファイル完結 / 基本API + BG + スプライト専用
 #
 # 【操作方法】
-#   Z / Space / 左クリック : 見切りパリィ / 居合斬り（自動方向対応）
+#   Z / 左クリック : 見切りパリィ / 居合斬り（自動方向対応）
 #   ← / → / ↑ (任意)       : 斬撃方向の明示指定
-#   X / Enter / 右クリック : 奥義「月光居合」（ゲージ100%時）
+#   X / 右クリック : 奥義「月光居合」（ゲージ100%時）
 # ==============================================================================
 
 config(
@@ -188,7 +188,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -206,8 +206,8 @@ class TitleScene
 
     rectfill(24, 96, 208, 56, 0)
     rect(24, 96, 208, 56, 5)
-    print_text("Z / SPACE / CLICK : PARRY SLASH", 33, 105, 10)
-    print_text("X / ENTER / R-CLK : MOONLIGHT IAI", 33, 118, 12)
+    print_text("Z / CLICK : PARRY SLASH", 33, 105, 10)
+    print_text("X / R-CLK : MOONLIGHT IAI", 33, 118, 12)
     print_text("TIMING = JUST PARRY -> DEFLECT!", 33, 131, 7)
     if $dojo_best > 0
       print_text("BEST: #{$dojo_best}  MAX COMBO: #{$dojo_max_combo}", 48, 142, 10)
@@ -304,13 +304,13 @@ class GameScene
 
     # 斬撃方向決定
     slash_ang = @facing_left ? Math::PI : 0.0
-    if btn(0)
+    if btn(:left)
       slash_ang = Math::PI
       @facing_left = true
-    elsif btn(1)
+    elsif btn(:right)
       slash_ang = 0.0
       @facing_left = false
-    elsif btn(2)
+    elsif btn(:up)
       slash_ang = -Math::PI * 0.5
     elsif closest && closest_d < 90.0
       slash_ang = atan2(closest[:y] - CENTER_Y, closest[:x] - CENTER_X)
@@ -408,7 +408,7 @@ class GameScene
     if @dead
       @dead_timer += 1
       @fx.update
-      if @dead_timer > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @dead_timer > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         run GameScene.new
       end
       return
@@ -427,9 +427,9 @@ class GameScene
     @hurt_inv -= 1 if @hurt_inv > 0
 
     # 奥義発動
-    if @iai_gauge >= 100 && (btnp(5) || btnp(:mouse_r))
+    if @iai_gauge >= 100 && (btnp(2) || btnp(:mouse_r))
       do_moonlight_iai
-    elsif (btnp(4) || btnp(:mouse_l)) && @slash_cd <= 0
+    elsif (btnp(1) || btnp(:mouse_l)) && @slash_cd <= 0
       do_parry
     end
 

@@ -49,7 +49,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -255,9 +255,9 @@ class GameScene
 
   def update
     @t += 1
-    @sel = (@sel - 1) % ELEM_INFO.size if btnp(0)
-    @sel = (@sel + 1) % ELEM_INFO.size if btnp(1)
-    setup_demo if btnp(5)
+    @sel = (@sel - 1) % ELEM_INFO.size if btnp(:left)
+    @sel = (@sel + 1) % ELEM_INFO.size if btnp(:right)
+    setup_demo if btnp(2)
 
     if btn(:mouse_l)
       mx = mouse_x
@@ -276,7 +276,7 @@ class GameScene
         gy = (my - OY) / CELL
         paint_at(gx, gy, ELEM_INFO[@sel][:id])
       end
-    elsif btn(4)
+    elsif btn(1)
       paint_at(GW / 2 + rand(-4..4), 6, ELEM_INFO[@sel][:id])
     end
 

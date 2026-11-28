@@ -5,9 +5,9 @@
 # 256x256 / 1ファイル完結 / 基本API + BG + スプライト専用
 #
 # 【操作方法】
-#   ← / → / ↑ / ↓ (WASD) : 自機移動 (アップグレード選択時は ←/→)
-#   Z / Space / 左クリック : ショット (押しっぱなし連射) / 決定
-#   X / Enter / 右クリック : ノヴァボム (弾消し＆全体攻撃)
+#   ← / → / ↑ / ↓  : 自機移動 (アップグレード選択時は ←/→)
+#   Z / 左クリック : ショット (押しっぱなし連射) / 決定
+#   X / 右クリック : ノヴァボム (弾消し＆全体攻撃)
 # ==============================================================================
 
 config(
@@ -132,7 +132,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -152,8 +152,8 @@ class TitleScene
     rectfill(26, 94, 204, 62, 0)
     rect(26, 94, 204, 62, 5)
     print_text("ARROWS / WASD : MOVE", 44, 104, 7)
-    print_text("Z / SPACE     : FIRE", 44, 117, 10)
-    print_text("X / ENTER     : NOVA BOMB", 44, 130, 9)
+    print_text("Z     : FIRE", 44, 117, 10)
+    print_text("X     : NOVA BOMB", 44, 130, 9)
     if $diver_best > 0
       print_text("HIGH SCORE: #{$diver_best}", 74, 143, 11)
     end
@@ -304,15 +304,15 @@ class GameScene
     if @dead
       @dead_timer += 1
       @fx.update
-      if @dead_timer > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @dead_timer > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         run GameScene.new
       end
       return
     end
 
     if @choosing
-      @choice_idx = (@choice_idx - 1) % 3 if btnp(0) || btnp(2)
-      @choice_idx = (@choice_idx + 1) % 3 if btnp(1) || btnp(3)
+      @choice_idx = (@choice_idx - 1) % 3 if btnp(:left) || btnp(:up)
+      @choice_idx = (@choice_idx + 1) % 3 if btnp(:right) || btnp(:down)
       if btnp(:mouse_l)
         my = mouse_y
         i = 0
@@ -324,7 +324,7 @@ class GameScene
           end
           i += 1
         end
-      elsif btnp(4) || btnp(5)
+      elsif btnp(1) || btnp(2)
         apply_upgrade(@choices[@choice_idx])
       end
       return
@@ -334,18 +334,18 @@ class GameScene
     @shot_cd -= 1 if @shot_cd > 0
 
     spd = 2.6
-    @px -= spd if btn(0)
-    @px += spd if btn(1)
-    @py -= spd if btn(2)
-    @py += spd if btn(3)
+    @px -= spd if btn(:left)
+    @px += spd if btn(:right)
+    @py -= spd if btn(:up)
+    @py += spd if btn(:down)
     @px = clamp_v(@px, 12.0, 244.0)
     @py = clamp_v(@py, 26.0, 242.0)
 
-    if (btn(4) || btn(:mouse_l)) && @shot_cd <= 0
+    if (btn(1) || btn(:mouse_l)) && @shot_cd <= 0
       fire_player
     end
 
-    if @bombs > 0 && (btnp(5) || btnp(:mouse_r))
+    if @bombs > 0 && (btnp(2) || btnp(:mouse_r))
       trigger_bomb
     end
 

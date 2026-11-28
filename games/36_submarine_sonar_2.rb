@@ -5,9 +5,9 @@
 # 320x240 / 1ファイル完結 / 基本API + bg() + スプライト + キーボード/マウス
 #
 # 【操作方法】
-#   矢印キー / WASD        : 潜水艦操縦（サーチライトの向きも連動）
-#   Z / Space / 左クリック : ソナー波紋照射（海獣を暴き2倍クリティカル！）
-#   X / Enter / 右クリック : 魚雷発射
+#   矢印キー        : 潜水艦操縦（サーチライトの向きも連動）
+#   Z / 左クリック : ソナー波紋照射（海獣を暴き2倍クリティカル！）
+#   X / 右クリック : 魚雷発射
 # ==============================================================================
 
 config(
@@ -112,7 +112,7 @@ class AbyssSonarII
       end
       @sonars.each { |s| s[:r] += 2.2 }
       @sonars.reject! { |s| s[:r] >= s[:max_r] }
-      if @frame > 5 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @frame > 5 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         reset_game
         @state = :play
       end
@@ -121,7 +121,7 @@ class AbyssSonarII
 
     if @state == :gameover
       update_fx
-      if btnp(4) || btnp(5) || btnp(:mouse_l)
+      if btnp(1) || btnp(2) || btnp(:mouse_l)
         reset_game
         @state = :play
       end
@@ -138,10 +138,10 @@ class AbyssSonarII
     # 移動
     ax = 0.0
     ay = 0.0
-    ax -= 1.0 if btn(0)
-    ax += 1.0 if btn(1)
-    ay -= 1.0 if btn(2)
-    ay += 1.0 if btn(3)
+    ax -= 1.0 if btn(:left)
+    ax += 1.0 if btn(:right)
+    ay -= 1.0 if btn(:up)
+    ay += 1.0 if btn(:down)
     @facing_left = true if ax < 0.0
     @facing_left = false if ax > 0.0
 
@@ -155,13 +155,13 @@ class AbyssSonarII
     end
 
     # ソナー照射 (Z / 左クリック)
-    if (btnp(4) || btnp(:mouse_l)) && @sonar_cd <= 0
+    if (btnp(1) || btnp(:mouse_l)) && @sonar_cd <= 0
       @sonar_cd = 22
       @sonars << { x: @px, y: @py, r: 8.0, max_r: 155.0 }
     end
 
     # 魚雷発射 (X / 右クリック)
-    if (btnp(5) || btnp(:mouse_r)) && @torp_cd <= 0
+    if (btnp(2) || btnp(:mouse_r)) && @torp_cd <= 0
       @torp_cd = 12
       dir = @facing_left ? -1.0 : 1.0
       @torps << { x: @px + dir * 10.0, y: @py + 2.0, vx: dir * 4.5, life: 75 }
@@ -467,7 +467,7 @@ class AbyssSonarII
       rect(44, 52, 232, 132, 12, 2)
       print_text("ABYSS SONAR II", 104, 64, 12, 16)
       print_text("DEEP SEA SEARCHLIGHT & KRAKEN", 70, 88, 10, 8)
-      print_text("ARROWS/WASD : STEER & AIM LIGHT", 67, 110, 7, 8)
+      print_text("ARROWS : STEER & AIM LIGHT", 67, 110, 7, 8)
       print_text("Z / L-CLICK : SONAR PULSE (2x CRIT)", 55, 124, 12, 8)
       print_text("X / R-CLICK : TORPEDO", 67, 138, 10, 8)
       print_text("PRESS Z OR CLICK TO DIVE", 88, 162, 11, 8)

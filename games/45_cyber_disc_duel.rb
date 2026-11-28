@@ -42,7 +42,7 @@ class TitleScene
 
   def update
     @tick += 1
-    if btnp(2) || btnp(3)
+    if btnp(:up) || btnp(:down)
       @mode = 1 - @mode
     end
     if btnp(:mouse_l)
@@ -57,7 +57,7 @@ class TitleScene
         return
       end
     end
-    if btnp(4) || btnp(5)
+    if btnp(1) || btnp(2)
       run DuelScene.new({ mode: @mode == 0 ? :cup : :duel, stage: 0 })
     end
   end
@@ -147,7 +147,7 @@ class DuelScene
     update_particles
 
     if @done
-      if btnp(4) || btnp(5) || btnp(:mouse_l)
+      if btnp(1) || btnp(2) || btnp(:mouse_l)
         if @mode == :cup && @winner == 0 && @stage + 1 < $rivals.size
           run DuelScene.new({ mode: :cup, stage: @stage + 1 })
         else
@@ -173,12 +173,12 @@ class DuelScene
 
     if !pl[:is_cpu]
       p = pl[:idx]
-      dx -= 1.0 if btn(0, p)
-      dx += 1.0 if btn(1, p)
-      dy -= 1.0 if btn(2, p)
-      dy += 1.0 if btn(3, p)
-      throw_press = btnp(4, p) || (p == 0 && btnp(:mouse_l))
-      dash_press = btnp(5, p)
+      dx -= 1.0 if btn(:left, p)
+      dx += 1.0 if btn(:right, p)
+      dy -= 1.0 if btn(:up, p)
+      dy += 1.0 if btn(:down, p)
+      throw_press = btnp(1, p) || (p == 0 && btnp(:mouse_l))
+      dash_press = btnp(2, p)
     else
       # CPU AI
       if holding

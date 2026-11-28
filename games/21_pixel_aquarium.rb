@@ -29,7 +29,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -107,7 +107,7 @@ class GameScene
     if @t % 12 == 0
       @bubbles << { x: 16.0 + rand() * 224.0, y: 214.0, vy: -0.55 - rand() * 0.4, r: 1 + rand(2) }
     end
-    if btnp(5)
+    if btnp(2)
       i = 0
       while i < 10
         @bubbles << { x: 20.0 + rand() * 216.0, y: 214.0, vy: -0.7 - rand() * 0.6, r: 1 + rand(2) }
@@ -116,7 +116,7 @@ class GameScene
     end
 
     # 操作
-    if btnp(4)
+    if btnp(1)
       drop_food(40.0 + rand() * 176.0, 42.0)
     end
     if btnp(:mouse_l)

@@ -6,7 +6,7 @@
 #
 # 【操作方法】
 #   マウスクリック / ←→+Z : ダイス選択 → 装備スロットへセット
-#   X / Enter / END TURN  : ターン終了 (敵の予兆行動を実行)
+#   X / END TURN  : ターン終了 (敵の予兆行動を実行)
 # ==============================================================================
 
 config(
@@ -31,7 +31,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -186,23 +186,23 @@ class GameScene
 
     if @dead
       @dead_timer += 1
-      if @dead_timer > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @dead_timer > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         run GameScene.new
       end
       return
     end
 
-    if btnp(5)
+    if btnp(2)
       end_turn
       return
     end
 
     # キー操作: ←/→でダイス切替、Zで空きスロットへ自動セット
-    if btnp(0)
+    if btnp(:left)
       @sel_die = ((@sel_die || 0) - 1) % 3
-    elsif btnp(1)
+    elsif btnp(:right)
       @sel_die = ((@sel_die || 0) + 1) % 3
-    elsif btnp(4)
+    elsif btnp(1)
       if @sel_die && @dice[@sel_die]
         # 奇数ならSTAFF優先、それ以外はSWORD/SHIELD
         if @dice[@sel_die] % 2 != 0 && !@slots_used[2]

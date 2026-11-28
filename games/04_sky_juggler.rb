@@ -7,7 +7,7 @@
 # 【操作方法】
 #   ← / → (A / D)          : 移動
 #   ↑ (W)                  : ジャンプ (2段ジャンプ可)
-#   Z / Space / 左クリック : アッパーお手玉打ち上げ (空中で再ジャンプ回復!)
+#   Z / 左クリック : アッパーお手玉打ち上げ (空中で再ジャンプ回復!)
 #   ↓ (S) (空中)           : 急降下ポゴ踏み
 # ==============================================================================
 
@@ -130,7 +130,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -155,7 +155,7 @@ class TitleScene
     rectfill(24, 150, 208, 52, 0)
     rect(24, 150, 208, 52, 5)
     print_text("A/D: MOVE   W: JUMP (DOUBLE)", 42, 158, 7)
-    print_text("Z / SPACE / CLICK : UPPERCUT", 42, 170, 10)
+    print_text("Z / CLICK : UPPERCUT", 42, 170, 10)
     if $juggle_best > 0
       print_text("BEST: #{$juggle_best}  MAX COMBO: #{$juggle_max_combo}", 48, 184, 11)
     end
@@ -240,7 +240,7 @@ class GameScene
     if @dead
       @dead_timer += 1
       @fx.update
-      if @dead_timer > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @dead_timer > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         run GameScene.new
       end
       return
@@ -265,10 +265,10 @@ class GameScene
     end
 
     # 移動
-    if btn(0)
+    if btn(:left)
       @vx -= 0.55
       @facing_left = true
-    elsif btn(1)
+    elsif btn(:right)
       @vx += 0.55
       @facing_left = false
     else
@@ -277,7 +277,7 @@ class GameScene
     @vx = clamp_v(@vx, -3.2, 3.2)
 
     # ジャンプ
-    if btnp(2)
+    if btnp(:up)
       if @grounded
         @vy = -5.2
         @grounded = false
@@ -290,12 +290,12 @@ class GameScene
     end
 
     # 急降下
-    if !@grounded && btn(3)
+    if !@grounded && btn(:down)
       @vy += 0.45
     end
 
     # アッパーカット
-    if (btnp(4) || btnp(:mouse_l)) && @atk_cd <= 0
+    if (btnp(1) || btnp(:mouse_l)) && @atk_cd <= 0
       @atk_timer = 10
       @atk_cd = 13
       @vy = -2.2 if !@grounded && @vy > -1.0

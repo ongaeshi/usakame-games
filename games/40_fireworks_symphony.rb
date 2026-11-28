@@ -7,7 +7,7 @@
 # 【操作方法】
 #   夜空をクリック / Z : 指定位置へ花火打ち上げ！
 #   ← / → / 下部ボタン : 花火の種類切替 (菊/柳/ハート/土星/星/連発)
-#   X / Enter          : シンフォニー大会モード切替
+#   X          : シンフォニー大会モード切替
 # ==============================================================================
 
 config(
@@ -162,7 +162,7 @@ class FireworksSymphonyDX
       if @frame % 42 == 0
         launch_shell(90.0 + rand * 300.0, 56.0 + rand * 64.0, rand(5))
       end
-      if @frame > 5 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @frame > 5 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         @state = :play
       end
       return
@@ -178,11 +178,11 @@ class FireworksSymphonyDX
       end
     end
 
-    @sel = (@sel - 1) % SHELLS.size if btnp(0)
-    @sel = (@sel + 1) % SHELLS.size if btnp(1)
-    @auto = !@auto if btnp(5)
+    @sel = (@sel - 1) % SHELLS.size if btnp(:left)
+    @sel = (@sel + 1) % SHELLS.size if btnp(:right)
+    @auto = !@auto if btnp(2)
 
-    if btnp(4)
+    if btnp(1)
       launch_shell(80.0 + rand * 320.0, 52.0 + rand * 78.0, @sel)
     end
 

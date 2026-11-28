@@ -5,8 +5,8 @@
 # 256x256 / 1ファイル完結 / 基本API + BG + スプライト専用
 #
 # 【操作方法】
-#   ← / → / ↑ / ↓ (WASD) : 氷上スライディング突撃 (壁か端まで止まらない!)
-#   Z / Space / 左クリック : 氷砕旋風斬り (周囲4マス攻撃・チャージ制)
+#   ← / → / ↑ / ↓  : 氷上スライディング突撃 (壁か端まで止まらない!)
+#   Z / 左クリック : 氷砕旋風斬り (周囲4マス攻撃・チャージ制)
 # ==============================================================================
 
 config(
@@ -32,7 +32,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -53,7 +53,7 @@ class TitleScene
     rectfill(24, 78, 208, 58, 0)
     rect(24, 78, 208, 58, 5)
     print_text("ARROWS / WASD : SLIDE & SLASH", 36, 88, 7)
-    print_text("Z / SPACE     : WHIRLWIND NOVA", 36, 101, 10)
+    print_text("Z     : WHIRLWIND NOVA", 36, 101, 10)
     if $knight_best_floor > 0
       print_text("BEST: F#{$knight_best_floor}  SCR:#{$knight_best_score}", 58, 117, 11)
     end
@@ -228,7 +228,7 @@ class GameScene
 
     if @dead
       @dead_timer += 1
-      if @dead_timer > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @dead_timer > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         run GameScene.new
       end
       return
@@ -268,15 +268,15 @@ class GameScene
     end
 
     dx = 0; dy = 0
-    if btnp(0)
+    if btnp(:left)
       dx = -1
-    elsif btnp(1)
+    elsif btnp(:right)
       dx = 1
-    elsif btnp(2)
+    elsif btnp(:up)
       dy = -1
-    elsif btnp(3)
+    elsif btnp(:down)
       dy = 1
-    elsif btnp(4) || btnp(5)
+    elsif btnp(1) || btnp(2)
       do_whirlwind
       return
     elsif btnp(:mouse_l)

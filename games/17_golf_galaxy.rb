@@ -6,7 +6,7 @@
 #
 # 【操作方法】
 #   マウス移動 / ← → ↑ ↓ : 角度とパワー調整 (重力軌道予測線表示!)
-#   Z / Space / 左クリック : ショット!
+#   Z / 左クリック : ショット!
 #   R / X                  : ボール位置リセット
 # ==============================================================================
 
@@ -64,7 +64,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -181,7 +181,7 @@ class GameScene
 
     if @finished
       @fin_timer += 1
-      if @fin_timer > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @fin_timer > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         run GameScene.new
       end
       return
@@ -207,10 +207,10 @@ class GameScene
     h = HOLES[@hole_idx]
 
     if @state == :aim
-      @aim_ang -= 0.045 if btn(0)
-      @aim_ang += 0.045 if btn(1)
-      @power = clamp_v(@power + 0.08, 1.2, 5.2) if btn(2)
-      @power = clamp_v(@power - 0.08, 1.2, 5.2) if btn(3)
+      @aim_ang -= 0.045 if btn(:left)
+      @aim_ang += 0.045 if btn(:right)
+      @power = clamp_v(@power + 0.08, 1.2, 5.2) if btn(:up)
+      @power = clamp_v(@power - 0.08, 1.2, 5.2) if btn(:down)
 
       mx = mouse_x; my = mouse_y
       if mx != @prev_mx || my != @prev_my
@@ -224,7 +224,7 @@ class GameScene
         @prev_mx = mx; @prev_my = my
       end
 
-      if btnp(4) || btnp(:mouse_l)
+      if btnp(1) || btnp(:mouse_l)
         @vx = cos(@aim_ang) * @power
         @vy = sin(@aim_ang) * @power
         @strokes += 1
@@ -288,7 +288,7 @@ class GameScene
 
       # 手動リセットまたは停止
       spd2 = @vx * @vx + @vy * @vy
-      if btnp(5) || (@fly_t > 240 && spd2 < 0.15)
+      if btnp(2) || (@fly_t > 240 && spd2 < 0.15)
         @state = :aim
         @vx = 0.0; @vy = 0.0
       end

@@ -98,13 +98,13 @@ class TitleScene
 
   def update
     @tick += 1
-    if btnp(2) || btnp(3)
+    if btnp(:up) || btnp(:down)
       @mode = 1 - @mode
     end
     if @mode == 0
-      if btnp(0)
+      if btnp(:left)
         @stage_sel = (@stage_sel - 1 + @unlocked + 1) % (@unlocked + 1)
-      elsif btnp(1)
+      elsif btnp(:right)
         @stage_sel = (@stage_sel + 1) % (@unlocked + 1)
       end
     end
@@ -126,7 +126,7 @@ class TitleScene
       end
     end
 
-    if btnp(4) || btnp(5)
+    if btnp(1) || btnp(2)
       start_game
     end
   end
@@ -170,7 +170,7 @@ class TitleScene
     rect(120, 170, 240, 28, c1, 2)
     print_text("2P LOCAL DUEL (P1 vs P2 / PAD)", 240, 180, c1, 8, 1.0, :center, 0)
 
-    print_text("ARROWS/WASD: MOVE & AIM | Z/SPACE: HOLD FIRE | WHEEL/X: WEAPON", 240, 232, 7, 8, 1.0, :center, 0)
+    print_text("ARROWS: MOVE & AIM | Z: HOLD FIRE | WHEEL/X: WEAPON", 240, 232, 7, 8, 1.0, :center, 0)
     print_text("2P: IJKL + U/O OR GAMEPAD 2 | CLICK TO AIM & FIRE", 240, 246, 15, 8, 1.0, :center, 0)
   end
 end
@@ -271,7 +271,7 @@ class BattleScene
     update_tanks_physics
 
     if @phase == :win
-      if btnp(4) || btnp(5) || btnp(:mouse_l)
+      if btnp(1) || btnp(2) || btnp(:mouse_l)
         if @mode == :campaign && @winner == 0 && @stage_idx + 1 < $stages.size
           run BattleScene.new({ mode: :campaign, stage_idx: @stage_idx + 1 })
         else
@@ -341,26 +341,26 @@ class BattleScene
     elsif wh < 0.0
       tk.cycle_weapon(1)
     end
-    if btnp(5, p)
+    if btnp(2, p)
       tk.cycle_weapon(1)
     end
 
     if @phase == :aim
       # Movement
       spd = $cfg[:tank_speed]
-      if btn(0, p) && tk.fuel > 0 && tk.x > 14
+      if btn(:left, p) && tk.fuel > 0 && tk.x > 14
         move_tank(tk, -spd)
         tk.facing = -1
-      elsif btn(1, p) && tk.fuel > 0 && tk.x < @w - 14
+      elsif btn(:right, p) && tk.fuel > 0 && tk.x < @w - 14
         move_tank(tk, spd)
         tk.facing = 1
       end
 
       # Aiming via keys
       astep = $cfg[:aim_step]
-      if btn(2, p)
+      if btn(:up, p)
         tk.angle -= astep
-      elsif btn(3, p)
+      elsif btn(:down, p)
         tk.angle += astep
       end
       tk.angle = -175.0 if tk.angle < -175.0
@@ -387,7 +387,7 @@ class BattleScene
         end
       end
 
-      if btnp(4, p)
+      if btnp(1, p)
         @phase = :charging
         tk.power = $cfg[:power_min]
       elsif btnp(:mouse_l) && mouse_y > 30
@@ -395,7 +395,7 @@ class BattleScene
       end
     elsif @phase == :charging
       tk.power += $cfg[:power_step]
-      if tk.power >= $cfg[:power_max] || !btn(4, p)
+      if tk.power >= $cfg[:power_max] || !btn(1, p)
         tk.power = $cfg[:power_max] if tk.power > $cfg[:power_max]
         fire_weapon(tk)
       end

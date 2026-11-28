@@ -5,9 +5,9 @@
 # 256x256 / 1ファイル完結 / 基本API + BG + スプライト専用
 #
 # 【操作方法】
-#   ← / → / ↑ / ↓ (WASD) : 潜水艦操縦
-#   Z / Space / 左クリック : ソナー波紋照射 (敵の姿を暴く!)
-#   X / Enter / 右クリック : 魚雷発射 (暴いた敵に2倍クリティカル!)
+#   ← / → / ↑ / ↓  : 潜水艦操縦
+#   Z / 左クリック : ソナー波紋照射 (敵の姿を暴く!)
+#   X / 右クリック : 魚雷発射 (暴いた敵に2倍クリティカル!)
 # ==============================================================================
 
 config(
@@ -121,7 +121,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -198,7 +198,7 @@ class GameScene
     if @dead
       @dead_timer += 1
       @fx.update
-      if @dead_timer > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @dead_timer > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         run GameScene.new
       end
       return
@@ -211,16 +211,16 @@ class GameScene
     # 移動
     ax = 0.0
     ay = 0.0
-    if btn(0)
+    if btn(:left)
       ax -= 0.24
       @facing_left = true
     end
-    if btn(1)
+    if btn(:right)
       ax += 0.24
       @facing_left = false
     end
-    ay -= 0.24 if btn(2)
-    ay += 0.24 if btn(3)
+    ay -= 0.24 if btn(:up)
+    ay += 0.24 if btn(:down)
 
     @vx = (@vx + ax) * 0.88
     @vy = (@vy + ay) * 0.88
@@ -232,14 +232,14 @@ class GameScene
     end
 
     # ソナー発射
-    if (btnp(4) || btnp(:mouse_l)) && @ping_cd <= 0
+    if (btnp(1) || btnp(:mouse_l)) && @ping_cd <= 0
       @ping_cd = 28
       @sonars << { x: @px, y: @py, r: 6.0, max_r: 145.0 }
       @fx.burst(@px, @py, 6, 12, 1.8, 12)
     end
 
     # 魚雷発射
-    if (btnp(5) || btnp(:mouse_r)) && @torp_cd <= 0
+    if (btnp(2) || btnp(:mouse_r)) && @torp_cd <= 0
       @torp_cd = 16
       dir = @facing_left ? -1.0 : 1.0
       @torps << { x: @px + dir * 8.0, y: @py, vx: dir * 3.8, vy: 0.0, life: 90 }

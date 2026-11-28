@@ -5,7 +5,7 @@
 # 256x256 / 1ファイル完結 / 基本API + BG + スプライト専用
 #
 # 【操作方法】
-#   クリック / Z / Space : 小惑星をレーザー採掘!
+#   クリック / Z : 小惑星をレーザー採掘!
 #   下部パネル / ←→ + X  : ドローン・レーザー・精製所を強化!
 # ==============================================================================
 
@@ -26,7 +26,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -120,11 +120,11 @@ class GameScene
     @t += 1
     @hit_scale += (1.0 - @hit_scale) * 0.25
 
-    @sel_up = (@sel_up - 1) % 3 if btnp(0)
-    @sel_up = (@sel_up + 1) % 3 if btnp(1)
-    buy_upgrade(@sel_up) if btnp(5)
+    @sel_up = (@sel_up - 1) % 3 if btnp(:left)
+    @sel_up = (@sel_up + 1) % 3 if btnp(:right)
+    buy_upgrade(@sel_up) if btnp(2)
 
-    if btnp(4)
+    if btnp(1)
       mine_hit(24.0, 48.0, @click_pwr, 10)
     end
 

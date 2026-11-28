@@ -57,13 +57,13 @@ class TitleScene
 
   def update
     @tick += 1
-    if btnp(2)
+    if btnp(:up)
       @sel = (@sel - 1 + 5) % 5
-    elsif btnp(3)
+    elsif btnp(:down)
       @sel = (@sel + 1) % 5
     end
 
-    if btnp(4) || btnp(5)
+    if btnp(1) || btnp(2)
       if @sel == 0
         run GameScene.new({ meta: @meta })
       else
@@ -221,7 +221,7 @@ class GameScene
       update_levelup
       return
     elsif @state == :gameover
-      if btnp(4) || btnp(5) || btnp(:mouse_l)
+      if btnp(1) || btnp(2) || btnp(:mouse_l)
         run TitleScene.new
       end
       return
@@ -235,10 +235,10 @@ class GameScene
     # Player movement
     dx = 0.0
     dy = 0.0
-    dx -= 1.0 if btn(0)
-    dx += 1.0 if btn(1)
-    dy -= 1.0 if btn(2)
-    dy += 1.0 if btn(3)
+    dx -= 1.0 if btn(:left)
+    dx += 1.0 if btn(:right)
+    dy -= 1.0 if btn(:up)
+    dy += 1.0 if btn(:down)
     if dx != 0.0 && dy != 0.0
       dx *= 0.7071
       dy *= 0.7071
@@ -485,12 +485,12 @@ class GameScene
   end
 
   def update_levelup
-    if btnp(2)
+    if btnp(:up)
       @choice_sel = (@choice_sel + 2) % 3
-    elsif btnp(3)
+    elsif btnp(:down)
       @choice_sel = (@choice_sel + 1) % 3
     end
-    if btnp(4) || btnp(5)
+    if btnp(1) || btnp(2)
       apply_choice(@choices[@choice_sel])
       @state = :play
     elsif btnp(:mouse_l)

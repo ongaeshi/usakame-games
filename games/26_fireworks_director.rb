@@ -34,7 +34,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -152,11 +152,11 @@ class GameScene
     @t += 1
     @flash_t -= 1 if @flash_t > 0
 
-    @sel = (@sel - 1) % SHELL_TYPES.size if btnp(0)
-    @sel = (@sel + 1) % SHELL_TYPES.size if btnp(1)
-    @auto = !@auto if btnp(5)
+    @sel = (@sel - 1) % SHELL_TYPES.size if btnp(:left)
+    @sel = (@sel + 1) % SHELL_TYPES.size if btnp(:right)
+    @auto = !@auto if btnp(2)
 
-    if btnp(4)
+    if btnp(1)
       launch_shell(40.0 + rand() * 176.0, 50.0 + rand() * 80.0, @sel)
     end
 

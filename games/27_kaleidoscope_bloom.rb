@@ -33,7 +33,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -88,11 +88,11 @@ class GameScene
 
   def update
     @t += 1
-    @axes_idx = (@axes_idx - 1) % AXES_LIST.size if btnp(0)
-    @axes_idx = (@axes_idx + 1) % AXES_LIST.size if btnp(1) || btnp(4)
-    @pal_idx = (@pal_idx - 1) % PALETTES.size if btnp(2)
-    @pal_idx = (@pal_idx + 1) % PALETTES.size if btnp(3)
-    @auto = !@auto if btnp(5)
+    @axes_idx = (@axes_idx - 1) % AXES_LIST.size if btnp(:left)
+    @axes_idx = (@axes_idx + 1) % AXES_LIST.size if btnp(:right) || btnp(1)
+    @pal_idx = (@pal_idx - 1) % PALETTES.size if btnp(:up)
+    @pal_idx = (@pal_idx + 1) % PALETTES.size if btnp(:down)
+    @auto = !@auto if btnp(2)
 
     pal = PALETTES[@pal_idx][:cols]
     mx = mouse_x

@@ -6,8 +6,8 @@
 #
 # 【操作方法】
 #   マウスクリック / Z(Space) : 鏡・プリズムを回転
-#   矢印キー / WASD           : カーソル移動
-#   X / Enter                 : レベルリセット（クリア時は次へ）
+#   矢印キー           : カーソル移動
+#   X                 : レベルリセット（クリア時は次へ）
 # ==============================================================================
 
 config(
@@ -419,7 +419,7 @@ class PrismLaserGame
     m_click = btnp(:mouse_l)
 
     if @state == :title
-      if @frame > 5 && (btnp(4) || btnp(5) || m_click)
+      if @frame > 5 && (btnp(1) || btnp(2) || m_click)
         @state = :play
         load_level(0)
       end
@@ -427,7 +427,7 @@ class PrismLaserGame
     end
 
     if @state == :all_clear
-      if btnp(4) || btnp(5) || m_click
+      if btnp(1) || btnp(2) || m_click
         @state = :play
         load_level(0)
       end
@@ -436,7 +436,7 @@ class PrismLaserGame
 
     if @just_cleared
       @clear_timer += 1
-      if btnp(4) || btnp(5) || m_click || @clear_timer > 95
+      if btnp(1) || btnp(2) || m_click || @clear_timer > 95
         if @level_idx == @levels.size - 1
           @state = :all_clear
         else
@@ -447,15 +447,15 @@ class PrismLaserGame
     end
 
     # カーソル移動
-    @cur_x = (@cur_x - 1) % GRID_W if btnp(0)
-    @cur_x = (@cur_x + 1) % GRID_W if btnp(1)
-    @cur_y = (@cur_y - 1) % GRID_H if btnp(2)
-    @cur_y = (@cur_y + 1) % GRID_H if btnp(3)
+    @cur_x = (@cur_x - 1) % GRID_W if btnp(:left)
+    @cur_x = (@cur_x + 1) % GRID_W if btnp(:right)
+    @cur_y = (@cur_y - 1) % GRID_H if btnp(:up)
+    @cur_y = (@cur_y + 1) % GRID_H if btnp(:down)
 
-    if btnp(4)
+    if btnp(1)
       rotate_at(@cur_x, @cur_y)
     end
-    if btnp(5)
+    if btnp(2)
       load_level(@level_idx)
     end
 

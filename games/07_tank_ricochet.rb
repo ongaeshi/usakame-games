@@ -5,10 +5,10 @@
 # 256x256 / 1ファイル完結 / 基本API + BG + スプライト専用
 #
 # 【操作方法】
-#   ← / → / ↑ / ↓ (WASD) : 戦車移動
+#   ← / → / ↑ / ↓  : 戦車移動
 #   マウス移動             : 砲塔エイム＆跳弾予測線
-#   Z / Space / 左クリック : 跳弾砲発射 (最大2回壁反射!)
-#   X / Enter / 右クリック : 回避ブースト
+#   Z / 左クリック : 跳弾砲発射 (最大2回壁反射!)
+#   X / 右クリック : 回避ブースト
 # ==============================================================================
 
 config(
@@ -126,7 +126,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -294,7 +294,7 @@ class GameScene
     if @dead
       @dead_timer += 1
       @fx.update
-      if @dead_timer > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @dead_timer > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         run GameScene.new
       end
       return
@@ -323,15 +323,15 @@ class GameScene
     # 移動
     dx = 0.0
     dy = 0.0
-    dx -= 1.0 if btn(0)
-    dx += 1.0 if btn(1)
-    dy -= 1.0 if btn(2)
-    dy += 1.0 if btn(3)
+    dx -= 1.0 if btn(:left)
+    dx += 1.0 if btn(:right)
+    dy -= 1.0 if btn(:up)
+    dy += 1.0 if btn(:down)
 
     if dx != 0.0 || dy != 0.0
       len = sqrt(dx * dx + dy * dy)
       spd = 1.6
-      if @dash_cd <= 0 && (btnp(5) || btnp(:mouse_r))
+      if @dash_cd <= 0 && (btnp(2) || btnp(:mouse_r))
         spd = 12.0
         @dash_cd = 45
         @fx.burst(@px, @py, 8, 12, 2.0, 12)
@@ -354,7 +354,7 @@ class GameScene
     end
 
     # 発射
-    if (btnp(4) || btnp(:mouse_l)) && @shot_cd <= 0
+    if (btnp(1) || btnp(:mouse_l)) && @shot_cd <= 0
       @shot_cd = 16
       fire_shell(@px, @py, @aim_ang, :player, 2)
     end

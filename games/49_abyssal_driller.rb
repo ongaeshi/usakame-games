@@ -49,10 +49,10 @@ class TitleScene
 
   def update
     @tick += 1
-    @sel = (@sel - 1 + 5) % 5 if btnp(2)
-    @sel = (@sel + 1) % 5 if btnp(3)
+    @sel = (@sel - 1 + 5) % 5 if btnp(:up)
+    @sel = (@sel + 1) % 5 if btnp(:down)
 
-    if btnp(4) || btnp(5)
+    if btnp(1) || btnp(2)
       if @sel == 0
         run DrillScene.new({ upgs: @upgs })
       else
@@ -214,14 +214,14 @@ class DrillScene
     update_popups
 
     if @state != :play
-      if btnp(4) || btnp(5) || btnp(:mouse_l)
+      if btnp(1) || btnp(2) || btnp(:mouse_l)
         run TitleScene.new
       end
       return
     end
 
     # Drop flare
-    if btnp(5) || btnp(:mouse_r)
+    if btnp(2) || btnp(:mouse_r)
       if @flares.size >= 12
         @flares.shift
       end
@@ -239,11 +239,11 @@ class DrillScene
     # Player input
     spd = $cfg[:base_spd] + @drill_lv * 0.15
     dx = 0.0
-    dx -= 1.0 if btn(0)
-    dx += 1.0 if btn(1)
+    dx -= 1.0 if btn(:left)
+    dx += 1.0 if btn(:right)
     @facing = dx > 0 ? 1 : -1 if dx != 0.0
 
-    if btn(2) && @fuel > 0.0
+    if btn(:up) && @fuel > 0.0
       @vy -= @jet_pwr
       @fuel -= 0.12
       @particles << { x: @px, y: @py + 7, vx: (rand() - 0.5) * 1.2, vy: 1.5, col: 9, life: 10 } if @tick % 2 == 0
@@ -252,7 +252,7 @@ class DrillScene
     end
     @vy = @vy.clamp(-3.2, 3.6)
 
-    dig_down = btn(3)
+    dig_down = btn(:down)
 
     # Horizontal move & drill
     nx = (@px + dx * spd).clamp(10.0, (@w - 10).to_f)

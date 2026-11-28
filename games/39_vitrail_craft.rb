@@ -7,7 +7,7 @@
 # 【操作方法】
 #   マウス移動 / 矢印キー : ガラスピース選択
 #   左クリック / Z(Space) : 色ガラスをはめる（色変更）
-#   X / Enter             : パズル⇔フリーアート切替
+#   X             : パズル⇔フリーアート切替
 # ==============================================================================
 
 config(
@@ -166,7 +166,7 @@ class VitrailCraftGame
     @sparks.reject! { |s| s[:life] <= 0 }
 
     if @state == :title
-      if @frame > 5 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @frame > 5 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         @state = :play
         load_pattern(0)
       end
@@ -175,20 +175,20 @@ class VitrailCraftGame
 
     if @complete_t > 0
       @complete_t += 1
-      if @complete_t > 120 || (@complete_t > 20 && (btnp(4) || btnp(:mouse_l)))
+      if @complete_t > 120 || (@complete_t > 20 && (btnp(1) || btnp(:mouse_l)))
         load_pattern(@pat_idx + 1)
       end
       return
     end
 
-    @sel_pane = (@sel_pane - 1) % @panes.size if btnp(0) || btnp(2)
-    @sel_pane = (@sel_pane + 1) % @panes.size if btnp(1) || btnp(3)
+    @sel_pane = (@sel_pane - 1) % @panes.size if btnp(:left) || btnp(:up)
+    @sel_pane = (@sel_pane + 1) % @panes.size if btnp(:right) || btnp(:down)
 
-    if btnp(4)
+    if btnp(1)
       cycle_pane(@sel_pane)
     end
 
-    if btnp(5)
+    if btnp(2)
       @free_mode = !@free_mode
     end
 

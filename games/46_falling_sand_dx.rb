@@ -56,12 +56,12 @@ class TitleScene
 
   def update
     @tick += 1
-    if btnp(2) || btnp(3)
+    if btnp(:up) || btnp(:down)
       @mode = 1 - @mode
     end
     if @mode == 1
-      @puz_idx = (@puz_idx - 1 + $puzzles.size) % $puzzles.size if btnp(0)
-      @puz_idx = (@puz_idx + 1) % $puzzles.size if btnp(1)
+      @puz_idx = (@puz_idx - 1 + $puzzles.size) % $puzzles.size if btnp(:left)
+      @puz_idx = (@puz_idx + 1) % $puzzles.size if btnp(:right)
     end
     if btnp(:mouse_l)
       my = mouse_y
@@ -75,7 +75,7 @@ class TitleScene
         return
       end
     end
-    if btnp(4) || btnp(5)
+    if btnp(1) || btnp(2)
       run LabScene.new({ mode: @mode == 0 ? :sandbox : :puzzle, puz_idx: @puz_idx })
     end
   end
@@ -270,7 +270,7 @@ class LabScene
     @slot_msg_t -= 1 if @slot_msg_t > 0
 
     if @won
-      if btnp(4) || btnp(5) || btnp(:mouse_l)
+      if btnp(1) || btnp(2) || btnp(:mouse_l)
         if @puz_idx + 1 < $puzzles.size
           @puz_idx += 1
           setup_puzzle(@puz_idx)
@@ -289,11 +289,11 @@ class LabScene
     end
 
     if @mode == :sandbox
-      @tool_idx = (@tool_idx - 1 + $elem_order.size) % $elem_order.size if btnp(0)
-      @tool_idx = (@tool_idx + 1) % $elem_order.size if btnp(1)
+      @tool_idx = (@tool_idx - 1 + $elem_order.size) % $elem_order.size if btnp(:left)
+      @tool_idx = (@tool_idx + 1) % $elem_order.size if btnp(:right)
     end
 
-    if btnp(5)
+    if btnp(2)
       if @mode == :puzzle
         setup_puzzle(@puz_idx)
       else
@@ -324,7 +324,7 @@ class LabScene
       if my >= @sy && my < @sy + @sh * @sc
         paint_erase((mx / @sc).to_i, ((my - @sy) / @sc).to_i)
       end
-    elsif btn(4)
+    elsif btn(1)
       paint_at(40 + (cos(@tick * 0.1) * 10).to_i, 8)
     end
 

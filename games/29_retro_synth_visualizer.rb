@@ -26,7 +26,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -77,11 +77,11 @@ class GameScene
     @t += 0.05 * @speed
     @pulse *= 0.88
 
-    @mode = (@mode - 1) % MODES.size if btnp(0)
-    @mode = (@mode + 1) % MODES.size if btnp(1) || btnp(4) || btnp(:mouse_l)
-    @speed += 0.25 if btnp(2) && @speed < 3.0
-    @speed -= 0.25 if btnp(3) && @speed > 0.25
-    @pulse = 16.0 if btnp(5)
+    @mode = (@mode - 1) % MODES.size if btnp(:left)
+    @mode = (@mode + 1) % MODES.size if btnp(:right) || btnp(1) || btnp(:mouse_l)
+    @speed += 0.25 if btnp(:up) && @speed < 3.0
+    @speed -= 0.25 if btnp(:down) && @speed > 0.25
+    @pulse = 16.0 if btnp(2)
 
     @stars.each do |s|
       s[:z] -= 2.5 * @speed

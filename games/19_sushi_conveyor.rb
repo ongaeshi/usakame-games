@@ -32,7 +32,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -138,16 +138,16 @@ class GameScene
 
     if @dead
       @dead_timer += 1
-      if @dead_timer > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @dead_timer > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         run GameScene.new
       end
       return
     end
 
     # 入力
-    @sel_idx = (@sel_idx - 1) % 4 if btnp(0)
-    @sel_idx = (@sel_idx + 1) % 4 if btnp(1)
-    serve_sushi(@sel_idx) if btnp(4) || btnp(5)
+    @sel_idx = (@sel_idx - 1) % 4 if btnp(:left)
+    @sel_idx = (@sel_idx + 1) % 4 if btnp(:right)
+    serve_sushi(@sel_idx) if btnp(1) || btnp(2)
 
     if btnp(:mouse_l)
       mx = mouse_x

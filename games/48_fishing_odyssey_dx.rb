@@ -60,7 +60,7 @@ class TitleScene
 
   def update
     @tick += 1
-    if btnp(4) || btnp(5) || btnp(:mouse_l)
+    if btnp(1) || btnp(2) || btnp(:mouse_l)
       run FishingScene.new
     end
   end
@@ -146,7 +146,7 @@ class FishingScene
     end
 
     if @state == :dex
-      if btnp(5) || btnp(4) || btnp(:mouse_l)
+      if btnp(2) || btnp(1) || btnp(:mouse_l)
         @state = :idle
       end
       return
@@ -160,12 +160,12 @@ class FishingScene
         pick_fish
         @state = :bite
         @bite_t = $cfg[:hook_window]
-      elsif btnp(4) || btnp(:mouse_l)
+      elsif btnp(1) || btnp(:mouse_l)
         @state = :idle
       end
     elsif @state == :bite
       @bite_t -= 1
-      if btnp(4) || btnp(:mouse_l) || mouse_wheel != 0.0
+      if btnp(1) || btnp(:mouse_l) || mouse_wheel != 0.0
         @state = :reeling
         @bar_y = 50.0
         @bar_vy = 0.0
@@ -180,20 +180,20 @@ class FishingScene
     elsif @state == :reeling
       update_reeling
     elsif @state == :caught
-      if btnp(4) || btnp(5) || btnp(:mouse_l)
+      if btnp(1) || btnp(2) || btnp(:mouse_l)
         @state = :idle
       end
     end
   end
 
   def update_idle
-    if btnp(0)
+    if btnp(:left)
       change_sea(-1)
-    elsif btnp(1)
+    elsif btnp(:right)
       change_sea(1)
     end
 
-    if btnp(5)
+    if btnp(2)
       @state = :dex
       return
     end
@@ -215,7 +215,7 @@ class FishingScene
       end
     end
 
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       @state = :waiting
       @bob_x = 180.0 + rand(220)
       @bob_y = $cfg[:water_y].to_f
@@ -275,7 +275,7 @@ class FishingScene
   def update_reeling
     # Catch bar physics (Z / Click / Wheel moves bar up)
     wh = mouse_wheel
-    if btn(4) || btn(:mouse_l) || wh != 0.0
+    if btn(1) || btn(:mouse_l) || wh != 0.0
       @bar_vy -= 0.42
       @bar_vy -= 0.8 if wh != 0.0
     else

@@ -85,10 +85,10 @@ class TitleScene
 
   def update
     @tick += 1
-    @sel = (@sel - 1 + $puzzles.size) % $puzzles.size if btnp(0)
-    @sel = (@sel + 1) % $puzzles.size if btnp(1)
-    @sel = (@sel - 4 + $puzzles.size) % $puzzles.size if btnp(2)
-    @sel = (@sel + 4) % $puzzles.size if btnp(3)
+    @sel = (@sel - 1 + $puzzles.size) % $puzzles.size if btnp(:left)
+    @sel = (@sel + 1) % $puzzles.size if btnp(:right)
+    @sel = (@sel - 4 + $puzzles.size) % $puzzles.size if btnp(:up)
+    @sel = (@sel + 4) % $puzzles.size if btnp(:down)
 
     if btnp(:mouse_l)
       mx = mouse_x
@@ -106,9 +106,9 @@ class TitleScene
       end
     end
 
-    if btnp(4)
+    if btnp(1)
       run PuzzleScene.new({ idx: @sel })
-    elsif btnp(5)
+    elsif btnp(2)
       run GalleryScene.new
     end
   end
@@ -151,7 +151,7 @@ class GalleryScene
 
   def update
     @tick += 1
-    if btnp(4) || btnp(5) || btnp(:mouse_l)
+    if btnp(1) || btnp(2) || btnp(:mouse_l)
       run TitleScene.new
     end
   end
@@ -289,7 +289,7 @@ class PuzzleScene
   def update
     @tick += 1
     if @won
-      if btnp(4) || btnp(5) || btnp(:mouse_l)
+      if btnp(1) || btnp(2) || btnp(:mouse_l)
         if @idx + 1 < $puzzles.size
           run PuzzleScene.new({ idx: @idx + 1 })
         else
@@ -301,14 +301,14 @@ class PuzzleScene
 
     @timer += 1
     wh = mouse_wheel
-    if wh != 0.0 || btnp(5)
+    if wh != 0.0 || btnp(2)
       @tool = @tool == 1 ? 2 : 1
     end
 
-    @cur_c = (@cur_c - 1).clamp(0, @w - 1) if btnp(0)
-    @cur_c = (@cur_c + 1).clamp(0, @w - 1) if btnp(1)
-    @cur_r = (@cur_r - 1).clamp(0, @h - 1) if btnp(2)
-    @cur_r = (@cur_r + 1).clamp(0, @h - 1) if btnp(3)
+    @cur_c = (@cur_c - 1).clamp(0, @w - 1) if btnp(:left)
+    @cur_c = (@cur_c + 1).clamp(0, @w - 1) if btnp(:right)
+    @cur_r = (@cur_r - 1).clamp(0, @h - 1) if btnp(:up)
+    @cur_r = (@cur_r + 1).clamp(0, @h - 1) if btnp(:down)
 
     mx = mouse_x
     my = mouse_y
@@ -325,7 +325,7 @@ class PuzzleScene
       return
     end
 
-    if btnp(4)
+    if btnp(1)
       toggle_cell(@cur_c, @cur_r, @tool)
     end
   end

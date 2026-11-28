@@ -7,7 +7,7 @@
 # 【操作方法】
 #   マウスドラッグ / 矢印キー : 発射角度・パワー調整
 #   リリース / Z (Space)      : 発射（飛行中にZ/クリックで特殊能力発動！）
-#   X / Enter                 : レベルリセット
+#   X                 : レベルリセット
 # ==============================================================================
 
 config(
@@ -214,7 +214,7 @@ class SlingshotFortressGame
     @shake *= 0.85
 
     if @state == :title
-      if @frame > 5 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @frame > 5 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         @state = :play
         load_level(0)
       end
@@ -222,7 +222,7 @@ class SlingshotFortressGame
     end
 
     if @state == :all_clear
-      if btnp(4) || btnp(5) || btnp(:mouse_l)
+      if btnp(1) || btnp(2) || btnp(:mouse_l)
         @score = 0
         @state = :play
         load_level(0)
@@ -234,7 +234,7 @@ class SlingshotFortressGame
     alive_gobs = @goblins.count { |g| g[:alive] }
     if alive_gobs == 0
       @clear_t += 1
-      if @clear_t > 65 || (@clear_t > 15 && (btnp(4) || btnp(:mouse_l)))
+      if @clear_t > 65 || (@clear_t > 15 && (btnp(1) || btnp(:mouse_l)))
         @score += @ammo.size * 150
         if @lvl_idx == @levels.size - 1
           @state = :all_clear
@@ -249,14 +249,14 @@ class SlingshotFortressGame
     # 失敗判定
     if @ammo.empty? && @shots.empty?
       @fail_t += 1
-      if @fail_t > 90 || btnp(4) || btnp(5) || btnp(:mouse_l)
+      if @fail_t > 90 || btnp(1) || btnp(2) || btnp(:mouse_l)
         load_level(@lvl_idx)
       end
       update_fx
       return
     end
 
-    if btnp(5)
+    if btnp(2)
       load_level(@lvl_idx)
       return
     end
@@ -264,7 +264,7 @@ class SlingshotFortressGame
     # 飛行中の砲弾へのスキル発動 (Z / クリック)
     active_shot = @shots.first
     if active_shot
-      if btnp(4) || btnp(:mouse_l)
+      if btnp(1) || btnp(:mouse_l)
         if !active_shot[:used_skill]
           active_shot[:used_skill] = true
           if active_shot[:kind] == :split
@@ -285,10 +285,10 @@ class SlingshotFortressGame
       end
     elsif @ammo.size > 0
       # 照準操作（キーボード）
-      @aim_ang = (@aim_ang - 0.03).clamp(-1.35, -0.15) if btn(2)
-      @aim_ang = (@aim_ang + 0.03).clamp(-1.35, -0.15) if btn(3)
-      @aim_pwr = (@aim_pwr - 0.15).clamp(4.0, 12.0) if btn(0)
-      @aim_pwr = (@aim_pwr + 0.15).clamp(4.0, 12.0) if btn(1)
+      @aim_ang = (@aim_ang - 0.03).clamp(-1.35, -0.15) if btn(:up)
+      @aim_ang = (@aim_ang + 0.03).clamp(-1.35, -0.15) if btn(:down)
+      @aim_pwr = (@aim_pwr - 0.15).clamp(4.0, 12.0) if btn(:left)
+      @aim_pwr = (@aim_pwr + 0.15).clamp(4.0, 12.0) if btn(:right)
 
       # マウスドラッグ照準
       if btn(:mouse_l)
@@ -312,7 +312,7 @@ class SlingshotFortressGame
         fire_shot(kind, cos(@aim_ang) * @aim_pwr, sin(@aim_ang) * @aim_pwr)
       end
 
-      if btnp(4)
+      if btnp(1)
         kind = @ammo.shift
         fire_shot(kind, cos(@aim_ang) * @aim_pwr, sin(@aim_ang) * @aim_pwr)
       end

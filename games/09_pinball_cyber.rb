@@ -121,7 +121,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -231,14 +231,14 @@ class GameScene
     if @dead
       @dead_timer += 1
       @fx.update
-      if @dead_timer > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @dead_timer > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         run GameScene.new
       end
       return
     end
 
     @nudge_cd -= 1 if @nudge_cd > 0
-    if btnp(2) && @nudge_cd <= 0
+    if btnp(:up) && @nudge_cd <= 0
       @nudge_cd = 35
       @fx.shake(2.5, 6)
       @balls.each do |b|
@@ -248,8 +248,8 @@ class GameScene
     end
 
     # フリッパー操作
-    l_hold = btn(0) || btn(4) || btn(:mouse_l)
-    r_hold = btn(1) || btn(5) || btn(4) || btn(:mouse_l)
+    l_hold = btn(:left) || btn(1) || btn(:mouse_l)
+    r_hold = btn(:right) || btn(2) || btn(1) || btn(:mouse_l)
     @l_prev = @l_ang
     @r_prev = @r_ang
     target_l = l_hold ? -0.45 : 0.45

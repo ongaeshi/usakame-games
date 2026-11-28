@@ -5,7 +5,7 @@
 # 256x256 / 1ファイル完結 / 基本API + BG + スプライト専用
 #
 # 【操作方法】
-#   Z / Space / 左クリック : フック発射（押している間ホールド・離すと射出）
+#   Z / 左クリック : フック発射（押している間ホールド・離すと射出）
 #   ← / → (A / D)          : スイング加速 / 空中制御
 #   ↑ / ↓ (W / S)          : ロープ巻き取り / 伸ばす
 # ==============================================================================
@@ -178,7 +178,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new
     end
   end
@@ -216,7 +216,7 @@ class TitleScene
     # 操作説明ボックス
     rectfill(26, 132, 204, 62, 0)
     rect(26, 132, 204, 62, 5)
-    print_text("HOLD Z / SPACE / CLICK : GRAPPLE", 34, 142, 12)
+    print_text("HOLD Z / CLICK : GRAPPLE", 34, 142, 12)
     print_text("LEFT / RIGHT (A/D)     : SWING", 34, 156, 7)
     print_text("UP / DOWN (W/S)        : REEL ROPE", 34, 170, 7)
     if $best_alt > 0
@@ -322,7 +322,7 @@ class GameScene
     if @dead
       @dead_timer += 1
       @fx.update
-      if @dead_timer > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @dead_timer > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         run GameScene.new
       end
       return
@@ -337,8 +337,8 @@ class GameScene
     @target_anchor = find_best_anchor unless @hooked
 
     # フック発射 / 保持 / 解放
-    holding = btn(4) || btn(:mouse_l)
-    pressed = btnp(4) || btnp(:mouse_l)
+    holding = btn(1) || btn(:mouse_l)
+    pressed = btnp(1) || btnp(:mouse_l)
 
     if pressed && !@hooked && @target_anchor
       @hooked = true
@@ -380,24 +380,24 @@ class GameScene
 
     if @hooked
       # スイング加速
-      if btn(0)
+      if btn(:left)
         @vx -= 0.14
         @facing_left = true
       end
-      if btn(1)
+      if btn(:right)
         @vx += 0.14
         @facing_left = false
       end
       # ロープ伸縮
-      @rope_len -= 1.6 if btn(2)
-      @rope_len += 1.6 if btn(3)
+      @rope_len -= 1.6 if btn(:up)
+      @rope_len += 1.6 if btn(:down)
       @rope_len = clamp_v(@rope_len, 18.0, MAX_HOOK_DIST)
     else
-      if btn(0)
+      if btn(:left)
         @vx -= 0.12
         @facing_left = true
       end
-      if btn(1)
+      if btn(:right)
         @vx += 0.12
         @facing_left = false
       end

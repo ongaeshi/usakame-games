@@ -6,8 +6,8 @@
 #
 # 【操作方法】
 #   ← / → / マウス移動 : カード・報酬選択
-#   Z / Space / クリック : カード使用・決定
-#   X / Enter            : ターン終了
+#   Z / クリック : カード使用・決定
+#   X            : ターン終了
 # ==============================================================================
 
 config(
@@ -223,7 +223,7 @@ class ArcanaDeckGame
     @sparks.reject! { |s| s[:life] <= 0 }
 
     if @state == :title
-      if @frame > 5 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @frame > 5 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         reset_run
         @state = :battle
       end
@@ -231,7 +231,7 @@ class ArcanaDeckGame
     end
 
     if @state == :gameover || @state == :victory
-      if btnp(4) || btnp(5) || btnp(:mouse_l)
+      if btnp(1) || btnp(2) || btnp(:mouse_l)
         reset_run
         @state = :battle
       end
@@ -239,9 +239,9 @@ class ArcanaDeckGame
     end
 
     if @state == :reward
-      @sel_idx = (@sel_idx - 1) % 3 if btnp(0)
-      @sel_idx = (@sel_idx + 1) % 3 if btnp(1)
-      if btnp(4)
+      @sel_idx = (@sel_idx - 1) % 3 if btnp(:left)
+      @sel_idx = (@sel_idx + 1) % 3 if btnp(:right)
+      if btnp(1)
         @deck << @rewards[@sel_idx]
         @floor += 1
         @hp = [@hp + 5, @max_hp].min
@@ -271,16 +271,16 @@ class ArcanaDeckGame
 
     # バトル中操作
     if @hand.size > 0
-      @sel_idx = (@sel_idx - 1) % @hand.size if btnp(0)
-      @sel_idx = (@sel_idx + 1) % @hand.size if btnp(1)
+      @sel_idx = (@sel_idx - 1) % @hand.size if btnp(:left)
+      @sel_idx = (@sel_idx + 1) % @hand.size if btnp(:right)
     end
 
-    if btnp(4) && @hand.size > 0
+    if btnp(1) && @hand.size > 0
       play_card(@sel_idx)
       return
     end
 
-    if btnp(5)
+    if btnp(2)
       end_turn
       return
     end
@@ -347,7 +347,7 @@ class ArcanaDeckGame
       print_text("ARCANA DECK", 232, 116, 10, 16)
       print_text("デッキ構築ローグライトカードバトル", 184, 150, 7, 16)
       print_text("クリック / Z : カード使用・選択", 190, 198, 12, 16)
-      print_text("X / Enter    : ターン終了", 190, 226, 11, 16)
+      print_text("X    : ターン終了", 190, 226, 11, 16)
       print_text("クリックまたは Z で冒険開始！", 196, 290, 10, 16)
       return
     end
@@ -416,7 +416,7 @@ class ArcanaDeckGame
       print_text("ARCANA DECK", 232, 116, 10, 16)
       print_text("デッキ構築ローグライトカードバトル", 184, 150, 7, 16)
       print_text("クリック / Z : カード使用・選択", 190, 198, 12, 16)
-      print_text("X / Enter    : ターン終了", 190, 226, 11, 16)
+      print_text("X    : ターン終了", 190, 226, 11, 16)
       print_text("クリックまたは Z で冒険開始！", 196, 290, 10, 16)
     elsif @state == :reward
       rectfill(70, 90, 500, 260, 0, 0.88)

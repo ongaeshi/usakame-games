@@ -6,7 +6,7 @@
 #
 # 【操作方法】
 #   マウス移動 / 矢印キー : マレット操作
-#   Z / Space / 左クリック : パワースマッシュ (高速ショット!)
+#   Z / 左クリック : パワースマッシュ (高速ショット!)
 # ==============================================================================
 
 config(
@@ -46,7 +46,7 @@ class TitleScene
 
   def update
     @t += 1
-    if btnp(4) || btnp(:mouse_l)
+    if btnp(1) || btnp(:mouse_l)
       run GameScene.new(0)
     end
   end
@@ -159,7 +159,7 @@ class GameScene
 
     if @match_over
       @over_timer += 1
-      if @over_timer > 30 && (btnp(4) || btnp(5) || btnp(:mouse_l))
+      if @over_timer > 30 && (btnp(1) || btnp(2) || btnp(:mouse_l))
         if @won && @cpu_idx < CPU_LEVELS.size - 1
           run GameScene.new(@cpu_idx + 1)
         else
@@ -177,7 +177,7 @@ class GameScene
     @smash_cd -= 1 if @smash_cd > 0
     @smash_t -= 1 if @smash_t > 0
 
-    if (btnp(4) || btnp(:mouse_l)) && @smash_cd <= 0
+    if (btnp(1) || btnp(:mouse_l)) && @smash_cd <= 0
       @smash_t = 12
       @smash_cd = 32
       @rings << { x: @px, y: @py, r: 6.0, max_r: 22.0, col: 10 }
@@ -192,10 +192,10 @@ class GameScene
       @prev_mx = mx; @prev_my = my
     else
       spd = 3.2
-      @px -= spd if btn(0)
-      @px += spd if btn(1)
-      @py -= spd if btn(2)
-      @py += spd if btn(3)
+      @px -= spd if btn(:left)
+      @px += spd if btn(:right)
+      @py -= spd if btn(:up)
+      @py += spd if btn(:down)
       @px = clamp_v(@px, RINK_L + 12.0, RINK_R - 12.0)
       @py = clamp_v(@py, 146.0, RINK_B - 12.0)
     end
