@@ -105,3 +105,24 @@ Phase 3 共通設計方針として、**ゲームバランスやエンティテ�
 | 48 | [x] | `games/48_fishing_odyssey_dx.rb` | **FISHING ODYSSEY DX** — 【18進化版】4海域×水中ライト演出で全20種の永続魚図鑑を埋める釣りRPG | 480x270 | `save_set` による全20種魚図鑑（最大寸・王冠）・竿Lv・海域解放の永続保存、夜港・深海の `:gpu` `blend(:erase)` 集魚灯ライトマップ、`mouse_wheel` リール巻き対応、`$cfg`/`$seas`/`$fish_db` ハッシュ管理 |
 | 49 | [x] | `games/49_abyssal_driller.rb` | **ABYSSAL DRILLER** — 縦1160pxのピクセル地層を掘り進め1000mの最深部コアを目指す地底採掘アクション | 320x240 | 大型 `:pixel` サーフェス掘削＆落石判定（`surface_circle_solid?`）、深度に応じた `:gpu` ヘッドライト＆発煙筒ライトマップ、`save_set` ドリル・燃料・ライト・ジェット恒久強化、`$cfg`/`$ores`/`$upgrades` ハッシュ管理 |
 | 50 | [x] | `games/50_titan_colosseum.rb` | **TITAN COLOSSEUM** — 50本記念・戦場に傷跡が刻まれる全5体の巨大タイタン討伐レイド（1P/2P協力） | 480x270 | `:gpu` アリーナ永続傷跡サーフェス＋暗転フェーズ `:gpu` ライトマップ、`show_cursor(false)` 照準、`btn(..., 1)` 2P協力レイド、`save_set` Sランク＆討伐タイム保存、`$cfg`/`$titans` ハッシュ管理 |
+
+---
+
+## Phase4 (51-60) 2026-11-29
+
+`docs/engine_feedback_phase3.md` のエンジン対応（サウンド合成＆再生 `sfx`/`music`/`tone`/`master_vol`/`@SFX`/`@MUSIC`、`draw_surface` の `scale:`/`rot:` 拡大・回転描画修正、非対話アセット検証CLI `uk spr`/`uk sfx`、および新入力API仕様 `btn(:left..)`/`btn(1..2, player)`）を最大限に活かす10本（完全新作8本＋劇的進化DX続編2本）。
+Phase 3 に引き続き、**ゲームバランスやエンティティ仕様のパラメータはスクリプト冒頭の浅いハッシュテーブル（`$cfg = { ... }` 等）に集約**してライブ・ホットリロード調整に対応する。
+全10本完了後、`docs/games_showcase.md` への `Phase4 (51-60) 2026-11-29` 追記および `docs/engine_feedback_phase4.md` への振り返り・改善提案の記述を行う。
+
+| No. | Status | File | タイトル & コンセプト | 解像度 | 活用する新機能・設計メモ |
+| :---: | :---: | :--- | :--- | :---: | :--- |
+| 51 | [ ] | `games/51_crypt_of_the_beat.rb` | **CRYPT OF THE BEAT** — BGMのビートに合わせて動き戦うリズム・ローグライトダンジョン | 320x240 | `@MUSIC` BPM同期移動＆攻撃判定、連続ビート成功で `sfx(..., pitch)` 音階上昇、キック連動 `:gpu` `blend(:erase)` 松明ライトマップ、`save_set` 武器解放、`$cfg`/`$enemies` ハッシュ管理 |
+| 52 | [ ] | `games/52_echo_cavern.rb` | **ECHO CAVERN** — 3種の遺物能力を獲得して深淵遺跡を拓く探索型ミニ・メトロイドヴァニア | 320x240 | 横スクロール連結マップ探索（2段ジャンプ・音波砲・フェーズダッシュ）、エリア別 `@MUSIC` 切替、`draw_surface(..., scale: 3.0)` ライブミニマップ、`:gpu` 遺跡ライトマップ、`save_set` 進行保存 |
+| 53 | [ ] | `games/53_chrono_clone_lab.rb` | **CHRONO CLONE LAB** — 過去の自分の行動と音を録音・同時再生して解く時間クローン協力パズル（全10面） | 480x270 | 6秒行動録画＆多重半透明ゴースト再生、`tone` テープ巻き戻しスイープ音、クローン別ピッチ `@SFX`、レーザー＆圧力スイッチ機構、`save_set` 最少クローン★記録、`$cfg`/`$stages` ハッシュ管理 |
+| 54 | [ ] | `games/54_aether_tide_command.rb` | **AETHER TIDE COMMAND** — 押し寄せる侵食流体を砲台と浄化塔で押し返す流体セルオートマトンRTS（全8面） | 480x270 | `96x54` `:pixel` 流体シミュレーションを `draw_surface(..., scale: 4.0)` で高速拡大描画、中継塔エネルギー網、`@SFX` 浄化パルス＆`@MUSIC` 戦術BGM、`mouse_wheel` 設備切替、`save_set` 戦績保存 |
+| 55 | [ ] | `games/55_cyber_punch_champs.rb` | **CYBER PUNCH CHAMPS** — 敵の予備動作と固有シンセ音を見切りカウンターKOを狙う3D視点風ボクシング（全5戦） | 320x240 | 大型多フレーム `@SPRITE` ボクサー（`uk spr` 検証）、敵技ごとの固有予兆 `@SFX`・ゴング `:bell`・歓声ノイズ、`@MUSIC` 入場＆試合曲、`save_set` チャンピオンベルト＆最速KO記録 |
+| 56 | [ ] | `games/56_synth_groovebox_dx.rb` | **SYNTH GROOVEBOX DX** — 【29進化版】4ch×16ステップ作曲＆XYパッド生演奏ができるチップチューンDAWトイ | 480x270 | `tone` 8波形シーケンサー＆スケール固定XYシンセパッド、`@SFX` ドラムキット、`master_vol`/`sfx_vol` ミキサー、音反応 `:gpu` オシロスコープ＆3Dトンネル、内蔵デモ曲＋`save_set` 4曲保存 |
+| 57 | [ ] | `games/57_chroma_chain_duel.rb` | **CHROMA CHAIN DUEL** — 連鎖ごとに音階が駆け上がりお邪魔ジェムが降る落ち物連鎖パズルバトル（1P杯/2P対戦） | 480x270 | 4連結消去＆重力多段連鎖、`sfx(:bell, -1, 1.0, pitch)` 連鎖音階上昇、ピンチ時の高速 `@MUSIC` 切替、`btn(..., 1)` 2P対戦（1パッド自動分離対応）、`blend(:add)` 連鎖雷、`save_set` 段位保存 |
+| 58 | [ ] | `games/58_hyper_rail_express.rb` | **HYPER RAIL EXPRESS** — 分岐器を切り替え複数列車を衝突させず駅へ導くリアルタイム鉄道運行パズル（全10ダイヤ＋無限） | 480x270 | ポイント切替＆貨車連結、`tone`/`@SFX` 汽笛・発車メロディ・走行リズム音、夜間ダイヤの `:gpu` 前照灯ライトマップ、`mouse_wheel` 速度制御、`save_set` ダイヤ★評価、`$cfg`/`$timetables` ハッシュ管理 |
+| 59 | [ ] | `games/59_cyber_pinball_dx.rb` | **CYBER PINBALL SYMPHONY DX** — 【09進化版】DMD電光掲示板・回転ルーレット・マルチボールBGM搭載のワイド筐体ピンボール | 480x270 | バンパー連鎖 `sfx(..., pitch)` 音階上昇、マルチボール突入 `@MUSIC` 切替、`draw_surface(..., scale:, rot:)` 中央回転ルーレット＆DMD演出、`:gpu` ネオンライトマップ＆ボール軌跡、`save_set` ハイスコア |
+| 60 | [ ] | `games/60_celestial_odyssey.rb` | **CELESTIAL ODYSSEY** — 60本記念・地上界と3つの神殿を巡り魔王を討つ見下ろしアクションRPG | 480x270 | 剣・弓・爆弾（`:pixel` ヒビ壁破壊）、暗闇神殿 `:gpu` ライトマップ、`draw_surface(..., scale: 3.0)` ライブミニマップ、エリア/ボス別4曲 `@MUSIC`、日本語 `outline` UI、`save_set` 冒険セーブ |

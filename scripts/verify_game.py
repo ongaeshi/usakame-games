@@ -18,15 +18,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 FORBIDDEN_TOPLEVEL_APIS = {
-    "map",
-    "mget",
-    "mset",
-    "mdel",
-    "mclear",
-    "sfx",
-    "music",
     "play",
-    "tone",
     "sleep",
 }
 
@@ -47,7 +39,6 @@ FORBIDDEN_METHODS = {
     "downto",
 }
 
-FORBIDDEN_DIRECTIVES_RE = re.compile(r"@(?:MAP|SFX|MUSIC)\b")
 SPRITE_HEADER_RE = re.compile(r"^@SPRITE\s+(\S+)\s+(\d+)x(\d+)\b")
 
 OPEN_TO_CLOSE = {"(": ")", "[": "]", "{": "}", "<": ">"}
@@ -514,9 +505,20 @@ def scan_ruby_code(code: str) -> list[str]:
             i += 3
             continue
 
-        # Check forbidden directive tokens in code (e.g. @MAP / @SFX / @MUSIC if somehow written)
-        if tok.kind == "IVAR" and tok.value in ("@MAP", "@SFX", "@MUSIC"):
-            errors.append(f"[FORBIDDEN] line {tok.line}: {tok.value} in {line_preview(tok.line)}")
+        # Check deprecated integer button IDs in btn(...) / btnp(...): only 1 and 2 are valid integer button IDs
+        if (
+            tok.kind == "IDENT"
+            and tok.value in ("btn", "btnp")
+            and not (prev_tok and prev_tok.value in (".", "&.", "::", "def"))
+            and next_tok
+            and next_tok.value == "("
+            and i + 2 < len(tokens)
+            and tokens[i + 2].kind == "NUMBER"
+            and tokens[i + 2].value not in ("1", "2")
+        ):
+            errors.append(
+                f"[FORBIDDEN] line {tok.line}: {tok.value}({tokens[i + 2].value}) invalid integer button ID (use :left/:right/:up/:down or 1/2) in {line_preview(tok.line)}"
+            )
             i += 1
             continue
 
@@ -582,9 +584,6 @@ def scan_data_section(data: str) -> tuple[list[str], list[str]]:
 
     if not data:
         return forbidden_errors, sprite_errors
-
-    if FORBIDDEN_DIRECTIVES_RE.search(data):
-        forbidden_errors.append("[FORBIDDEN] Found @MAP/@SFX/@MUSIC directive in __END__")
 
     cur_name: str | None = None
     w = 0

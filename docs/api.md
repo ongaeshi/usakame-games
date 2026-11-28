@@ -41,7 +41,7 @@ Usakame では、シンプルなトップレベル関数によるループのほ
 ```ruby
 class TitleScene
   def update
-    if btnp(4) # Z / Space でゲーム開始
+    if btnp(1) # Z キー（ボタン1）でゲーム開始
       run GameScene.new
     end
   end
@@ -60,12 +60,12 @@ class GameScene
   end
 
   def update
-    @x -= 1 if btn(0)
-    @x += 1 if btn(1)
-    @y -= 1 if btn(2)
-    @y += 1 if btn(3)
+    @x -= 1 if btn(:left)
+    @x += 1 if btn(:right)
+    @y -= 1 if btn(:up)
+    @y += 1 if btn(:down)
 
-    if btnp(5) # X / Enter でポーズ画面へ
+    if btnp(2) # X キー（ボタン2）でポーズ画面へ
       run PauseScene.new(self)
     end
   end
@@ -84,7 +84,7 @@ class PauseScene
   end
 
   def update
-    if btnp(5) # 再度 X を押したらゲームシーンへ復帰
+    if btnp(2) # 再度 X を押したらゲームシーンへ復帰
       run @prev_scene, reset_state: false
     end
   end
@@ -176,8 +176,8 @@ end
 
 | メソッド | 引数とデフォルト値 | 戻り値 | 説明 |
 | :--- | :--- | :--- | :--- |
-| **`btn`** | `(id = 0, player = 0)` | `true` / `false` | 指定したボタン `id`（`0`〜`5`、`:left`〜`:b`、またはマウス `6`〜`8`、`:mouse_l`, `:mouse_r`, `:mouse_m`）が現在押されているかどうかを返します。第2引数 `player`（`0`〜`3`、省略時 `0`）でプレイヤー番号を指定でき、`0` は 1P キーボード＋マウス＋ゲームパッド 1、`1` は 2P キーボード（`I/J/K/L` + `U/O`）＋ゲームパッド 2、`2`〜`3` はゲームパッド 3〜4 に対応します。 |
-| **`btnp`** | `(id = 0, player = 0)` | `true` / `false` | 指定したボタン `id`（および `player`）が「前のフレームでは押されておらず、現在のフレームで新しく押された瞬間（エッジ）」のみ `true` を返します。シーン遷移やメニュー選択、ポーズ画面のチャタリング防止に最適です。 |
+| **`btn`** | `(id, player = 0)` | `true` / `false` | 指定したボタン `id`（方向 `:left`/`:right`/`:up`/`:down`、アクション `1`/`2`、マウス `:mouse_l`/`:mouse_r`/`:mouse_m`、個別キー `:key_a` 等）が現在押されているかどうかを返します。未定義の指定や引数なし、`1`/`2` 以外の整数を渡すと `ArgumentError` が発生します。第2引数 `player`（`0`〜`3`、省略時 `0`）でプレイヤー番号を指定でき、ゲームパッド 2 台以上接続時は `0` が 1P キーボード＋パッド1、`1` が 2P キーボード（`I/J/K/L` + `U/O`）＋パッド2、`2`〜`3` がパッド3〜4に対応します。ゲームパッドが **1 台だけ** 接続されている環境で `player >= 1` が呼ばれた場合は、先に仮想パッド（矢印 + `Z`/`X` またはパッド1）を押した側を自動的におもな `player 0`、もう片方を `player 1` に分離します。 |
+| **`btnp`** | `(id, player = 0)` | `true` / `false` | 指定したボタン `id`（および `player`）が「前のフレームでは押されておらず、現在のフレームで新しく押された瞬間（エッジ）」のみ `true` を返します。シーン遷移やメニュー選択、ポーズ画面のチャタリング防止に最適です。 |
 | **`gamepad_count`** | `()` | `Integer` | 現在接続されている物理ゲームパッドの台数（`0`〜`4`）を返します。 |
 | **`mouse_x`** | `()` | `Integer` | 仮想スクリーン座標系における現在のマウス X 座標を返します。 |
 | **`mouse_y`** | `()` | `Integer` | 仮想スクリーン座標系における現在のマウス Y 座標を返します。 |
@@ -186,17 +186,22 @@ end
 
 #### ボタンIDとキー割り当て
 
-| ボタンID | シンボル名 | 用途 | 対応キーボード / マウス入力 |
+| 指定 (`id`) | 区分 | 用途 | 対応キーボード / ゲームパッド / マウス入力 |
 | :---: | :---: | :--- | :--- |
-| **`0`** | `:left` | 左 (Left) | `← (Left)` または `A` |
-| **`1`** | `:right` | 右 (Right) | `→ (Right)` または `D` |
-| **`2`** | `:up` | 上 (Up) | `↑ (Up)` または `W` |
-| **`3`** | `:down` | 下 (Down) | `↓ (Down)` または `S` |
-| **`4`** | `:a` / `:btn1` / `:z` | ボタン1 (Action A) | `Z` または `Space` |
-| **`5`** | `:b` / `:btn2` / `:x` | ボタン2 (Action B) | `X` または `Enter` |
-| **`6`** | `:mouse_l` / `:lclick` | マウス左ボタン | マウス左クリック |
-| **`7`** | `:mouse_r` / `:rclick` | マウス右ボタン | マウス右クリック |
-| **`8`** | `:mouse_m` / `:mclick` | マウス中ボタン | マウス中クリック |
+| **`:left`** | 方向 | 左 (Left) | `← (Left)` / 2P: `J` / パッド D-Pad左・左スティック |
+| **`:right`** | 方向 | 右 (Right) | `→ (Right)` / 2P: `L` / パッド D-Pad右・左スティック |
+| **`:up`** | 方向 | 上 (Up) | `↑ (Up)` / 2P: `I` / パッド D-Pad上・左スティック |
+| **`:down`** | 方向 | 下 (Down) | `↓ (Down)` / 2P: `K` / パッド D-Pad下・左スティック |
+| **`1`** | アクション | ボタン1 (Action 1) | `Z` / 2P: `U` / パッド `South` (XInput `A`) / Web `buttons[0]` |
+| **`2`** | アクション | ボタン2 (Action 2) | `X` / 2P: `O` / パッド `East` (XInput `B`) / Web `buttons[1]` |
+| **`:mouse_l`** | マウス | マウス左ボタン | マウス左クリック（別名 `:mouse_left`, `:mouse_1`, `:click`, `:lclick`） |
+| **`:mouse_r`** | マウス | マウス右ボタン | マウス右クリック（別名 `:mouse_right`, `:mouse_2`, `:rclick`） |
+| **`:mouse_m`** | マウス | マウス中ボタン | マウス中クリック（別名 `:mouse_middle`, `:mouse_3`, `:mclick`） |
+| **`:key_a`〜`:key_z` / `:key_0`〜`:key_9`** | 個別キー | エディタ・デバッグ用 | 対応する英数字キー（1文字 `:a` や数字 `"1"` は不可、`:key_` 必須） |
+| **`:space`, `:enter`, `:ctrl` 等** | 特殊キー | 補助・UI操作 | `Space` (`:space` / `:key_space`), `Enter` (`:enter` / `:return` / `:key_enter`), `Tab`, `Esc`, `F1`〜`F12` 等 |
+
+> [!NOTE]
+> 将来 4 ボタンに拡張する際はアクションボタンとして整数 `3`, `4` を追加予定です。現時点では `1`, `2` 以外の整数（`0` や `3` 以上）を渡すと `ArgumentError` が発生します。
 
 ### 2.4 システム & リスタートAPI
 
@@ -327,7 +332,7 @@ config(
 | **`surface_size`** | `(surf)` | `[w, h]` / `nil` | サーフェスの `[幅, 高さ]` を返します（無効ID時は `nil`）。 |
 | **`render_to`** | `(surf) { ... }` | `nil` | ブロック内の描画出力先を `surf` に切り替えます（ネスト可・例外や `break` 発生時も元のターゲットと `camera` / `clip` / `blend` / `pal` を自動復元）。 |
 | **`set_target`** | `(surf = nil)` | `nil` | ブロックを使わずに描画先を切り替えます（`nil` でメイン仮想画面へ復帰、フレーム終了時にも自動リセット）。 |
-| **`draw_surface`** | `(surf, x = 0, y = 0, alpha = 1.0, blend_mode = nil, **opts)` | `nil` | サーフェスを座標 `(x, y)` に合成描画します。位置引数のほか末尾キーワード引数（`alpha:`, `blend:`, `u:`, `v:`, `w:`, `h:`, `scale:`, `scale_x:`, `scale_y:`, `rot:`, `flip_x:`, `flip_y:`, `pal:`）も指定可能です。 |
+| **`draw_surface`** | `(surf, x = 0, y = 0, alpha = 1.0, blend_mode = nil, **opts)` | `nil` | サーフェスを左上座標 `(x, y)` 基準で合成描画します（ニアレスト補間、`rot:` 指定時は描画矩形の中心ピボットで回転）。位置引数のほか末尾キーワード引数（`alpha:`, `blend:`, `u:`, `v:`, `w:`, `h:`, `scale:`, `scale_x:`, `scale_y:`, `rot:`, `flip_x:`, `flip_y:`, `pal:`）も指定可能です。 |
 
 #### ピクセル取得・破壊可能地形クエリ API（`:pixel` サーフェス向け）
 > 透明ピクセルおよび範囲外座標は `mget` と同じく **`nil`**、不透明ピクセルはパレット色番号 **`0`〜`15`** を返します（黒色 `0` も真として判定可能）。
@@ -537,18 +542,48 @@ WWWWWW
 * 現在、Rust本体（`Cargo.toml` / `src/main.rs`）にはサウンド再生用のAPIおよび音声合成処理はまだ含まれていません。
 * ただし、Web（WASM）ターゲット用のJSバンドル（`web/mq_js_bundle.js`）には、`macroquad_audio` プラグイン（Web Audio APIバインディング）がすでに組み込まれています。
 
-### 4.2 サウンド実装の設計方針案
+### 4.2 サウンド API 仕様
 
-外部アセットファイル無しで `.rb` 1ファイル（および `uk build` の単一バイナリ）に完結できるよう、以下のような設計が適しています。
+外部アセットファイル無しで `.rb` 1ファイル（および `uk build` の単一バイナリ）に完結できるよう、波形合成（チップチューン・シンセサイザー）を Rust 側で動的生成し、`macroquad::audio` で再生します。`uk check` などのヘッドレス実行時は音声デバイスを開かずに安全にノーオペレーションで動作します。
 
-1. **波形合成（チップチューン・シンセサイザー）**
-   * 矩形波（Square）、三角波（Triangle）、ノコギリ波（Sawtooth）、ノイズ（Noise）などの基本波形をRust側でPCM（WAVデータ）として動的生成し、`macroquad::audio` で再生する。
-2. **API案**
-   * `sfx(id, channel = -1)`: 定義済みの効果音 `id` を再生する。
-   * `music(id, loop = true)`: 定義済みのBGMパターンを再生する（`-1` で停止）。
-   * `tone(freq, duration, wave = 0, vol = 7)`: 周波数や長さを直接指定して単音を鳴らす。
-3. **データ定義案（`__END__` セクション拡張）**
-   * `@SPRITE <id>` と同様に、`@SFX <id>` や `@MUSIC <id>` セクションを `__END__` 内に記述できるようにし、MML風表記またはトラッカー風ノート表記で効果音・BGMを定義する。
+* **`sfx(id_or_spec, channel = -1, volume = 1.0, pitch = 1.0)`**
+  * 効果音を再生します。`id_or_spec` には `@SFX` の整数 ID・名前付きシンボル（`:explode` 等）、内蔵プリセットシンボル、またはインライン文字列（MML またはシンセレシピ `"wave:square freq:440->880 dur:0.15 env:decay"`）を指定できます。`-1` で停止します。
+  * ユーザー定義 `@SFX :name` と内蔵プリセットが同名のときは、ユーザー定義が優先されます（プリセットの上書きが可能）。
+  * 主な内蔵プリセット: `:jump`, `:coin`, `:laser`, `:shoot`, `:explode`, `:explosion`, `:hit`, `:powerup`, `:select`, `:confirm`, `:cancel`, `:click`, `:slash`, `:splash`, `:clear`, `:gameover`, `:heal`, `:miss`, `:pause`, `:dash`, `:bell`, `:step`。
+  * `channel`: `-1` で自動割り当て（全 8 チャンネル使用時は最古のスロットをボイススチール）。`0..7` でチャンネル指定。
+  * `volume`: 再生音量（`0.0..=2.0`）。
+  * `pitch`: ピッチ倍率（`0.25..=4.0`）。コイン連続取得やコンボ時の音階上昇演出などに使用します。
+  * 同一 ID / スペックの連続フレーム多重発音はエンジン側でクールダウン（2フレーム間引き）され、音割れを防ぎます。
+* **`tone(freq, dur = 0.1, wave = :square, vol = 0.5, slide = 0.0)`**
+  * 周波数と長さを直接指定して単音を鳴らします。
+  * `freq`: 開始周波数 (Hz, `20.0..=20000.0`)。`0` 以下で無音。
+  * `dur`: 長さ (秒, `0.005..=10.0`)。
+  * `wave`: `:square` / `:pulse` / `:pulse12` / `:triangle` / `:saw` / `:noise` / `:organ` / `:phaser` / `:sine`（または `0..=8`）。
+  * `vol`: 音量（`0.0..=2.0`）。
+  * `slide`: 終了時までの周波数変化量 (Hz)。`0.0` で固定音程、正で上昇、負で下降します。
+* **`stop_sfx(channel = -1)`**
+  * 指定チャンネル（`-1` または省略時は全チャンネル）の効果音を停止します。
+* **`music(id_or_name, loop = true, volume = 1.0)`**
+  * `@MUSIC` 定義の BGM（整数 ID または `:boss_theme` 等のシンボル名）を再生します。`id_or_name` に `nil` または `-1` を渡すと BGM を停止します。
+* **`stop_music()`**
+  * 再生中の BGM を停止します。
+* **`master_vol(v = nil)` / `sfx_vol(v = nil)` / `music_vol(v = nil)`**
+  * 全体音量・SFX 音量・BGM 音量の取得および設定（`0.0..=1.0` にクランプ）を行います。引数を省略または `nil` を渡すと現在の音量を `Float` で返します。設定値は再生中の BGM・SFX にも即座に反映されます。
+
+#### `__END__` セクションでの `@SFX` / `@MUSIC` 定義とシンセレシピ記法
+* **`@SFX <id_or_symbol>`**: 整数 ID（`@SFX 0`）またはシンボル名（`@SFX :explode`）で効果音を定義できます。
+  * **シンセレシピ記法（Key-Value）**: `wave:square freq:440->880 dur:0.15 env:decay vol:0.8`
+    * `wave:` (`square`, `pulse`, `pulse12`, `triangle`, `saw`, `noise`, `organ`, `phaser`, `sine`)
+    * `freq:` 単一周波数または `->` スイープ（例: `440`, `440->880`, `330->660->440`）
+    * `dur:` 長さ（秒、または `150ms`）
+    * `env:` エンベロープ（`decay`, `attack`, `flat`, `punch`, `drop`, `vibrato`, `arp`）
+    * `vol:` 音量（`0.0..=1.0`）、`slide:` 周波数変化量 (Hz)
+  * **MML 風記法**: `wave=pulse speed=2 c3 e3 g3 c4:fade` 等も引き続き利用可能です。
+* **`@MUSIC <id_or_symbol>`**: 整数 ID（`@MUSIC 0`）またはシンボル名（`@MUSIC :boss_theme`）でマルチトラック BGM（`ch0`..`ch3`）や SFX パターン行を定義できます。
+* `uk check` 実行時は、`@SFX` / `@MUSIC` の構文エラーおよびコード内の未定義シンボル・ID 呼び出し（`sfx(:typo)` 等）が静的に検証されます。
+* **非対話アセット確認 CLI（`uk preview` / `uk spr` / `uk sfx`）**:
+  * `uk spr [game.rb] [target] [-s out.png] [--scale N]`: ゲームループを回さず、`__END__` や外部 `.spr` の全スプライト・全アニメーションフレームを市松背景・ラベル付き PNG として出力します（`target` に `:golem` や ID を指定すると単体拡大出力）。
+  * `uk sfx [game.rb] [target] [-s out.png] [--no-play] [--watch]`: `@SFX` / `@MUSIC` / プリセット / インライン仕様を即座に試聴し、再生時間・Peak・RMS・クリッピング有無・無音判定の数値サマリを出力します。`-s out.png` 指定時は波形／エンベロープ（`@MUSIC` はチャンネル別簡易ピアノロール付き）を PNG 出力し、無音で完走します。
 
 ---
 

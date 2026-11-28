@@ -167,3 +167,64 @@ Phase 2（および今後の Phase N）を新規セッションで実行する�
 - `docs/games_showcase.md` に `Phase3 (41-50) 2026-11-26` が追記され、`docs/engine_feedback_phase3.md` が作成・コミットされていること
 - `git status` がクリーンであること
 ```
+
+---
+
+## 6. Phase 4 (51–60) 実行用 `/goal` プロンプトテンプレート
+
+新規セッションを開き、軽量モデル（Flash 等）を選択して以下のブロックをそのままコピー＆ペーストして送信してください。
+
+```markdown
+/goal このリポジトリの `ROADMAP.md` にある `Phase4 (51-60) 2026-11-29` の未着手ゲーム（`[ ]`）を順番に、全10本（No.51〜60）すべて完成するまで連続で制作・検証・コミットし、最後にショーケース追記と Phase 4 フィードバック作成まで完了させてください。
+
+## 事前確認
+作業開始前に `AGENTS.md`、`ROADMAP.md`、`docs/api.md`、`docs/mrubyedge_api.md`、`docs/engine_feedback_phase3.md`、`.agents/skills/usakame-sprite/SKILL.md` を確認してください。
+また、続編DXタイトル（56, 59）を制作する際は対応する前作（`games/29_retro_synth_visualizer.rb`, `games/09_pinball_cyber.rb`）を参照し、サウンドや新APIによって見た目・音・遊び心地が劇的に進化したことがユーザーから一目で分かる仕上がりにしてください。
+
+## Phase 4 の重視ポイント（Phase 3 フィードバック対応機能の積極活用）
+`docs/engine_feedback_phase3.md` で新規実装・改善された以下の要素を、`ROADMAP.md` の設計メモに沿って各ゲームの核となる遊び・演出に組み込んでください：
+- **サウンド ＆ チップチューン合成**:
+  - `__END__` での `@MUSIC :name`（マルチトラック MML `ch0..ch3`）＋ `music(:name)` / `stop_music` による場面・ピンチ・ボス戦の動的BGM切替
+  - `@SFX :name`（シンセレシピ記法 `wave:square freq:440->880 dur:0.15 env:decay vol:0.8` または MML）および内蔵プリセット（`:jump`, `:coin`, `:laser`, `:shoot`, `:explode`, `:hit`, `:powerup`, `:select`, `:confirm`, `:cancel`, `:slash`, `:splash`, `:clear`, `:gameover`, `:bell` 等）
+  - 位置引数 `sfx(id, ch = -1, vol = 1.0, pitch = 1.0)` の `pitch` 引数を使ったコンボ・連鎖時の音階上昇演出
+  - 周波数直接指定の `tone(freq, dur = 0.1, wave = :square, vol = 0.5, slide = 0.0)` や音量API `master_vol` / `sfx_vol` / `music_vol`
+- **`draw_surface` の拡大・回転描画（`scale:` / `rot:`）**:
+  - 低解像度 `:pixel` サーフェス（流体シミュレーションやミニマップ等）を `draw_surface(surf, x, y, scale: 4.0)` でくっきり高速拡大描画する、または `rot:` で回転サーフェス演出を行う
+- **非対話アセット検証 CLI（`uk spr` / `uk sfx`）**:
+  - ゲーム起動なしでスプライト全フレームとサウンド波形・無音/クリッピング有無を検証する
+- **新入力 API 仕様と永続セーブ**:
+  - 方向入力は必ずシンボル（`:left`, `:right`, `:up`, `:down`）、アクションボタンは整数 `1`（Z）・`2`（X）のみを使用する（**`btn(0)` や `btn(4)` 等の旧整数IDは `ArgumentError` になるため絶対に使わない**）
+  - 2P対応ゲームでは `btn(..., 1)` / `btnp(..., 1)` を使用し、全作品で `config(save_id: "...", save_salt: "...")` ＋ `save_set` / `save_get` による永続セーブを組み込む
+
+## 各ゲームの制作ルール
+1. **品質目標（両方満たすこと）**:
+   - 目標1: ユーザーが実際に少なくとも5分は夢中で遊べ、セーブ機能とサウンドの快感で繰り返し遊んで楽しいゲーム性
+   - 目標2: 画面も音も華やかでシェアしたくなる完成度（カスタムパレット高品質ドット絵・`:gpu` ライトマップ/デカール・BGM＆効果音・ヒットストップ/シェイク）
+2. **パラメータのハッシュテーブル管理（必須設計ルール）**:
+   - バランス調整値やエンティティ仕様は定数・マジックナンバーに散らさず、**スクリプト冒頭の浅いハッシュテーブル（`$cfg = { ... }` 等、1〜2階層）に集約**すること（`uk run` ホットリロード対応）。最内側ホットループ直前のみローカル変数へキャッシュすること。
+3. **絶対制約（mrubyedge ＆ API 鉄則）**:
+   - **1ファイル完結**（`games/XX_<name>.rb`、外部画像・外部音源ファイル不使用）
+   - 描画・サウンドAPI（`line`, `rect`, `print_text`, `sfx`, `music`, `tone` 等）はキーワード引数非対応のため、すべて**位置引数**で渡す（`bg()`・`run()`・`config()`・`draw_surface()` のみキーワード引数可）
+   - mrubyedge 未実装メソッド（`sample`, `shuffle`, `reverse`, `delete`, `key?`, `include?`, `fetch`, `dig`, `gsub`, `sub`, `even?`, `odd?`, `upto`, `downto`, `fill`）およびブロック引数の配列展開（`each do |a, b|`）を使わない（`Hash#has_key?` と `Array#index` を使う）
+   - `.each` ループ中に同じ配列へ `<<` しない、`attr_accessor` / `attr_reader` は1行6シンボル以下、Ruby側メソッドへのハッシュ引数は明示的 `({ ... })`、クラス継承/`super` 不使用
+   - `set_target(nil)`（または `render_to` ブロック）・`camera()`・`clip()`・`blend(:normal)` は HUD 描画前に必ずリセットする
+4. **1本完成ごとの必須検証＆自動コミット（許可待ちせず自動進行）**:
+   - `pwsh -NoProfile -File scripts/verify_game.ps1 games/<file>.rb` を実行し、終了コード 0 を確認する
+   - `uk spr games/<file>.rb -s tmp/sprites.png` と `uk sfx games/<file>.rb -s tmp/sfx.png` を実行し、スプライト崩れやサウンドの無音・クリッピング警告がないことを確認する
+   - `uk run games/<file>.rb -s tmp/preview.png -f 60`（タイトル確認用）と `uk run games/<file>.rb -s images/<file>.png -f 180 -g`（ギャラリー保存用）でスクリーンショットを撮影し、`read_file` で目視確認する（UI被り・文字切れ・スプライト崩れ・ブレンド戻し忘れがあれば修正して再検証）
+   - `ROADMAP.md` の該当行を `[x]` に更新し、簡潔な実装メモを追記する
+   - `git add` と `git commit` は連結せず**別々の単独コマンド**で実行し、1本ごとに即コミット（`feat(games): add <file> - <Title>`）して休まず次の未着手ゲームへ進む
+
+## 全10本完了後の仕上げタスク
+1. **`docs/games_showcase.md` の更新**:
+   - 末尾に `## Phase4 (51-60) 2026-11-29` 見出しを追加し、No.51〜60 の全10本について画像リンク（`../images/<file>.png`）、おすすめポイント、新機能（サウンド・`draw_surface(scale:)`・ハッシュ設計等）の工夫点を追記する。
+2. **`docs/engine_feedback_phase4.md` の新規作成**:
+   - Phase 4（51〜60）の制作を通して判明した、新機能（`@SFX`/`@MUSIC`/`sfx`/`music`/`tone`、`draw_surface(scale:, rot:)`、`uk spr`/`uk sfx`、新 `btn` 仕様等）の使用感・良かった点・新たに踏んだ制約や今後の改善要望を `docs/engine_feedback_phase3.md` と同等の構成でまとめる。
+3. **仕上げのコミット**:
+   - `docs/games_showcase.md` と `docs/engine_feedback_phase4.md` をコミットする（`git add` と `git commit` は単独コマンドで実行）。
+
+## 完了条件
+- `ROADMAP.md` の `Phase4 (51-60) 2026-11-29`（No.51〜60）がすべて `[x]` になり、全10本と `images/51_*.png`〜`images/60_*.png` が検証済みかつ1本ごとにコミットされていること
+- `docs/games_showcase.md` に `Phase4 (51-60) 2026-11-29` が追記され、`docs/engine_feedback_phase4.md` が作成・コミットされていること
+- `git status` がクリーンであること
+```
